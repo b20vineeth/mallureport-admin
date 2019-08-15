@@ -1,0 +1,4 @@
+/*  ReloadableResourceBundleMessageSource messageSource =
+                  new ReloadableResourceBundleMessageSource();
+		  messageSource.setBasenames("locale\\label\\messages");*/
+		//String welcome = messageSource.getMessage("welcome.message", null, locale.US);

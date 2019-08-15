@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+ 
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/easypick?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8" />
+		
+	<!--  	<property name="hibernate.connection.CharSet"  value="utf8"/>
+        <property name="hibernate.connection.characterEncoding"  value="utf8"/> 
+        <property name="hibernate.connection.useUnicode" value="utf8"/> 
+       --> 
+		<property name="user" value="root" />
+		<property name="password" value="" />
+
+
+		<property name="minPoolSize" value="20" />
+		<property name="maxPoolSize" value="60" />
+		<property name="acquireIncrement" value="6" />
+		<property name="maxIdleTime" value="14400" />
+		<property name="preferredTestQuery" value="SELECT 1" />
+		<property name="numHelperThreads" value="3" />
+		
+	</bean>
+
+
+</beans>
