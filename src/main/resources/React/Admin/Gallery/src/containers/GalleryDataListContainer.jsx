@@ -13,7 +13,7 @@ class GalleryDataListContainer extends Component {
     isLoading: true 
   }
      
-  componentDidMount() {
+  componentDidMount() { 
     this.props.getGallery()
 }
 
