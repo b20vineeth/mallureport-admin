@@ -2,23 +2,61 @@ package com.easypick.framework.utility.vo;
 
 import java.util.List;
 import java.util.Map;
- 
+
+import com.easypick.admin.vo.GalleryVo;
+
 
 public class ResponseVo {
 
 	Object object;
 	List<Object> objectlist;
-	String ScreenMode;
+	String screenMode;
 	Boolean result;
 	public List <?  extends AbstractVo> objectList;
-	 
-	Map<Integer,?  extends AbstractVo> objectMap;
-	 
+	Map<String,?  extends AbstractVo> objectMap;
+	Map<String, List<? extends AbstractVo>> objectMapList;
+	Page page;
 	Boolean response=false;
-	 
+
 	String resposeObjectList;
-	 
+	List<GalleryVo> galleryList;
 	String resposeObject;
+	String version="VER_ICO_0.01.01";
+
+
+
+
+	public List<GalleryVo> getGalleryList() {
+		return galleryList;
+	}
+
+	public void setGalleryList(List<GalleryVo> galleryList) {
+		this.galleryList = galleryList;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public Map<String, List<? extends AbstractVo>> getObjectMapList() {
+		return objectMapList;
+	}
+
+	public void setObjectMapList(Map<String, List<? extends AbstractVo>> objectMapList) {
+		this.objectMapList = objectMapList;
+	}
 
 	public Object getObject() {
 		return object;
@@ -36,12 +74,14 @@ public class ResponseVo {
 		this.objectlist = objectlist;
 	}
 
+
+
 	public String getScreenMode() {
-		return ScreenMode;
+		return screenMode;
 	}
 
 	public void setScreenMode(String screenMode) {
-		ScreenMode = screenMode;
+		this.screenMode = screenMode;
 	}
 
 	public Boolean getResult() {
@@ -60,11 +100,13 @@ public class ResponseVo {
 		this.objectList = objectList;
 	}
 
-	public Map<Integer, ? extends AbstractVo> getObjectMap() {
+
+
+	public Map<String, ? extends AbstractVo> getObjectMap() {
 		return objectMap;
 	}
 
-	public void setObjectMap(Map<Integer, ? extends AbstractVo> objectMap) {
+	public void setObjectMap(Map<String, ? extends AbstractVo> objectMap) {
 		this.objectMap = objectMap;
 	}
 
@@ -91,6 +133,8 @@ public class ResponseVo {
 	public void setResposeObject(String resposeObject) {
 		this.resposeObject = resposeObject;
 	}
-	
- 
+
+
+
+
 }

@@ -21,7 +21,10 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
@@ -31,7 +34,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableWebMvc
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
-public class WebAppConfig {
+public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
 	private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
@@ -55,11 +58,11 @@ public class WebAppConfig {
 		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
 		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
 		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
-	 
+
 
 		return dataSource;
 	}
-	
+
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -81,11 +84,11 @@ public class WebAppConfig {
 		Properties properties = new Properties();
 		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
 		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
-		
-//		 properties.setProperty(PROPERTY_CURRENT_SESSION_CONTEXT,  env.getRequiredProperty( env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT)));
-		 properties.setProperty(PROPERTY_NON_CONTEXTUAL,"thread");
-		 
-		properties.put("hibernate.hbm2ddl.auto", "create");
+
+		//		 properties.setProperty(PROPERTY_CURRENT_SESSION_CONTEXT,  env.getRequiredProperty( env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT)));
+		properties.setProperty(PROPERTY_NON_CONTEXTUAL,"thread");
+
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		return properties;	
 	}
 
@@ -135,5 +138,9 @@ public class WebAppConfig {
 
 		mailSender.setJavaMailProperties(javaMailProperties);
 		return mailSender;
+	}
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resource/**").addResourceLocations("/WEB-INF/resource/");
+		registry.setOrder(Integer.MAX_VALUE);
 	}
 }

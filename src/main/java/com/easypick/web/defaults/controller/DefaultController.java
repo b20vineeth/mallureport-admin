@@ -1,4 +1,5 @@
 package com.easypick.web.defaults.controller; 
+import java.io.Console;
 import java.util.ArrayList; 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource; 
+import org.springframework.context.MessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable; 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.easypick.framework.utility.commonUtility.SecurityEncription;
 import com.easypick.framework.utility.controller.ActionController;
 import com.easypick.framework.utility.controller.ActionControllerInterface;
 import com.easypick.framework.utility.exception.BussinessException;
@@ -55,11 +58,11 @@ public class DefaultController {
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
-			modelMap.addAttribute("response", vo.getObject());
+			modelMap.addAttribute("response", vo);
 			return new ModelAndView("Screen/"+vo.getScreenMode());
-			
+
 		} catch (BussinessException e) {
-			
+
 			modelMap.addAttribute("response", e.getMessage());
 			return new ModelAndView("Screen/redirect");
 
@@ -71,29 +74,29 @@ public class DefaultController {
 	@RequestMapping(value="/{param1}")
 	@ResponseBody
 	public ModelAndView oneParameter(ModelMap modelMap,@PathVariable("param1") String param1){
-		Map<String,String> input=new HashMap<String,String>();
+		Map<String,String> input=new HashMap<>();
 		input.put("param1", param1);
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
-			modelMap.addAttribute("response", vo.getObject());
+ 			modelMap.addAttribute("response", vo);
 			return new ModelAndView("Screen/"+vo.getScreenMode());
-			
+
 		} catch (BussinessException e) {
-			
+
 			modelMap.addAttribute("response", e.getMessage());
 			return new ModelAndView("Screen/redirect");
 
 		}
 	}
+ 
 
-
-	@RequestMapping(value="/{param1}/{param2}")
+	@RequestMapping(value="/{param1}/{param2}" ) 
 	@ResponseBody
 	public ModelAndView twoParameter(ModelMap modelMap,@PathVariable("param1") String param1,
 			@PathVariable("param2") String param2){
 
-		Map<String,String> input=new HashMap<String,String>();
+		Map<String,String> input=new HashMap<>();
 		input.put("param1", param1);
 		input.put("param2", param2);
 		ResponseVo vo;
@@ -101,9 +104,9 @@ public class DefaultController {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo.getObject());
 			return new ModelAndView("Screen/"+vo.getScreenMode());
-			
+
 		} catch (BussinessException e) {
-			
+
 			modelMap.addAttribute("response", e.getMessage());
 			return new ModelAndView("Screen/redirect");
 
@@ -125,9 +128,9 @@ public class DefaultController {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo.getObject());
 			return new ModelAndView("Screen/"+vo.getScreenMode());
-			
+
 		} catch (BussinessException e) {
-			
+
 			modelMap.addAttribute("response", e.getMessage());
 			return new ModelAndView("Screen/redirect");
 
@@ -140,7 +143,7 @@ public class DefaultController {
 			@PathVariable("param3") String param3,
 			@PathVariable("param4") String param4){
 
-		Map<String,String> input=new HashMap<String,String>();
+		Map<String,String> input=new HashMap<>();
 		input.put("param1", param1);
 		input.put("param2", param2);
 		input.put("param3", param3);
@@ -150,16 +153,15 @@ public class DefaultController {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo.getObject());
 			return new ModelAndView("Screen/"+vo.getScreenMode());
-			
+
 		} catch (BussinessException e) {
-			
+
 			modelMap.addAttribute("response", e.getMessage());
 			return new ModelAndView("Screen/redirect");
 
 		}
 	}
-
-
-
+ 
+ 
 
 }

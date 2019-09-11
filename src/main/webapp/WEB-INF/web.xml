@@ -25,6 +25,10 @@
 		<servlet-name>auth</servlet-name>
 		<url-pattern>/auth</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/resource/*</url-pattern>
+	</servlet-mapping>
 
 	<security-constraint>
 		<display-name>No direct JSP access</display-name>
@@ -35,7 +39,15 @@
 		</web-resource-collection>
 
 	</security-constraint>
-
+	
+ 
+	
+<jsp-config>
+    <jsp-property-group>
+        <url-pattern>*.jsp</url-pattern>
+        <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+</jsp-config>
 	<error-page>
 		<!-- Missing login -->
 		<error-code>401</error-code>
@@ -65,4 +77,4 @@
 		<param-name>version</param-name>
 		<param-value>ICO_1.0.0.1</param-value>
 	</context-param>
-</web-app>
+</web-app> 

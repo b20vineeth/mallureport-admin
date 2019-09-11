@@ -11,9 +11,20 @@ public class WatchDogVo {
 	Map<String, String> input;
 	String module;
 	String subModule;
+	Integer keyLength;
 	
 	
 	
+	 
+
+	public Integer getKeyLength() {
+		return keyLength;
+	}
+
+	public void setKeyLength(Integer keyLength) {
+		this.keyLength = keyLength;
+	}
+
 	public String getModule() {
 		return module;
 	}
