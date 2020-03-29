@@ -9,13 +9,51 @@ public class WatchDogVo {
 	
 	Session sessionString;
 	Map<String, String> input;
+	Map<String, String> category;
 	String module;
 	String subModule;
 	Integer keyLength;
+	String cmpcode;
+	String type;
+	Page page;
+	
+	
 	
 	
 	
 	 
+
+	public Map<String, String> getCategory() {
+		return category;
+	}
+
+	public void setCategory(Map<String, String> category) {
+		this.category = category;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getCmpcode() {
+		return cmpcode;
+	}
+
+	public void setCmpcode(String cmpcode) {
+		this.cmpcode = cmpcode;
+	}
 
 	public Integer getKeyLength() {
 		return keyLength;

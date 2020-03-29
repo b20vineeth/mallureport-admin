@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.vo.GalleryVo;
+import com.easypick.admin.vo.GallerySetupVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.exception.ExceptionList;
 import com.easypick.framework.utility.persistence.Dao;
@@ -22,7 +22,7 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 public class CollectGalleryDataByTwoParameter implements Dao {
 
 	@Override
-	public ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException {
+	public ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo1)  throws BussinessException {
 		Map<String, String> pageItem=watchDogVo.getInput();
 
 		StringBuilder queryString=null;
@@ -87,8 +87,8 @@ public class CollectGalleryDataByTwoParameter implements Dao {
 		q.setFirstResult(0);
 		q.setMaxResults(Page.MAX_RESULT);
 		List<Object[]> galleryItems= (List<Object[]>)((org.hibernate.Query) q).list(); 
-		GalleryVo galleryVo=null; 
-		List<GalleryVo> galleryVos=new ArrayList<>();
+		GallerySetupVo galleryVo=null; 
+		List<GallerySetupVo> galleryVos=new ArrayList<>();
 		for(Object[] items: galleryItems){
 
 			galleryVo=new GalleryItemsMapper().homePageMmapper(items);
@@ -108,6 +108,6 @@ public class CollectGalleryDataByTwoParameter implements Dao {
 
 	}
 
-
+	 
 
 }

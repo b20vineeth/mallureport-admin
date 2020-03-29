@@ -11,6 +11,12 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public class Initializer implements WebApplicationInitializer {
 
+
+	public static final String RESOURCE_PATH = "file:\\E:\\Project\\Mallureports\\mallureport\\src\\main\\webapp\\WEB-INF\\resource";
+	public static final String UPLOAD_PATH = "E:\\Project\\Mallureports\\gallery";
+	public static final String PIC_UPLOAD_PATH = "file:\\E:\\Project\\Mallureports\\gallery";
+	
+	
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
 		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();

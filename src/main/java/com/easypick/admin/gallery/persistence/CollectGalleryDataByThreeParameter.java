@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.vo.GalleryVo;
+import com.easypick.admin.vo.GallerySetupVo;
 import com.easypick.framework.utility.commonUtility.PageConverter;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.exception.ExceptionList;
@@ -23,7 +23,7 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 public class CollectGalleryDataByThreeParameter implements Dao {
 
 	@Override
-	public ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException {
+	public ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo2)  throws BussinessException {
 		Map<String, String> pageItem=watchDogVo.getInput();
 		String keyElement=pageItem.get("param3");
 		ResponseVo vo=null;
@@ -58,7 +58,7 @@ public class CollectGalleryDataByThreeParameter implements Dao {
 		queryString.append(" and tag like \"%"+pageItem.get("param2")+"%\" AND gallery_url LIKE "+'"'+pageItem.get("param3")+'"');
 		SQLQuery q =   watchDogVo.getSessionString().createSQLQuery(queryString.toString()); 
 		List<Object[]> galleryItems= (List<Object[]>)((org.hibernate.Query) q).list(); 
-		GalleryVo galleryVo=null; 
+		GallerySetupVo galleryVo=null; 
 		for(Object[] items: galleryItems){
 
 			galleryVo=new GalleryItemsMapper().homePageMmapper(items);
@@ -101,8 +101,8 @@ public class CollectGalleryDataByThreeParameter implements Dao {
 		q.setFirstResult(firstResult);
 		q.setMaxResults(Page.MAX_RESULT);
 		List<Object[]> galleryItems= (List<Object[]>)((org.hibernate.Query) q).list(); 
-		GalleryVo galleryVo=null; 
-		List<GalleryVo> galleryVos=new ArrayList<>();
+		GallerySetupVo galleryVo=null; 
+		List<GallerySetupVo> galleryVos=new ArrayList<>();
 		for(Object[] items: galleryItems){
 
 			galleryVo=new GalleryItemsMapper().homePageMmapper(items);

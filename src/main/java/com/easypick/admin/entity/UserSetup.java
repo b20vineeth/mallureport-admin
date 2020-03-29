@@ -1,89 +1,56 @@
 package com.easypick.admin.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
+import javax.persistence.Column; 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
- 
+import javax.persistence.UniqueConstraint; 
 
 @Entity
-@Table(name = "usersetup" , uniqueConstraints = { @UniqueConstraint(columnNames = { "username" ,"useremail"}) })
-
-
-
-public class UserSetup  {
-
+@Table(name = "usersetup" , uniqueConstraints = { @UniqueConstraint(columnNames = { "user_code","email","mobile"}) })
+public class UserSetup   {
 
 	private static final long serialVersionUID = 1L;
 
-
-
 	@Id
-	@GeneratedValue 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private Integer userId ;
-	@Column(name = "username", length=120)
-	private String username;
-	@Column(name = "useremail", length=120 ,nullable=false)
+	private Integer userId;
+
+
+	@Column(name = "user_code")
+	private String usercode;
+	
+	@Column(name = "first_name")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
+	
+	
+	@Column(name = "email")
 	private String email;
-	@Column(name = "frst_nam", length=120)
-	private String Firstname;
-	@Column(name = "last_nam", length=120)
-	private String lastname;
-
-	@Column(name = "paswd", length=120 ,nullable=false)
+	
+	@Column(name = "mobile")
+	private String mobile;
+	
+	@Column(name = "password")
 	private String password;
-
-	@Column(name = "status", length=2 ,nullable=false)
-	private String status="Y";
-
-	public Integer getUserId() {
-		return userId;
+	
+	@Column(name = "status")
+	private String status;
+	
+	
+	
+	
+	public String getStatus() {
+		return status;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFirstname() {
-		return Firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		Firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getPassword() {
@@ -94,16 +61,59 @@ public class UserSetup  {
 		this.password = password;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	 
+
+	public String getUsercode() {
+		return usercode;
+	}
+
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
+	}
+
+	 
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	
-	
-
-
+ 
+  
 }

@@ -20,7 +20,7 @@ public class BaseTable implements Serializable {
 	private UserSetup  upUser;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "updby", nullable = false)
-	private UserSetup  updatedBy;
+	private UserSetup  updatedBy; 
 	@Column(name = "status", length=1)
 	private String status="Y";
 	@Column(name = "upddat", columnDefinition="DATETIME")
@@ -35,18 +35,16 @@ public class BaseTable implements Serializable {
 	@Column(name = "createddate", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
+
+	@Column(name = "cmpcod",length=10)
+	private String companyCode;
+	
 	 
-	public UserSetup getUpUser() {
-		return upUser;
+	public String getCompanyCode() {
+		return companyCode;
 	}
-	public void setUpUser(UserSetup upUser) {
-		this.upUser = upUser;
-	}
-	public UserSetup getUpdatedBy() {
-		return updatedBy;
-	}
-	public void setUpdatedBy(UserSetup updatedBy) {
-		this.updatedBy = updatedBy;
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 	public String getStatus() {
 		return status;
@@ -77,6 +75,18 @@ public class BaseTable implements Serializable {
 	}
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+	public UserSetup getUpUser() {
+		return upUser;
+	}
+	public void setUpUser(UserSetup upUser) {
+		this.upUser = upUser;
+	}
+	public UserSetup getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(UserSetup updatedBy) {
+		this.updatedBy = updatedBy;
 	}
  
 	

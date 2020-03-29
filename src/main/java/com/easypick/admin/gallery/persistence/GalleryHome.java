@@ -9,11 +9,12 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 @Repository
 public class GalleryHome implements Dao {
 
+	 
+
 	@Override
-	public ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException {
+	public ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo) throws BussinessException {
+		// TODO Auto-generated method stub
 		return null;
-		
-		 
 	}
 
 }

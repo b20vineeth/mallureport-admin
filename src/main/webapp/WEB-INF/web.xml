@@ -25,10 +25,7 @@
 		<servlet-name>auth</servlet-name>
 		<url-pattern>/auth</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/resource/*</url-pattern>
-	</servlet-mapping>
+	 
 
 	<security-constraint>
 		<display-name>No direct JSP access</display-name>

@@ -5,5 +5,6 @@ import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
 
 public interface Dao {
-	ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException;
+	ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo) throws BussinessException;
+ 
 }

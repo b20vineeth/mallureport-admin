@@ -1,16 +1,11 @@
 package com.easypick.framework.utility.commonUtility;
-
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+ 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
-import java.util.Random;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import java.util.Random; 
 
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.exception.ExceptionList;
@@ -20,7 +15,17 @@ public class StringUitity {
 
 	public static final String METHOD_TYPE_FIRST = "FIRST";
 	public static final String METHOD_TYPE_END = "END";
-
+	
+	
+	public static Date removeTime(Date date) {    
+        Calendar cal = Calendar.getInstance();  
+        cal.setTime(date);  
+        cal.set(Calendar.HOUR_OF_DAY, 0);  
+        cal.set(Calendar.MINUTE, 0);  
+        cal.set(Calendar.SECOND, 0);  
+        cal.set(Calendar.MILLISECOND, 0);  
+        return cal.getTime(); 
+    }
 
 	public static  String getString(String key,Integer N,String type)
 	{
@@ -77,5 +82,12 @@ public class StringUitity {
 		return randomNum.toString();
 
 	}
-
+	public static String generateUploadPath()
+	{
+		LocalDate currentDate = LocalDate.now(); // 2016-06-17  
+		Month month = currentDate.getMonth(); // JUNE 
+		int year = currentDate.getYear(); // 2016
+		return (year+"-"+month).toLowerCase();
+	}
+ 
 }

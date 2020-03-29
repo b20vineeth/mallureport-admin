@@ -3,34 +3,78 @@ package com.easypick.framework.utility.vo;
 import java.util.List;
 import java.util.Map;
 
-import com.easypick.admin.vo.GalleryVo;
-
+import com.easypick.admin.vo.GallerySetupVo;
+import com.easypick.framework.utility.exception.ErrorVo;
 
 public class ResponseVo {
 
-	Object object;
-	List<Object> objectlist;
+	Object object; 
 	String screenMode;
 	Boolean result;
-	public List <?  extends AbstractVo> objectList;
-	Map<String,?  extends AbstractVo> objectMap;
-	Map<String, List<? extends AbstractVo>> objectMapList;
+	public List<? extends AbstractVo> objectList;
+	public Map<String, ? extends AbstractVo> objectMap;
+	public Map<String, List<? extends AbstractVo>> objectMapList;
 	Page page;
-	Boolean response=false;
+	Boolean response = false;
+	List<ErrorVo> errors;
 
 	String resposeObjectList;
-	List<GalleryVo> galleryList;
+	List<GallerySetupVo> galleryList;
 	String resposeObject;
-	String version="VER_ICO_0.01.01";
+	String version = "VER_ICO_0.01.01";
 
+	Object filterObj;
+	String module;
+	String subModule;
+	String domain = "http://localhost:8081";
+	
+	
 
+	public String getDomain() {
+		return domain;
+	}
 
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
 
-	public List<GalleryVo> getGalleryList() {
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getSubModule() {
+		return subModule;
+	}
+
+	public void setSubModule(String subModule) {
+		this.subModule = subModule;
+	}
+
+	public Object getFilterObj() {
+		return filterObj;
+	}
+
+	public void setFilterObj(Object filterObj) {
+		this.filterObj = filterObj;
+	}
+
+	public List<ErrorVo> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<ErrorVo> errors) {
+		this.errors = errors;
+	}
+
+	public List<GallerySetupVo> getGalleryList() {
 		return galleryList;
 	}
 
-	public void setGalleryList(List<GalleryVo> galleryList) {
+	public void setGalleryList(List<GallerySetupVo> galleryList) {
 		this.galleryList = galleryList;
 	}
 
@@ -66,16 +110,7 @@ public class ResponseVo {
 		this.object = object;
 	}
 
-	public List<Object> getObjectlist() {
-		return objectlist;
-	}
-
-	public void setObjectlist(List<Object> objectlist) {
-		this.objectlist = objectlist;
-	}
-
-
-
+	 
 	public String getScreenMode() {
 		return screenMode;
 	}
@@ -99,8 +134,6 @@ public class ResponseVo {
 	public void setObjectList(List<? extends AbstractVo> objectList) {
 		this.objectList = objectList;
 	}
-
-
 
 	public Map<String, ? extends AbstractVo> getObjectMap() {
 		return objectMap;
@@ -133,8 +166,5 @@ public class ResponseVo {
 	public void setResposeObject(String resposeObject) {
 		this.resposeObject = resposeObject;
 	}
-
-
-
 
 }

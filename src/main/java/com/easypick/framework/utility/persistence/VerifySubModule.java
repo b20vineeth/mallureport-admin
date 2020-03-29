@@ -16,7 +16,7 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 public class VerifySubModule implements Dao {
 
 	@Override
-	public ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException {
+	public ResponseVo execute(WatchDogVo watchDogVo,ResponseVo vod) throws BussinessException {
 		 
 		StringBuilder queryString01=new  StringBuilder();
 		queryString01.append(CommonResourceQuery.FIND_CONGIURATION); 

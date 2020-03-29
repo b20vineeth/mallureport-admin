@@ -1,35 +1,31 @@
-package com.easypick.web.defaults.controller; 
-import java.io.Console;
-import java.util.ArrayList; 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+package com.easypick.web.defaults.controller;
+ 
+import java.util.HashMap; 
 import java.util.Map;
-
-import javax.servlet.http.Cookie;
+import java.util.Objects;
+ 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.core.annotation.Order;
+import org.springframework.context.MessageSource; 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable; 
-import org.springframework.web.bind.annotation.RequestMapping; 
-import org.springframework.web.bind.annotation.ResponseBody; 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.commonUtility.SecurityEncription;
 import com.easypick.framework.utility.controller.ActionController;
 import com.easypick.framework.utility.controller.ActionControllerInterface;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
 
-
-@Controller 
+@Controller
 public class DefaultController {
 
 	Gson gson;
@@ -45,21 +41,19 @@ public class DefaultController {
 	@Autowired
 	protected ActionControllerInterface action;
 
+	Map<String, String> privilege = null;
 
-
-	Map<String,String> privilege=null;
-
-	@RequestMapping(value="/")
+	@RequestMapping(value = "/")
 	@ResponseBody
-	public ModelAndView homePage(ModelMap modelMap){
+	public ModelAndView homePage(ModelMap modelMap) {
 
-		Map<String,String> input=new HashMap<String,String>();
+		Map<String, String> input = new HashMap<String, String>();
 		input.put("param1", "home");
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo);
-			return new ModelAndView("Screen/"+vo.getScreenMode());
+			return new ModelAndView("Screen/" + vo.getScreenMode());
 
 		} catch (BussinessException e) {
 
@@ -70,18 +64,20 @@ public class DefaultController {
 
 	}
 
-
-	@RequestMapping(value="/{param1}")
+	@RequestMapping(value = "/{param1}")
 	@ResponseBody
-	public ModelAndView oneParameter(ModelMap modelMap,@PathVariable("param1") String param1){
-		Map<String,String> input=new HashMap<>();
-		input.put("param1", param1);
+	public ModelAndView oneParameter(ModelMap modelMap, @PathVariable("param1") String param1) {
+
+		Map<String, String> input = new HashMap<>();
+		input.put("param1", "default");
+		input.put("key1", param1);
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
- 			modelMap.addAttribute("response", vo);
-			return new ModelAndView("Screen/"+vo.getScreenMode());
-
+			modelMap.addAttribute("response", vo);
+			modelMap.addAttribute("url","/resources/");
+			return new ModelAndView("Screen/" + vo.getScreenMode());
+			 
 		} catch (BussinessException e) {
 
 			modelMap.addAttribute("response", e.getMessage());
@@ -89,21 +85,22 @@ public class DefaultController {
 
 		}
 	}
- 
 
-	@RequestMapping(value="/{param1}/{param2}" ) 
+	@RequestMapping(value = "/{param1}/{param2}")
 	@ResponseBody
-	public ModelAndView twoParameter(ModelMap modelMap,@PathVariable("param1") String param1,
-			@PathVariable("param2") String param2){
-
-		Map<String,String> input=new HashMap<>();
-		input.put("param1", param1);
-		input.put("param2", param2);
+	public ModelAndView twoParameter(ModelMap modelMap, @PathVariable("param1") String param1,
+			@PathVariable("param2") String param2) {
+		gson=new Gson();
+		Map<String, String> input = new HashMap<>();
+		input.put("param1", "default");
+		input.put("key1", param1);
+		input.put("key2", param2);
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
-			modelMap.addAttribute("response", vo.getObject());
-			return new ModelAndView("Screen/"+vo.getScreenMode());
+			 modelMap.addAttribute("response", gson.toJson(vo));
+			 modelMap.addAttribute("url","/resources/");
+			 return new ModelAndView("Screen/"+vo.getScreenMode()); 
 
 		} catch (BussinessException e) {
 
@@ -113,21 +110,27 @@ public class DefaultController {
 		}
 	}
 
-	@RequestMapping(value="/{param1}/{param2}/{param3}")
+	@RequestMapping(value = "/{param1}/{param2}/{param3}")
 	@ResponseBody
-	public ModelAndView threeParameter(ModelMap modelMap,@PathVariable("param1") String param1,
-			@PathVariable("param2") String param2,
-			@PathVariable("param3") String param3){
+	public ModelAndView threeParameter(ModelMap modelMap, @PathVariable("param1") String param1,
+			@PathVariable("param2") String param2, @PathVariable("param3") String param3) {
 
-		Map<String,String> input=new HashMap<String,String>();
-		input.put("param1", param1);
-		input.put("param2", param2);
-		input.put("param3", param3);
+		Map<String, String> input = new HashMap<>();
+		input.put("param1", "default");
+		input.put("key1", param1);
+		input.put("key2", param2);
+		input.put("key3", param3);
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
-			modelMap.addAttribute("response", vo.getObject());
-			return new ModelAndView("Screen/"+vo.getScreenMode());
+			if (Objects.nonNull(vo.getObjectList()) 
+					|| Objects.nonNull(vo.getObject())) {
+				modelMap.addAttribute("response", vo);
+				modelMap.addAttribute("url","/resources/");
+				return new ModelAndView("Screen/" + vo.getScreenMode());
+			} else {
+				return new ModelAndView("Screen/redirect");
+			}
 
 		} catch (BussinessException e) {
 
@@ -136,14 +139,14 @@ public class DefaultController {
 
 		}
 	}
-	@RequestMapping(value="/{param1}/{param2}/{param3}/{param4}")
-	@ResponseBody
-	public ModelAndView fourParameter(ModelMap modelMap,@PathVariable("param1") String param1,
-			@PathVariable("param2") String param2,
-			@PathVariable("param3") String param3,
-			@PathVariable("param4") String param4){
 
-		Map<String,String> input=new HashMap<>();
+	@RequestMapping(value = "/{param1}/{param2}/{param3}/{param4}")
+	@ResponseBody
+	public ModelAndView fourParameter(ModelMap modelMap, @PathVariable("param1") String param1,
+			@PathVariable("param2") String param2, @PathVariable("param3") String param3,
+			@PathVariable("param4") String param4) {
+
+		Map<String, String> input = new HashMap<>();
 		input.put("param1", param1);
 		input.put("param2", param2);
 		input.put("param3", param3);
@@ -152,7 +155,7 @@ public class DefaultController {
 		try {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo.getObject());
-			return new ModelAndView("Screen/"+vo.getScreenMode());
+			return new ModelAndView("Screen/" + vo.getScreenMode());
 
 		} catch (BussinessException e) {
 
@@ -161,7 +164,5 @@ public class DefaultController {
 
 		}
 	}
- 
- 
 
 }

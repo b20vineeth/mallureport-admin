@@ -10,7 +10,7 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 public class CollectGalleryDataByFourParameter implements Dao {
 
 	@Override
-	public ResponseVo execute(WatchDogVo watchDogVo) throws BussinessException {
+	public ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo) throws BussinessException {
 		return null;
 		
 		 
