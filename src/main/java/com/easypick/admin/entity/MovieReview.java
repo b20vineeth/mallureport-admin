@@ -1,6 +1,8 @@
 package com.easypick.admin.entity;
- 
-import java.util.Date; 
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
- 
+
+import com.easypick.admin.vo.MovieReviewVo;
+import com.easypick.admin.vo.MovieVo;
+import com.easypick.framework.utility.vo.AbstractVo;
 
 @Entity
-@Table(name = "movrev", uniqueConstraints = { @UniqueConstraint(columnNames = { "movcod" }) })
+@Table(name = "movrev")
 public class MovieReview {
 
 	private static final long serialVersionUID = 1L;
@@ -28,10 +33,6 @@ public class MovieReview {
 	@Column(name = "title")
 	private String title;
 
-	@Column(name = "movcod")
-	private String movieCode;
- 
-
 	@Column(name = "movrevdat", columnDefinition = "DATE")
 	private Date reviewDate;
 
@@ -39,17 +40,16 @@ public class MovieReview {
 	@JoinColumn(name = "movid", nullable = false)
 	private Movie movie;
 
-
-	@Column(name = "decription")
-	private String decription;
+	@Column(name = "description")
+	private String description;
 
 	@Column(name = "short_desc")
-	private String shortDesc; 
+	private String shortDesc;
 
 	@Column(name = "tag")
-	private String tag; 
-	
-	@Column(name = "status", length=1)
+	private String tag;
+
+	@Column(name = "status", length = 1)
 	private String status = "Y";
 
 	public Integer getMovieReviewId() {
@@ -68,14 +68,6 @@ public class MovieReview {
 		this.title = title;
 	}
 
-	public String getMovieCode() {
-		return movieCode;
-	}
-
-	public void setMovieCode(String movieCode) {
-		this.movieCode = movieCode;
-	}
-
 	public Date getReviewDate() {
 		return reviewDate;
 	}
@@ -92,12 +84,12 @@ public class MovieReview {
 		this.movie = movie;
 	}
 
-	public String getDecription() {
-		return decription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecription(String decription) {
-		this.decription = decription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getShortDesc() {
@@ -124,7 +116,47 @@ public class MovieReview {
 		this.status = status;
 	}
 
-	
-	 
+	public static MovieReviewVo formateMovieReviewVo(MovieReview movie) {
+		MovieReviewVo vo = new MovieReviewVo();
+		vo.setMovieId(movie.getMovie().getMovieId());
+		vo.setMovieName(movie.getMovie().getMovieName());
+		vo.setTitle(movie.getTitle());
+		vo.setShortDesc(movie.getShortDesc());
+		vo.setDescription(movie.getDescription());
+		vo.setTag(movie.getTag());
+		vo.setMovieReviewId(movie.getMovieReviewId());
+		return vo;
+	}
+
+	public static MovieReview populateMovieReviewVo(MovieReviewVo vo) {
+		MovieReview review = new MovieReview();
+
+		if (vo.getMovieReviewId() != 0)
+			review.setMovieReviewId(vo.getMovieReviewId());
+		review.setReviewDate(new Date());
+		review.setShortDesc(vo.getShortDesc());
+		review.setDescription(vo.getDescription());
+		review.setStatus("Y");
+		review.setTag(vo.getTag());
+		review.setTitle(vo.getTitle());
+		Movie movie = new Movie();
+		movie.setMovieId(vo.getMovieId());
+		review.setMovie(movie);
+		return review;
+	}
+
+	public static List<? extends AbstractVo> formateMovieReviews(List<MovieReview> movieVos) {
+		List<MovieReviewVo> movieReviewVo = new ArrayList<>();
+		MovieReviewVo vo = null;
+		for (MovieReview movie : movieVos) {
+			vo = new MovieReviewVo();
+			vo.setShortDesc(movie.getShortDesc());
+			vo.setTag(movie.getTag());
+			vo.setTitle(movie.getTitle());
+			vo.setTag(movie.getTag()); 
+			movieReviewVo.add(vo);
+		}
+		return movieReviewVo;
+	}
 
 }

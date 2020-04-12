@@ -4,9 +4,11 @@
 <jsp:include page="../HomeHeader.jsp" />
 <title>View Movie</title>
 <div class="row">
+ <%String movieIds=""; %>
 	<div class="col-sm-12 clearfix">
 		<h5>Movie</h5>
 		<hr />
+		
 		<div align="right">
 			<a href="javascript:enableEdit()">(+)</a>
 		</div>
@@ -67,6 +69,7 @@
 				</div>
 			</div>
 		</div>
+	 
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -74,8 +77,8 @@
 					<th>Name</th>
 					<th>Language</th>
 					<th>Release Date</th>
-					<th>Tag</th>
-					<th>Cast</th>
+					 
+					<th width="33%">Cast</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -84,14 +87,19 @@
 					int i = 1;
 				%>
 				<c:forEach items="${response.objectList}" var="objectList">
+				
+			 
 					<tr>
 						<td><%=i++%></td>
 						<td>${objectList.movieName}</td>
 						<td>${objectList.languageName}</td>
 						<td>${objectList.releaseDate}</td>
-						<td>${objectList.tag}</td>
-						<td>${objectList.cast}</td>
-						<td><a href="javascript:editCategory(${objectList.movieId});">
+					 
+						<td><div class="truncate">${objectList.cast}</div></td>
+						<td>
+						<input type="hidden" name="movieIds" id="movieIds" value="${objectList.movieId}"/>
+						
+						<a href="javascript:editCategory(${objectList.movieId});">
 								<i class="fa fa-edit pointer"
 								style="font-size: 20px; color: Green"> </i>
 
@@ -106,14 +114,32 @@
                    checked="checked"
                   </c:if>
 							onclick="updateRecommenedFlag(${objectList.movieId})"
-							title="Activate/Deactivate Recommened Flag" /> <a
-							href="javascript:updateReview('${objectList.movieId}');"> <i
-								class="fa fa-star pointer" aria-hidden="true"></i>
-						</a></td>
+							title="Activate/Deactivate Recommened Flag" />
+							
+							 <a title="Rate "  id="ratingStatus${objectList.movieId}" 
+							 <c:if test="${objectList.movieRate==0}">
+							  class="noReview01"
+							 </c:if>
+							  <c:if test="${objectList.movieRate>1}">
+							  class="activeReview01"
+							 </c:if>
+							href="javascript:updateRating(${objectList.movieId},'${objectList.movieName}',${objectList.movieRate});"> <i
+								class="fa fa-star pointer" aria-hidden="true" style="font-size: 20px;"></i> </a>
+								
+							<a title="Update Review"  id="reviewStatus${objectList.movieId}" class="noReview01"
+							href="javascript:updateReview(${objectList.movieId},'${objectList.movieName}');">	
+							<i class="fa fa-comments-o" aria-hidden="true" style="font-size: 20px;"></i>
+								</a>	
+						
+						<a id="galleryStatus${objectList.movieId}" class="noReview01" href="javascript:uploadImage(${objectList.movieId})">
+						<i class="fa fa-picture-o" 	style="font-size: 20px;" aria-hidden="true"></i></a>
+						
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
+ 
 		<div class="clearfix"></div>
 		<c:if test="${response.page.totalPage>1}">
 			<ul class="pagination pagination-sm">
@@ -157,11 +183,235 @@
 			</ul>
 		</c:if>
 	</div>
+	
+	
+	
+	<div id="updatRate" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+         <h4 class="modal-title" > <span id="movieNameTitle"></span> </h4>  <button type="button" class="close" data-dismiss="modal">&times;</button>
+     
+      </div>
+      <div class="modal-body">
+    	<input type="hidden" id="ratemovId" name="ratemovId" />
+    	Rate : <input type="Text" id="rate" name="rate" /> /100
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveRating()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+	
+	
+	
+	<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+         <h4 class="modal-title">Image Size </h4>  <button type="button" class="close" data-dismiss="modal">&times;</button>
+     
+      </div>
+      <div class="modal-body">
+  <input type="radio" id="imgsize" name="imgsize" value="335X180" checked="checked"><label for="335X180">Thumb1 (335X180)</label>
+  <i id="thumb1" aria-hidden="true"></i><br>
+		  <input type="radio" id="imgsize" name="imgsize" value="690X390" > <label for="690X390">Thumb2 (690X390)</label>
+		   <i id="thumb2" aria-hidden="true"></i>
+		<input type="hidden" id="movId" name="movId"  value="${objectList.movieId}"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="generate()">Generate</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+	
+	
+	<style>
+		.noReview01{
+		 color:red;
+		}
+		.activeReview01{
+		 color:green;
+		}
+		</style>
 	<script>
-function updateReview(movieCode)
+	getReviewStatus();
+	//getGalleryStatus();
+	var movieId="";
+
+
+	function saveRating()
+	{
+
+	 	var data = "data=" + '{ "movieId": "' +  $('#ratemovId').val() + '","movieRate": "'
+	  	+  $('#rate').val() +'"} ';
+	  $.ajax({
+	  	    url : "admin.movie.updateMovieStatus",
+	  	    type: "POST",
+	  	    data : data,
+	  	    success: function(data)
+	  	    { 
+	  	     }
+	  	});
+
+		
+	}
+	function generate()
+	{
+		var imgsize =  $("input[name='imgsize']:checked").val();
+		window.location.href = "admin.common.imageUpload?movieId="+$('#movId').val()+"&imgsize="+imgsize;
+	}
+	function uploadImage(movieId)
+	{ 
+		var data=document.getElementById("galleryStatus"+movieId).getAttribute("data");
+		 data=JSON.parse(data);
+		 if(data)
+			 {
+		 		if(data.thumb1)
+					 $('#thumb1').attr("class","fa fa-check-circle activeReview01" );
+				if(data.thumb2)
+					 $('#thumb2').attr("class","fa fa-check-circle activeReview01" );
+			 }
+		 else
+		  {		
+			  $('#thumb1').removeAttr("class");
+			  $('#thumb2').removeAttr("class");
+
+		}
+		$('#movId').val(movieId);
+		$('#myModal').modal('show'); 
+		
+		 
+	}
+	function updateRating(movieId,movieName,movieRate)
+	{
+		$('#movieNameTitle').html("Rating : "+movieName);
+		$('#ratemovId').val(movieId);
+		$('#rate').val(movieRate);
+		$('#updatRate').modal('show'); 	
+	}
+	function getReviewStatus()
+	{
+		movieId = $("input[id='movieIds']")
+        .map(function(){return $(this).val();}).get(); 
+       
+		var  data= "data=" + '{ "movieIds": "' + movieId + '"} ';
+		 
+		$.ajax({
+	  	    url : "admin.movie.getStatus",
+	  	    type: "POST",
+	  	    data : data,
+	  	    success: function(data)
+	  	    {
+		  	    data=JSON.parse(data);
+		  	 	 if(data['review']!='null' && data['review'].length>0)
+			  	 	 {
+		  	 			var review=JSON.parse(data['review']);
+		  	  			 for(i=0;i<review.length;i++)
+			  				 {
+				  				$("#reviewStatus"+review[i].movieId).attr("class","activeReview01") ;
+			  				 }
+			  	 	  }
+		  	 	 if(data['cinema']!='null' && data['cinema'].length>0)
+		  	 	 {
+		  	 		var cinema=JSON.parse(data['cinema']);
+		  	 		 for(i=0;i<cinema.length;i++)
+  				 	 {
+		  	 			 var dat=JSON.stringify(cinema[i])
+				  		$("#galleryStatus"+cinema[i].movid).attr("class","activeReview01") ;
+						$("#galleryStatus"+cinema[i].movid).attr("data",dat) ;
+  				 	 }
+		  	 	 }
+	  	      },
+	  	    error: function (jqXHR, textStatus, errorThrown)
+	  	    {
+	  	 
+	  	    }
+	  	});
+	  	
+	 
+		 
+	}
+	function getReviewStatus01()
+	{
+		movieId = $("input[id='movieIds']")
+        .map(function(){return $(this).val();}).get(); 
+       
+		var  data= "data=" + '{ "movieIds": "' + movieId + '"} ';
+		 
+		$.ajax({
+	  	    url : "admin.movie.reviewStatus",
+	  	    type: "POST",
+	  	    data : data,
+	  	    success: function(data)
+	  	    {
+		  	    data=JSON.parse(data);
+		  	   
+		  	    for(i=0;i<data.length;i++)
+			  	 {
+				  	$("#reviewStatus"+data[i].movieId).attr("class","activeReview01") ;
+			  	 }
+	  	     
+	  	    },
+	  	    error: function (jqXHR, textStatus, errorThrown)
+	  	    {
+	  	 
+	  	    }
+	  	});
+	  	
+	 
+		 
+	}
+
+	function getGalleryStatus()
+	{
+		movieId = $("input[id='movieIds']")
+        .map(function(){return $(this).val();}).get(); 
+       
+		var  data= "data=" + '{ "movieIds": "' + movieId + '"} ';
+		 
+		$.ajax({
+	  	    url : "admin.movie.galleryStatus",
+	  	    type: "POST",
+	  	    data : data,
+	  	    success: function(data)
+	  	    {
+		  	    data=JSON.parse(data);
+		  	     for(i=0;i<data.length;i++)
+			  	 {
+				  	 var dat=JSON.stringify(data)
+				  	$("#galleryStatus"+data[i].movid).attr("class","activeReview01") ;
+					$("#galleryStatus"+data[i].movid).attr("data",dat) ;
+			  	 }
+	  	     
+	  	    },
+	  	    error: function (jqXHR, textStatus, errorThrown)
+	  	    {
+	  	 
+	  	    }
+	  	});
+	  	
+	 
+		 
+	}
+
+	
+function updateReview(movieId,movieName)
 {
-	 	window.location.href = "admin.movie.editReview?movieCode="
-				+movieCode; 
+	 	window.location.href = "admin.movie.editReview?movieId="
+				+movieId+"&movieName="+movieName; 
 	 
 }
    $('#search').toggle();

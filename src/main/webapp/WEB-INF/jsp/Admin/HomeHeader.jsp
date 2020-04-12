@@ -22,11 +22,14 @@
 							<ul class="submenu">
 								<li><a href="admin.movie.create">Create</a></li>
 								<li><a href="admin.movie.view">View</a></li>
+								<li><a href="admin.slideshow.view?type=cinema">SlideShow</a></li>
 							</ul></li>
 						<li><a href="">Gallery</a>
 							<ul class="submenu">
 								<li><a href="admin.gallery.create">Create</a></li>
 								<li><a href="admin.gallery.view">View</a></li>
+								<li><a href="admin.slideshow.view?type=gallery">SlideShow</a></li>
+							 
 							</ul></li>
 							<li><a href="">Profile</a>
 							<ul class="submenu">
@@ -38,6 +41,13 @@
 								<li><a href="admin.video.create">Create</a></li>
 								<li><a href="admin.video.view">View</a></li>
 							</ul></li>
+							
+						<li><a href="">Tools</a>
+							<ul class="submenu">
+								<li><a href="admin.job.create">Job</a></li> 
+							
+							</ul>
+						</li>
 					</ul>
 				</nav>
 

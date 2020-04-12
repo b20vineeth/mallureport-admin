@@ -5,15 +5,10 @@ import java.util.List;
 
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
-
-import com.easypick.admin.admin.query.Query;
-import com.easypick.admin.entity.UserSetup;
-import com.easypick.admin.vo.MovieVo;
-import com.easypick.admin.vo.UserSetupVo;
-import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.persistence.Dao;
-import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
-import com.easypick.framework.utility.persistence.mapper.UserItemsMapper;
+  
+import com.easypick.admin.vo.MovieVo; 
+import com.easypick.framework.utility.exception.BussinessException; 
+import com.easypick.framework.utility.persistence.mapper.MovieItemMapper; 
 import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
@@ -21,11 +16,21 @@ import com.easypick.framework.utility.vo.WatchDogVo;
 @Repository
 public class CinemaByTagDao implements Dao {
 
+
+	public static final String GALLERY_LIST_BY_TAG="SELECT movie.thumbnail,movie.short_desc,movie.movie_code,movie.movie_name ,"
+			+ " movie.cin_rel_dat, movie.rate ,lan.`langnam` FROM `movie`  movie inner join langsetup lan on lan.id=movie.cin_lang "
+			+ " WHERE movie.status='Y'";
+	
+	public static final String GALLERY_COUNT_BY_TAG="SELECT  COUNT(*) total FROM `movie`  movie inner join langsetup lan on lan.id=movie.cin_lang "
+			+ " WHERE movie.status='Y'";
+	public static final String COUNT_PREFIX = " select concat(total,'') total from (";
+	public static final String COUNT_SUFFIX = " ) t1";
+	
 	@Override
 	public ResponseVo execute(WatchDogVo watchDogVo, ResponseVo vo) throws BussinessException {
 
 		vo = new ResponseVo();
-		String query = constructPagableQuery(Query.GALLERY_LIST_BY_TAG, watchDogVo);
+		String query = constructPagableQuery(GALLERY_LIST_BY_TAG, watchDogVo);
 		SQLQuery q = watchDogVo.getSessionString()
 				.createSQLQuery(query + Page.getPage(watchDogVo.getInput().get("page")));
 		List<Object[]> objects = (List<Object[]>) ((org.hibernate.Query) q).list();
@@ -42,8 +47,8 @@ public class CinemaByTagDao implements Dao {
 
 			}
 			vo.setObjectList(movieVos);
-			query = constructPagableQuery(Query.GALLERY_COUNT_BY_TAG, watchDogVo);
-			q = watchDogVo.getSessionString().createSQLQuery(Query.COUNT_PREFIX + query + Query.COUNT_SUFFIX);
+			query = constructPagableQuery(GALLERY_COUNT_BY_TAG, watchDogVo);
+			q = watchDogVo.getSessionString().createSQLQuery(COUNT_PREFIX + query + COUNT_SUFFIX);
 			Integer rowCount = 0;
 			try {
 				rowCount = Integer.parseInt((String) q.uniqueResult());

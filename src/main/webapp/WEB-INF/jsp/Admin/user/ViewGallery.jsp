@@ -102,55 +102,56 @@
 
 		<div class="clearfix"></div>
 
+		<c:if test="${response.page.totalPage>1}">
 
 
-		<ul class="pagination pagination-sm">
+			<ul class="pagination ">
 
 
 
-			<c:choose>
-				<c:when test="${response.page.currentPage  == 1}">
-					<li class="page-item disabled"><a href="#" class="page-link">
-							Previous </a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${response.page.currentPage - 1})"><i
-							class="material-icons">Previous</i></a></li>
-				</c:otherwise>
-			</c:choose>
-			<c:forEach begin="1" end="${response.page.totalPage}"
-				varStatus="loop">
 				<c:choose>
-					<c:when test="${response.page.currentPage == loop.index}">
-						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+					<c:when test="${response.page.currentPage  == 1}">
+						<li class="page-item disabled"><a href="#" class="page-link">
+								Previous </a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+							href="javascript:goPage(${response.page.currentPage - 1})"><i
+								class="material-icons">Previous</i></a></li>
 					</c:otherwise>
 				</c:choose>
-			</c:forEach>
-			<c:choose>
-				<c:when
-					test="${response.page.currentPage == response.page.totalPage}">
-					<li class="page-item  disabled"><a
-						href="javascript:goPage(${loop.index})" class="page-link"><i
-							class="material-icons">Next</i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${response.page.currentPage + 1})">
-							Next</a></li>
-				</c:otherwise>
-			</c:choose>
+				<c:forEach begin="1" end="${response.page.totalPage}"
+					varStatus="loop">
+					<c:choose>
+						<c:when test="${response.page.currentPage == loop.index}">
+							<li class="page-item"><a class="page-link"
+								href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link"
+								href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:choose>
+					<c:when
+						test="${response.page.currentPage == response.page.totalPage}">
+						<li class="page-item  disabled"><a
+							href="javascript:goPage(${loop.index})" class="page-link"><i
+								class="material-icons">Next</i></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="javascript:goPage(${response.page.currentPage + 1})">
+								Next</a></li>
+					</c:otherwise>
+				</c:choose>
 
 
 
-		</ul>
+			</ul>
 
-
+		</c:if>
 
 
 

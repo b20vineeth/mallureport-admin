@@ -18,9 +18,22 @@ public class MovieReviewVo implements AbstractVo {
 	private String title;
 	
 	private Integer movieRate;
+	private Integer movieId; 
+	private String movieIds;
 	
 	
-	
+	public String getMovieIds() {
+		return movieIds;
+	}
+	public void setMovieIds(String movieIds) {
+		this.movieIds = movieIds;
+	}
+	public Integer getMovieId() {
+		return movieId;
+	}
+	public void setMovieId(Integer movieId) {
+		this.movieId = movieId;
+	}
 	public Integer getMovieRate() {
 		return movieRate;
 	}

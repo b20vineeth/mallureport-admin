@@ -34,8 +34,7 @@ import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.google.gson.Gson;
 import com.easypick.admin.vo.GallerySetupVo;
-import com.easypick.admin.vo.UserSetupVo;
-import com.easypick.event.BlogModifiedEvent;
+import com.easypick.admin.vo.UserSetupVo; 
 
 @Controller
 public class GallerySetupController {

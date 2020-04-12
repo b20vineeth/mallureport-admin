@@ -21,8 +21,8 @@
 							value="${response.object.movieName}" placeholder="Movie Name">
 
 					</div>
- 				</div>
- 				<div class="col-sm-6 clearfix">
+				</div>
+				<div class="col-sm-6 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Movie Code</label> <input
 							type="Text" class="form-control" id="movieCode"
@@ -37,7 +37,7 @@
 
 
 			<div class="row">
-				
+
 				<div class="col-sm-6 clearfix">
 
 
@@ -62,13 +62,15 @@
 
 
 				</div>
-				
-				
+
+
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1"> Rating </label> <input
-							type="Text" class="form-control" id="movieRate"
-							value="${response.object.movieRate}" placeholder="Movie Rating">  
+						<label for="exampleInputPassword1">Release Date</label> <input
+							type="Text" class="form-control" id="releaseDate"
+							value="${response.object.releaseDate}" placeholder="DD/MM/YYY">
+						<input type="hidden" class="form-control" id="movieRate"
+							value="${response.object.movieRate}" placeholder="Movie Rating">
 
 					</div>
 
@@ -76,6 +78,58 @@
 
 				</div>
 			</div>
+
+
+
+
+
+
+
+
+
+			<div class="row">
+
+				<div class="col-sm-6 clearfix">
+
+
+					<div class="form-group">
+						<label for="exampleInputPassword1"> Movie Type </label> <input
+							type="Text" class="form-control" id="movieType"
+							value="${response.object.movieType}" placeholder="Drama">
+
+
+					</div>
+
+
+
+
+				</div>
+
+
+				<div class="col-sm-6 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1">Certificate</label> <input
+							type="Text" class="form-control" id="certificate"
+							value="${response.object.certificate}" placeholder="U">
+
+					</div>
+
+
+
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -101,9 +155,9 @@
 				</div>
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1">Description</label>
-
-
+						<label for="exampleInputPassword1">Description</label> <input
+							type="hidden" class="form-control" id="thumbnail"
+							value="${response.object.thumbnail}" placeholder="Thumbnail">
 						<textarea class="form-control" id="description"
 							placeholder="Description">${response.object.description}</textarea>
 
@@ -113,26 +167,7 @@
 
 
 
-			<div class="row">
 
-				<div class="col-sm-6 clearfix">
-					<div class="form-group">
-						<label for="exampleInputPassword1">Thumbnail</label> <input
-							type="Text" class="form-control" id="thumbnail"
-							value="${response.object.thumbnail}" placeholder="Thumbnail">
-					</div>
-				</div>
-				<div class="col-sm-6 clearfix">
-					<div class="form-group">
-						<label for="exampleInputPassword1">Release Date</label>
-
-						<div class="form-group">
-							<input type="Text" class="form-control" id="releaseDate"
-								value="${response.object.releaseDate}" placeholder="DD/MM/YYY">
-						</div>
-					</div>
-				</div>
-			</div>
 
 
 
@@ -177,7 +212,7 @@
 	var movieId = $('#movieId').val();
 
 	if (movieId.trim().length != 0) {
-		$("#catId").attr('disabled', 'disabled');
+		$("#movieCode").attr('disabled', 'disabled');
 	}
 	function getCategory(catId) {
 
@@ -198,7 +233,9 @@
 					+ $('#shortDesc').val() + '","movieName": "'
 					+ $('#movieName').val() + '","movieRate": "'
 					+ $('#movieRate').val() + '","movieCode": "'
-					+ $('#movieCode').val() + '","description": "'
+					+ $('#movieCode').val() +'","movieType": "'
+					+ $('#movieType').val() + '","certificate": "'
+					+ $('#certificate').val() +'","description": "'
 					+ $('#description').val() + '","thumbnail": "'
 					+ $('#thumbnail').val() + '","releaseDate": "'
 					+ $('#releaseDate').val() + '","tag": "' + $('#tag').val()

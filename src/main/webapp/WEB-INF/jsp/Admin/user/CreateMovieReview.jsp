@@ -14,7 +14,7 @@
 
 
 			<div class="row">
-				<div class="col-sm-6 clearfix">
+				<div class="col-sm-12 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Title</label> <input
 							type="Text" class="form-control" id="title"
@@ -22,11 +22,11 @@
 
 					</div>
 				</div>
-				<div class="col-sm-6 clearfix">
+				<div class="col-sm-12 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1"> Movie Code</label> <input
+						<label for="exampleInputPassword1"> Movie Name</label> <input
 							type="Text" class="form-control" id="movieCode"
-							disabled="disabled" value="${response.object.movieCode}"
+							disabled="disabled" value="${response.object.movieName}"
 							placeholder="Movie Code">
 
 					</div>
@@ -104,7 +104,8 @@
 
 			</div>
 
-
+	<input type="hidden" id="movieId"
+				value="${response.object.movieId}" />
 
 			<input type="hidden" id="movieReviewId"
 				value="${response.object.movieReviewId}" />
@@ -117,7 +118,7 @@
 	<div class="col-sm-1 clearfix"></div>
 </div>
 <script>
-	var movieId = $('#movieReviewId').val();
+	var movieReviewId = $('#movieReviewId').val();
 
 	function getCategory(catId) {
 
@@ -126,22 +127,23 @@
 	}
 	function saveMovieReview() {
 
-		var content = tinymce.get("description").getContent();
+		var content = escape(tinymce.get("description").getContent());
  
  
-		var movieId = $('#movieReviewId').val();
-		if (movieId.trim().length == 0)
-			movieId = 0;
+		var movieReviewId = $('#movieReviewId').val();
+		if (movieReviewId.trim().length == 0)
+			movieReviewId = 0;
 
 		$.ajax({
 			url : 'admin.movie.saveMovieReview',
 			type : 'POST',
 
-			data : "data=" + '{ "movieId": "' + movieId + '","shortDesc": "'
-					+ $('#shortDesc').val() + '","title": "'
+			data : "data=" + '{ "movieId": "' + $('#movieId').val() + '","shortDesc": "'
+			+ $('#shortDesc').val() + '","movieReviewId": "'
+			+ movieReviewId + '","title": "'
 					+ $('#title').val() + '" ,"movieCode": "'
 					+ $('#movieCode').val() + '","description": "'
-					+ $('#description').val() + '","tag": "' + $('#tag').val() + '"} ',
+					+ content+ '","tag": "' + $('#tag').val() + '"} ',
 			processData : false,
 			success : function(data) {
 				if (data == "T") {

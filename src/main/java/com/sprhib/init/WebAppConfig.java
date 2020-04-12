@@ -21,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -36,7 +37,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @ComponentScan("com")
 @EnableWebMvc
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")
+@EnableScheduling
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
@@ -58,10 +59,10 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-		dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
-		dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-		dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
-		dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/easypick?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8");
+		dataSource.setUsername("root");
+		dataSource.setPassword("");
 
 		return dataSource;
 	}
@@ -92,8 +93,8 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 	private Properties hibProperties() {
 		Properties properties = new Properties();
-		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
-		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
+		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
+		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, "true");
 
 		// properties.setProperty(PROPERTY_CURRENT_SESSION_CONTEXT,
 		// env.getRequiredProperty(

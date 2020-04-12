@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.easypick.admin.entity.Gallery;
 import com.easypick.admin.entity.Movie;
 import com.easypick.admin.entity.Video;
-import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.persistence.Dao;
+import com.easypick.framework.utility.exception.BussinessException; 
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
 

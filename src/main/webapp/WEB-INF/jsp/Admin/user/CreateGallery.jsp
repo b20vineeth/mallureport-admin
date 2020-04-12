@@ -18,7 +18,7 @@
 		<form id="upload-file-form">
 
 			<div class="row">
-				<div class="col-sm-6 clearfix">
+				<div class="col-sm-12 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Title </label> <input
 							type="Text" class="form-control" id="title"
@@ -31,36 +31,11 @@
 
 
 				</div>
-				<div class="col-sm-6 clearfix">
-
-
-					<div class="form-group">
-						<label for="exampleInputPassword1"> Thumbnail </label> <input
-							type="Text" class="form-control" id="thumbnail"
-							value="${response.object.thumbnail}" placeholder="thumbnail">
-
-
-
-
-					</div>
-
-
-
-
-				</div>
+				 
 			</div>
 
 
-
-
-
-
-
-
-
-
-
-
+ 
 			<div class="row">
 
 				<div class="col-sm-6 clearfix">
@@ -87,13 +62,53 @@
 
 
 
+
+
+
+			<div class="row">
+
+				<div class="col-sm-6 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1">Movie</label> <input
+							type="Text" class="form-control" id="movie" name="movie"
+							value="${response.object.movieTag}" />
+
+					</div>
+				</div>
+				<div class="col-sm-6 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1"> Profile </label> <input
+							type="text" class="form-control" id="profile" name="profile" value="${response.object.profileTag}" />
+
+
+
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			<div class="row">
 
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1">Tag</label> <input type="Text"
 							class="form-control" id="tag" value="${response.object.tag}"
-							placeholder="#tag">
+							placeholder="#tag" name="tag">
 					</div>
 				</div>
 				<div class="col-sm-6 clearfix">
@@ -115,29 +130,18 @@
 
 				<div class="row">
 
+
 					<div class="col-sm-12 clearfix">
 						<div class="form-group">
 
-							<div id='progressBar'
-								style='height: 20px; border: 2px solid green; margin-bottom: 20px'>
-								<div id='bar'
-									style='height: 100%; background: #33dd33; width: 0%'></div>
-							</div>
-							<input id="upload-file-input" type="file" name="uploadfile"
-								accept="*" multiple="multiple" />
-
-							<div id="uploadedFileList"></div>
-
+							<textarea class="form-control" id="galleryContent"
+							placeholder=" Gallery">${response.object.shortDesc}</textarea>
 
 
 						</div>
+
 					</div>
-
-
-
-
 				</div>
-
 
 			</c:if>
 			<input type="hidden" id="galleryId"
@@ -162,7 +166,34 @@ img {
 }
 </style>
 <script>
+$('input[name="tag"]').amsifySuggestags({
+	tagLimit: 10
+});
+$('input[name="profile"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=profile'
+	},
+	<c:if test="${not empty response.object.profile}">
+	suggestions:  
+		${response.object.profile}
+	 ,
+	</c:if>
+		 whiteList: true	
+});
 
+$('input[name="movie"]').amsifySuggestags({
+	 
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=cinema'
+	},
+
+	<c:if test="${not empty response.object.movie}">
+	suggestions:  
+		${response.object.movie}
+	 ,
+	</c:if>
+	whiteList: true			
+});
 var galleryId = $('#galleryId').val();
 
 if (galleryId.trim().length!=0)
@@ -179,6 +210,7 @@ $(document).ready(function() {
 
 function saveData()
 {
+ 
 	var galleryId = $('#galleryId').val();
 	if (galleryId.trim().length == 0)
 		galleryId = 0;
@@ -191,9 +223,10 @@ function saveData()
 				+ img.toString() + '","shortDesc": "'
 				+ $('#shortDesc').val() + '","title": "'
 				+ $('#title').val() + '","description": "'
-				+ $('#description').val() + '","thumbnail": "'
-				+ $('#thumbnail').val() + '","url": "'
-				+ $('#url').val() + '","tag": "' + $('#tag').val()
+				+ $('#description').val() + '","galleryContent": "' + $('#galleryContent').val() + '","url": "'
+				+ $('#url').val() + '","movie": "'
+				+ $('#movie').val() + '","profile": "'
+				+ $('#profile').val() + '","tag": "' + $('#tag').val()
 				+ '"} ',
 		processData : false,
 		success : function(data) {

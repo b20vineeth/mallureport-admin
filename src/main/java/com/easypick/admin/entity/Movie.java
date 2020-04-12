@@ -47,14 +47,17 @@ public class Movie {
 	@Column(name = "rate")
 	private Integer movieRate;
 
-	@Column(name = "decription")
-	private String decription;
+	@Column(name = "description",columnDefinition="TEXT")
+	private String description;
 
 	@Column(name = "short_desc")
 	private String shortDesc;
 
-	@Column(name = "thumbnail")
-	private String thumbnail;
+	@Column(name = "mov_type",length=9)
+	private String movieType;
+	
+	@Column(name = "certificate",length=2)
+	private String certificate;
 
 	@Column(name = "tag")
 	private String tag;
@@ -75,9 +78,24 @@ public class Movie {
 	@JoinColumn(name = "cin_lang", nullable = true)
 	private Language lang;
 
-	
-	
 	 
+
+	public String getMovieType() {
+		return movieType;
+	}
+
+	public void setMovieType(String movieType) {
+		this.movieType = movieType;
+	}
+
+	public String getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(String certificate) {
+		this.certificate = certificate;
+	}
+
 	public String getRecommendedFlag() {
 		return recommendedFlag;
 	}
@@ -102,13 +120,7 @@ public class Movie {
 		this.movieId = movieId;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
+	 
 
 	public Integer getMovieRate() {
 		return movieRate;
@@ -134,12 +146,14 @@ public class Movie {
 		this.relaseDate = relaseDate;
 	}
 
-	public String getDecription() {
-		return decription;
+	 
+
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecription(String decription) {
-		this.decription = decription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getShortDesc() {
@@ -178,10 +192,11 @@ public class Movie {
 		MovieVo vo = new MovieVo();
 		vo.setMovieId(movie.getMovieId());
 		vo.setCast(movie.getCast());
-		vo.setDescription(movie.getDecription());
-		vo.setThumbnail(movie.getThumbnail());
+		vo.setDescription(movie.getDescription()); 
 		vo.setShortDesc(movie.getShortDesc());
-		vo.setMovieRate(movie.getMovieRate().toString());
+		vo.setMovieType(movie.getMovieType());
+		vo.setCertificate(movie.getCertificate());
+		vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0"); 
 		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
 		vo.setTag(movie.getTag());
 		vo.setMovieCode(movie.getMovieCode());
@@ -190,6 +205,8 @@ public class Movie {
 		vo.setLanguageName(movie.getLang().getLangName());
 		return vo;
 	}
+	
+	
 
 	public static List<? extends AbstractVo> formateMovieVos(List<Movie> movies) {
 		List<MovieVo> movieVos = new ArrayList<>();
@@ -200,9 +217,9 @@ public class Movie {
 			vo.setShortDesc(movie.getShortDesc());
 			vo.setTag(movie.getTag());
 			vo.setCast(movie.getCast());
-			vo.setMovieRate(movie.getMovieRate().toString());
-			vo.setThumbnail(movie.getThumbnail());
+			vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0");
 			vo.setMovieCode(movie.getMovieCode());
+			vo.setMovieType(movie.getMovieType());
 			vo.setMovieName(movie.getMovieName());
 			vo.setLang(movie.getLang().getId());
 			vo.setLanguageName(movie.getLang().getLangName());
@@ -218,7 +235,7 @@ public class Movie {
 	public static Movie populateMovieVo(MovieVo vo) {
 		Movie movie = new Movie();
 		movie.setCast(vo.getCast());
-		movie.setDecription(vo.getDescription());
+		movie.setDescription(vo.getDescription());
 		Date date1;
 		try {
 			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(vo.getReleaseDate());
@@ -227,12 +244,16 @@ public class Movie {
 			movie.setRelaseDate(new Date());
 		}
 		movie.setShortDesc(vo.getShortDesc());
-		movie.setStatus(vo.getStatus());
-		movie.setThumbnail(vo.getThumbnail());
+		movie.setStatus(vo.getStatus()); 
 		movie.setMovieCode(vo.getMovieCode());
 		movie.setMovieName(vo.getMovieName());
-		movie.setMovieRate(Integer.parseInt(vo.getMovieRate()));
 		movie.setTag(vo.getTag()); 
+		if(Objects.nonNull(vo.getCertificate()))
+			movie.setCertificate(vo.getCertificate());
+		
+		if(Objects.nonNull(vo.getMovieType()))
+			movie.setMovieType(vo.getMovieType());
+		
 		Language lang = new Language();
 		if (Objects.nonNull(vo.getLang())) {
 			lang.setId(vo.getLang());

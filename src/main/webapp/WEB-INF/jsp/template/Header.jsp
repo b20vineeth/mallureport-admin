@@ -12,10 +12,31 @@
 <script src="resources/js/popper.min.js" type="text/javascript"></script>
 <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="resources/js/jquery.amsify.suggestags.js" type="text/javascript"></script>
+<link href="resources/css/amsify.suggestags.css" rel="stylesheet">
+
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css'>
 <link href="resources/css/style.css" rel="stylesheet">
- 
+ <script type="text/javascript">
+
+var popupWindow=null;
+
+function childOpen(page,width,height)
+{ 
+if(popupWindow && !popupWindow.closed)
+   popupWindow.focus();
+else
+   popupWindow =window.open(page,"_blank","directories=no, status=no, menubar=no, scrollbars=yes, resizable=no,width="+width+", height="+height+",top=200,left=200");
+
+}
+function parent_disable() {
+  if(popupWindow && !popupWindow.closed)
+    popupWindow.focus();
+}
+</script>
 </head>
-<body>
+ <body onFocus="parent_disable();" onclick="parent_disable();">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">

@@ -14,12 +14,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.easypick.admin.vo.GalleryContentVo;
 import com.easypick.admin.vo.GalleryVo;
 import com.easypick.admin.vo.MovieVo;
 import com.easypick.admin.vo.ProfileVo;
 import com.easypick.admin.vo.VideoVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
-import com.easypick.framework.utility.vo.AbstractVo; 
+import com.easypick.framework.utility.vo.AbstractVo;
+import com.google.gson.Gson; 
 
 @Entity
 @Table(name = "gallery" , uniqueConstraints = { @UniqueConstraint(columnNames = { "url"}) })
@@ -46,15 +48,26 @@ public class Gallery  {
 	private String title;
 	
 	
-	@Column(name = "thumbnail", length=250)
-	private String thumbnail;
+	@Column(name = "thumbnail1", length=550)
+	private String thumbnail1;
+	@Column(name = "thumbnail2", length=550)
+	private String thumbnail2;
+	@Column(name = "thumbnail3", length=550)
+	private String thumbnail3;
+	
+	@Column(name = "movie_tag", length=200)
+	private String movieTag;
+	
+	@Column(name = "profile_tag", length=200)
+	private String profileTag;
+	
 	
 	@Column(name = "tag", columnDefinition="TEXT")
 	private String tag;
 	
 	@Column(name = "description", columnDefinition="TEXT")
 	private String description;
-
+ 
 	
 	@Column(name = "status", length=1)
 	private String status="Y";
@@ -63,13 +76,22 @@ public class Gallery  {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
 	
-	
 	 
+	public String getMovieTag() {
+		return movieTag;
+	}
 
-	 
+	public void setMovieTag(String movieTag) {
+		this.movieTag = movieTag;
+	}
 
-	 
- 
+	public String getProfileTag() {
+		return profileTag;
+	}
+
+	public void setProfileTag(String profileTag) {
+		this.profileTag = profileTag;
+	}
 
 	public Integer getGalleryId() {
 		return galleryId;
@@ -111,12 +133,29 @@ public class Gallery  {
 		this.title = title;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	 
+	public String getThumbnail1() {
+		return thumbnail1;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setThumbnail1(String thumbnail1) {
+		this.thumbnail1 = thumbnail1;
+	}
+
+	public String getThumbnail2() {
+		return thumbnail2;
+	}
+
+	public void setThumbnail2(String thumbnail2) {
+		this.thumbnail2 = thumbnail2;
+	}
+
+	public String getThumbnail3() {
+		return thumbnail3;
+	}
+
+	public void setThumbnail3(String thumbnail3) {
+		this.thumbnail3 = thumbnail3;
 	}
 
 	public String getTag() {
@@ -156,25 +195,39 @@ public class Gallery  {
 	public static List<Gallery> populateAttribute(GalleryVo vo) {
 		List<Gallery> vos=new ArrayList<Gallery>();
 		Gallery gallery=null;
-		 
-		String[] urls=vo.getGalleryUrl().split(",");
-		for(String url:urls)
+		Gson gson = new Gson();
+		String[] movieTag=vo.getMovie().split(",");
+		String movietags="";
+		for(String tag:movieTag)
 		{
-			String[] exp=url.split("/");
-			if(exp.length>1)
-			{
+			movietags="#"+tag+"#,"+movietags;
+		}
+		String[] profileTag=vo.getProfile().split(",");
+		String profileTags="";
+		for(String tag:profileTag)
+		{
+			profileTags="#"+tag+"#,"+profileTags;
+		}
+		
+		for(GalleryContentVo url:vo.getContent())
+		{
 			gallery=new Gallery();
 			gallery.setDescription(vo.getDescription());
-			gallery.setGalleryUrl(url);
+			gallery.setGalleryUrl(vo.getGalleryUrl());
 			gallery.setShortDesc(vo.getShortDesc());
+			gallery.setMovieTag(movietags); 
 			gallery.setStatus("Y");
+			gallery.setGalleryUrl(vo.getGalleryUrl());
+			gallery.setThumbnail1(url.getThumb1());
+			gallery.setThumbnail2(url.getThumb2());
+			gallery.setThumbnail3(url.getThumb3()); 
+			gallery.setProfileTag(profileTags);
 			gallery.setTag(vo.getTag());
-			gallery.setThumbnail(exp[0]+"/"+exp[1]+"/thumb_"+exp[2]);
 			gallery.setTitle(vo.getTitle());
 			gallery.setUpdatedDate(new Date());
 			gallery.setUrl(vo.getUrl()+"_"+StringUitity.generateRandomNumber(9999,1111));
 			vos.add(gallery);
-			}
+			 
 		}
 		
 		
@@ -191,7 +244,7 @@ public class Gallery  {
 			 vo.setGalleryId(galleryVo.getGalleryId()); 
 			 vo.setShortDesc(galleryVo.getShortDesc());
 			 vo.setTag(galleryVo.getTag());
-			 vo.setThumbnail(galleryVo.getThumbnail());
+			 vo.setThumbnail(galleryVo.getThumbnail2());
 			 vo.setTitle(galleryVo.getTitle());
 			 
 			 vos.add(vo);
@@ -207,7 +260,7 @@ public class Gallery  {
 		 vo.setShortDesc(gallery.getShortDesc());
 		 vo.setTag(gallery.getTag());
 		 vo.setTitle(gallery.getTitle());
-		 vo.setThumbnail(gallery.getThumbnail());
+		 vo.setThumbnail(gallery.getThumbnail2());
 		 vo.setUrl(gallery.getUrl());
 		 vo.setGalleryUrl(gallery.getGalleryUrl());
 		return vo;

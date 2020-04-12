@@ -36,8 +36,8 @@ public class GallerySetupVo implements AbstractVo {
 	private String validityto;
 	private String status;
 	private String validityFrom;
-	
-	
+	 
+
 	public Integer getPage() {
 		return page;
 	}

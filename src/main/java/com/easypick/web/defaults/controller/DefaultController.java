@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.easypick.admin.vo.UserSetupVo;
-import com.easypick.framework.utility.commonUtility.SecurityEncription;
-import com.easypick.framework.utility.controller.ActionController;
+ 
 import com.easypick.framework.utility.controller.ActionControllerInterface;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.google.gson.Gson;
+import com.sprhib.init.Initializer;
 
 @Controller
 public class DefaultController {
@@ -42,7 +40,9 @@ public class DefaultController {
 	protected ActionControllerInterface action;
 
 	Map<String, String> privilege = null;
-
+	
+	 
+	
 	@RequestMapping(value = "/")
 	@ResponseBody
 	public ModelAndView homePage(ModelMap modelMap) {
@@ -76,6 +76,8 @@ public class DefaultController {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo);
 			modelMap.addAttribute("url","/resources/");
+			modelMap.addAttribute("domain", Initializer.DOMAIN);
+			modelMap.addAttribute("picPath", "pic/");
 			return new ModelAndView("Screen/" + vo.getScreenMode());
 			 
 		} catch (BussinessException e) {
