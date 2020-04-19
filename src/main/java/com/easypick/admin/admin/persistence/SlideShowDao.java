@@ -19,11 +19,8 @@ public class SlideShowDao implements Dao {
 
 	@Override
 	public ResponseVo execute(WatchDogVo watchDog, ResponseVo vo) throws BussinessException {
-		Query query;
-		StringBuilder sql = new StringBuilder();
-	 
 		Map<String, List<? extends AbstractVo>> objectMapList = new HashMap<>();
-		List<? extends AbstractVo > slideShowVos = (List<? extends AbstractVo>) fetchReviewDetails(watchDog);
+		List<? extends AbstractVo > slideShowVos = (List<? extends AbstractVo>) fetchSlideShowDetails(watchDog);
 		if (slideShowVos.size() > 0)
 			{
 				if(Objects.isNull(vo.getObjectMapList()))
@@ -36,7 +33,7 @@ public class SlideShowDao implements Dao {
 
 	}
 
-	private List<? extends AbstractVo> fetchReviewDetails(WatchDogVo watchDog) {
+	private List<? extends AbstractVo> fetchSlideShowDetails(WatchDogVo watchDog) {
 		StringBuilder sql = new StringBuilder();
 		 
 		sql.append("from SlideShow slideShow where slideShow.status='Y' and slideShow.slideflg='Y' ");

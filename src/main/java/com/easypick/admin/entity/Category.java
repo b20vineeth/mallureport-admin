@@ -3,18 +3,14 @@ package com.easypick.admin.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.persistence.CascadeType;
+ 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Id; 
+import javax.persistence.ManyToOne; 
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -22,7 +18,7 @@ import com.easypick.admin.vo.CategoryVo;
 import com.easypick.framework.utility.vo.AbstractVo;
 
 @Entity
-@Table(name = "category", uniqueConstraints = { @UniqueConstraint(columnNames = { "catcod" }) })
+@Table(name = "shronetime", uniqueConstraints = { @UniqueConstraint(columnNames = { "catcod" }) })
 public class Category {
 
 	private static final long serialVersionUID = 1L;

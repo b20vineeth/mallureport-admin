@@ -174,7 +174,7 @@
 																				<div class="empty-stars"></div>
 																				<div class="full-stars"
 																					style="width: ${object.movieRate}%"></div>
-																			</div></li>
+																			</div></a></li>
 																	<li><a href="#"><span
 																			class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
 

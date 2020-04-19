@@ -1,6 +1,5 @@
 package com.easypick.web.gallery.persistence;
  
-import com.easypick.admin.vo.CategoryTypeVo;
 import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.GalleryVo;
 import com.easypick.framework.utility.exception.BussinessException;

@@ -1,7 +1,5 @@
 package com.easypick.admin.admin.job;
 
-import com.easypick.framework.utility.exception.BussinessException;
-
 public class ThreadPoolTaskSchedulerExamples  implements Runnable {
 	String message=null;
 	Boolean isActive=true;

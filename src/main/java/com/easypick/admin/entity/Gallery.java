@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column; 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +16,9 @@ import javax.persistence.UniqueConstraint;
 
 import com.easypick.admin.vo.GalleryContentVo;
 import com.easypick.admin.vo.GalleryVo;
-import com.easypick.admin.vo.MovieVo;
-import com.easypick.admin.vo.ProfileVo;
-import com.easypick.admin.vo.VideoVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.vo.AbstractVo;
+import com.easypick.web.events.vo.GalleryDataVo;
 import com.google.gson.Gson; 
 
 @Entity
@@ -71,11 +69,13 @@ public class Gallery  {
 	
 	@Column(name = "status", length=1)
 	private String status="Y";
-	
-	@Column(name = "upddat", columnDefinition="DATETIME")
+	 
+	@Column(name = "updated_on", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date updatedDate;
+	private Date updateon;
 	
+	@Column(name = "tagidx" ,length=1)
+	private Integer tagidx;
 	 
 	public String getMovieTag() {
 		return movieTag;
@@ -182,16 +182,25 @@ public class Gallery  {
 		this.status = status;
 	}
 
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
 	 
 	 
+	 
+	public Date getUpdateon() {
+		return updateon;
+	}
+
+	public void setUpdateon(Date updateon) {
+		this.updateon = updateon;
+	}
+
+	public Integer getTagidx() {
+		return tagidx;
+	}
+
+	public void setTagidx(Integer tagidx) {
+		this.tagidx = tagidx;
+	}
+
 	public static List<Gallery> populateAttribute(GalleryVo vo) {
 		List<Gallery> vos=new ArrayList<Gallery>();
 		Gallery gallery=null;
@@ -224,7 +233,8 @@ public class Gallery  {
 			gallery.setProfileTag(profileTags);
 			gallery.setTag(vo.getTag());
 			gallery.setTitle(vo.getTitle());
-			gallery.setUpdatedDate(new Date());
+			gallery.setUpdateon(new Date());
+			gallery.setTagidx(0);
 			gallery.setUrl(vo.getUrl()+"_"+StringUitity.generateRandomNumber(9999,1111));
 			vos.add(gallery);
 			 
@@ -264,6 +274,21 @@ public class Gallery  {
 		 vo.setUrl(gallery.getUrl());
 		 vo.setGalleryUrl(gallery.getGalleryUrl());
 		return vo;
+	}
+
+	public static List<GalleryDataVo> formateGalleryDataVo(List<Gallery> galleryVos) {
+		 List<GalleryDataVo> vos=new ArrayList<>();
+		 GalleryDataVo vo=null;
+		 for(Gallery galleryVo:galleryVos)
+		 {
+			 vo=new GalleryDataVo();
+			 
+			 vo.setThumbnail(galleryVo.getThumbnail1());
+			 vo.setTitle(galleryVo.getTitle());
+			 vo.setUrl(galleryVo.getUrl());
+			 vos.add(vo);
+		 }
+		return vos;
 	} 
 	 
  

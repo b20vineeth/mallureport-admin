@@ -176,24 +176,20 @@ $('input[name="profile"]').amsifySuggestags({
 	<c:if test="${not empty response.object.profile}">
 	suggestions:  
 		${response.object.profile}
-	 ,
-	</c:if>
-		 whiteList: true	
+	 </c:if>
+		 
 });
-
 $('input[name="movie"]').amsifySuggestags({
-	 
 	suggestionsAction : {
 		url : 'admin.common.getdata?type=cinema'
 	},
-
 	<c:if test="${not empty response.object.movie}">
 	suggestions:  
 		${response.object.movie}
-	 ,
-	</c:if>
-	whiteList: true			
+	 </c:if>
+		 
 });
+ 
 var galleryId = $('#galleryId').val();
 
 if (galleryId.trim().length!=0)

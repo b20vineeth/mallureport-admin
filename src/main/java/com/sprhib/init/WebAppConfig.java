@@ -1,27 +1,35 @@
 package com.sprhib.init;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.reflections.Reflections;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
-import org.springframework.http.CacheControl;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.support.TaskUtils;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -32,6 +40,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
+import com.easypick.framework.utility.commonUtility.EventListener;
+import com.easypick.framework.utility.commonUtility.StringUitity;
+import com.easypick.framework.utility.controller.Event;
+import com.easypick.web.events.vo.KeyData;
 
 @Configuration
 @ComponentScan("com")
@@ -67,6 +80,15 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 		return dataSource;
 	}
 
+	@Bean(name = "applicationEventMulticaster")
+	ApplicationEventMulticaster applicationEventMulticaster() {
+	    SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
+	    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+	    eventMulticaster.setErrorHandler(TaskUtils.LOG_AND_SUPPRESS_ERROR_HANDLER);
+	    return eventMulticaster;
+	}
+	
+	
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -155,6 +177,35 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 		mailSender.setJavaMailProperties(javaMailProperties);
 		return mailSender;
 	}
+	
+	
+	@Bean(name="event")
+	public Event getEventListeners() {
+	   Map<String,List<KeyData>> map=new HashMap<>();
+	   KeyData keydata=null;
+	   List<KeyData> value=new ArrayList<>();
+	   Event event=new Event();
+	   Reflections ref = new Reflections("com.easypick");
+		for (Class<?> cl : ref.getTypesAnnotatedWith(EventListener.class)) {
+			EventListener findable = cl.getAnnotation(EventListener.class);
+			 keydata=new KeyData();
+			if(Objects.nonNull(map.get(findable.eventKey())))
+			{
+				keydata.setEvent(StringUitity.convertToSmallLetter(cl.getSimpleName()));
+				keydata.setPriority(Integer.parseInt(findable.priority()));
+				value= map.get(findable.eventKey());
+				value.add(keydata);
+			}
+			else{
+				keydata.setEvent(StringUitity.convertToSmallLetter(cl.getSimpleName()));
+				keydata.setPriority(Integer.parseInt(findable.priority()));
+				map.put(findable.eventKey(),Stream.of(keydata).collect(Collectors.toList()));
+			}
+		 }
+		event.setListeners(map);
+		return event;
+	}
+	
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**")

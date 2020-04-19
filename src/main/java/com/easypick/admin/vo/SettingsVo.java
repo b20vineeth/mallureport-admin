@@ -14,12 +14,18 @@ public class SettingsVo  implements AbstractVo{
 	private String tag;
 	private String status="Y";
 	
-	
+	private String term;
 	private String categoryCode;
 	
 	
 	
 	
+	public String getTerm() {
+		return term;
+	}
+	public void setTerm(String term) {
+		this.term = term;
+	}
 	public String getCategoryCode() {
 		return categoryCode;
 	}

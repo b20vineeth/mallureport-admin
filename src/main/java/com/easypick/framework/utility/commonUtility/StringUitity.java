@@ -89,5 +89,53 @@ public class StringUitity {
 		int year = currentDate.getYear(); // 2016
 		return (year+"-"+month).toLowerCase();
 	}
- 
+	public static String convertToSmallLetter(String str )
+	{
+		 String cap = str.substring(0, 1).toLowerCase() + str.substring(1);
+	     return cap;
+	}
+
+	public static String filterNumber(String string) {
+		String[] tag=string.split(",");
+		StringBuilder value=new StringBuilder();
+		for(String num:tag)
+		{
+			try{
+				value.append(Integer.parseInt(num)+",");
+			}
+			catch(Exception e){}
+		}
+		String key=value.toString().replaceAll(",$", "");
+		return key;
+	}
+
+	public static String filterNotNumber(String string) {
+		String[] tag=string.split(",");
+		StringBuilder value=new StringBuilder();
+		for(String num:tag)
+		{
+			try{
+				int val=Integer.parseInt(num);
+			}
+			catch(Exception e){
+				
+				value.append("'"+num+"',");
+			}
+		}
+		String key=value.toString().replaceAll(",$", "");
+		if(Objects.isNull(key) || key.trim().length()==0 )
+		{
+			key="''";
+		}
+		return key;
+	}
+	public static String getTag(String tag2) {
+		 String[] d1=tag2.split(",");
+		 StringBuilder data=new StringBuilder();
+		 for(String d:d1)
+		 {
+			 data.append("#"+d+"#,");
+		 }
+		 return data.toString().replaceAll(",$", "");
+	}
 }

@@ -78,7 +78,7 @@
 					<th>Language</th>
 					<th>Release Date</th>
 					 
-					<th width="33%">Cast</th>
+					 
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -95,7 +95,7 @@
 						<td>${objectList.languageName}</td>
 						<td>${objectList.releaseDate}</td>
 					 
-						<td><div class="truncate">${objectList.cast}</div></td>
+					 
 						<td>
 						<input type="hidden" name="movieIds" id="movieIds" value="${objectList.movieId}"/>
 						

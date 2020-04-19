@@ -2,7 +2,7 @@ package com.easypick.web.movie.bussinesscontroller;
   
 import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo; 
+import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo; 
 
@@ -25,5 +25,5 @@ public interface MovieBussinessInterface {
 	ResponseVo reviewStatus(MovieReviewVo movieReviewVo) throws BussinessException;
 
 	ResponseVo saveMovieReview(MovieReviewVo vo)  throws BussinessException;
-
+ 
 }

@@ -30,6 +30,7 @@ public class MovieSqlDao implements MovieDao {
 		watchdog.getSessionString().saveOrUpdate(movie);
 		vo.setMovieId(movie.getMovieId());
 		ResponseVo responseVo = new ResponseVo();
+		responseVo.setId(movie.getMovieId());
 		responseVo.setObject(vo);
 		return responseVo;
 	}
@@ -235,6 +236,7 @@ public class MovieSqlDao implements MovieDao {
 		responseVo.setObject(vo);
 		return responseVo;
 	}
-	    
+
+	  
 
 }

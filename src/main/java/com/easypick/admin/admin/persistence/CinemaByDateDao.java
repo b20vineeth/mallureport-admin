@@ -11,13 +11,10 @@ import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.entity.Gallery;
 import com.easypick.admin.entity.Language;
-import com.easypick.admin.entity.Movie;
-import com.easypick.admin.entity.Video;
 import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
-import com.easypick.framework.utility.exception.BussinessException; 
+import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
 import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.framework.utility.vo.ResponseVo;

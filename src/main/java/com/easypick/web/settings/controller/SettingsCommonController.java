@@ -1,44 +1,32 @@
 package com.easypick.web.settings.controller;
  
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects; 
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap; 
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam; 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.easypick.admin.vo.CategoryVo;
-import com.easypick.admin.vo.CinemaGalleryVo;
-import com.easypick.admin.vo.LanguageVo;
-import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo;
 import com.easypick.admin.vo.SettingsVo;
-import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.easypick.web.auth.bussinesscontroller.UserControllerInterface;
-import com.easypick.web.category.bussinesscontroller.CategoryBussinessInterface;
-import com.easypick.web.common.bussinesscontroller.ControllerInterface;
-import com.easypick.web.language.bussinesscontroller.LanguageBussinessInterface;
-import com.easypick.web.movie.bussinesscontroller.MovieBussinessInterface;
 import com.easypick.web.settings.bussinesscontroller.SettingsBussinessInterface;
 import com.google.gson.Gson; 
 
 @Controller
 public class SettingsCommonController {
 
-	Gson gson;
+	Gson gson;	
 	 
 	
 	@Autowired

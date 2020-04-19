@@ -1,26 +1,16 @@
 package com.easypick.web.settings.bussinesscontroller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.entity.Profile; 
-import com.easypick.admin.vo.ProfileVo;
 import com.easypick.admin.vo.SettingsVo;
 import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.easypick.web.category.persistence.CategoryDao;
-import com.easypick.web.profile.persistence.ProfileDao;
 import com.easypick.web.settings.persistence.SettingsDao; 
 @Repository
 public class SettingsBussinessController implements SettingsBussinessInterface {

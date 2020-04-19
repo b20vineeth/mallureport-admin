@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column; 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +14,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import com.easypick.admin.vo.MovieVo;
-import com.easypick.admin.vo.ProfileVo;
 import com.easypick.admin.vo.VideoVo;
-import com.easypick.framework.utility.vo.AbstractVo; 
+import com.easypick.framework.utility.vo.AbstractVo;
+import com.easypick.web.events.vo.VideoDataVo; 
 
 @Entity
 @Table(name = "video" , uniqueConstraints = { @UniqueConstraint(columnNames = { "url"}) })
@@ -61,9 +60,29 @@ public class Video  {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
 	
+	@Column(name = "movie_tag", length=200)
+	private String movieTag;
 	
+	@Column(name = "profile_tag", length=200)
+	private String profileTag;
 	
 	 
+
+	public String getMovieTag() {
+		return movieTag;
+	}
+
+	public void setMovieTag(String movieTag) {
+		this.movieTag = movieTag;
+	}
+
+	public String getProfileTag() {
+		return profileTag;
+	}
+
+	public void setProfileTag(String profileTag) {
+		this.profileTag = profileTag;
+	}
 
 	public String getShortDesc() {
 		return shortDesc;
@@ -194,6 +213,21 @@ public class Video  {
 		vo.setVideoId(video.getVideoId());
 		vo.setVideoUrl(video.getVideoUrl());
 		 return vo;
+	}
+
+	public static List<VideoDataVo> formateVideoDataVo(List<Video> videos) {
+		List<VideoDataVo> videoVos = new ArrayList<>();
+		VideoDataVo vo = null;
+		for (Video video : videos) {
+			vo = new VideoDataVo();
+			vo.setThumbnail(video.getThumbnail());
+			vo.setTitle(video.getTitle());
+			vo.setUrl(video.getUrl());
+			vo.setVideoUrl(video.getVideoUrl());
+			videoVos.add(vo);
+		}
+
+		return videoVos;
 	} 
 	 
  

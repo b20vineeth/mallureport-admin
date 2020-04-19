@@ -7,14 +7,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.hibernate.SQLQuery;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-  
-import com.easypick.admin.entity.MovieReview;
+
 import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo;
-import com.easypick.framework.utility.exception.BussinessException; 
-import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
+import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.persistence.mapper.MovieReviewItemMapper;
 import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.framework.utility.vo.ResponseVo;

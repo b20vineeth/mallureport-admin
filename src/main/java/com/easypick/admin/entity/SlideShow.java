@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.SlideShowVo;
 import com.easypick.framework.utility.vo.AbstractVo;
 

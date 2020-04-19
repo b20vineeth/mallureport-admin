@@ -1,7 +1,5 @@
 package com.easypick.admin.user.persistence;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+ 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,78 +11,17 @@ import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.entity.Category;
-import com.easypick.admin.entity.CategoryType;
-import com.easypick.admin.entity.CineGallery;
-import com.easypick.admin.entity.Gallery;
-import com.easypick.admin.entity.Language;
-import com.easypick.admin.entity.Movie;
 import com.easypick.admin.entity.MovieGallery;
-import com.easypick.admin.entity.MovieReview;
-import com.easypick.admin.entity.Profile;
-import com.easypick.admin.entity.Settings;
-import com.easypick.admin.entity.SlideShow;
-import com.easypick.admin.entity.Video;
-import com.easypick.admin.vo.CategoryTypeVo;
-import com.easypick.admin.vo.CategoryVo;
-import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.DataVo;
-import com.easypick.admin.vo.GalleryVo;
-import com.easypick.admin.vo.LanguageVo;
-import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.MovieVo;
-import com.easypick.admin.vo.ProfileVo;
 import com.easypick.admin.vo.SettingsVo;
-import com.easypick.admin.vo.SlideShowVo;
-import com.easypick.admin.vo.VideoVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
-import com.easypick.framework.utility.vo.AbstractVo;
-import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.google.gson.Gson;
 
 @Repository
 public class CommonAttributeSqlDao implements CommonAttributeDao {
-
-	 
-	 
-
-	
-
-	
-	
-	
-
-	
-	
-
-	
-
-	
-	
-	
-
-	
-	
-
-	
-
-	
-
-
-	
-	
-	
-
-
-	
-
-	
-	
-	
 
 	private void saveMovieGalleryDetails(WatchDogVo watchdog, Map<String, String> key, List<Object[]> gallerys,
 			String type) {
@@ -95,15 +32,14 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 				movievo.setThumb1(items[0].toString());
 				movievo.setTitle(items[1].toString());
 				movievo.setTag(items[2].toString());
-				String[] tags=items[3].toString().replaceAll("#", "").split(",");
-				String url=null;
-				for(String tag:tags)
-				{
-					url=key.get(tag);
+				String[] tags = items[3].toString().replaceAll("#", "").split(",");
+				String url = null;
+				for (String tag : tags) {
+					url = key.get(tag);
 				}
 				movievo.setUrl(url);
 				movievo.setType(type);
-				watchdog.getSessionString().saveOrUpdate(movievo); 
+				watchdog.getSessionString().saveOrUpdate(movievo);
 
 			} catch (Exception e) {
 
@@ -111,16 +47,13 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 
 		}
 	}
-	
-	
-	
-	
+
 	@Override
 	public ResponseVo saveGalleryDetails(WatchDogVo watchdog, MovieVo vo) throws BussinessException {
 
 		StringBuilder sql = new StringBuilder();
 		ResponseVo responseVo = new ResponseVo();
-		Map<String,String> key=new HashMap<>();
+		Map<String, String> key = new HashMap<>();
 		try {
 			sql.append(
 					"SELECT GROUP_CONCAT( CONCAT(movie.movieId ,' ',`movie_code`))  FROM movie movie where movie.status='Y' ");
@@ -133,7 +66,7 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 					+ " then 2   else 1 end  , movie.cin_rel_dat asc");
 			SQLQuery query = watchdog.getSessionString().createSQLQuery(sql.toString());
 			query.setParameter("date", StringUitity.removeTime(new Date()));
-			String objects = null; 
+			String objects = null;
 			try {
 				objects = (String) (query).uniqueResult();
 
@@ -157,15 +90,14 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 			sql1.append(sql.toString().trim().replaceAll("or$", ""));
 			sql1.append(") order by  id  desc");
 			query = watchdog.getSessionString().createSQLQuery(sql1.toString());
-			List<Object[]> gallerys = (List<Object[]>) ((org.hibernate.Query) query).list(); 
-			
-			String type="Movie-"+vo.getFilterType();
+			List<Object[]> gallerys = (List<Object[]>) ((org.hibernate.Query) query).list();
+
+			String type = "Movie-" + vo.getFilterType();
 			deleteMovieGallery(watchdog, type);
-			
-			if(Objects.nonNull(gallerys))
-			{
+
+			if (Objects.nonNull(gallerys)) {
 				saveMovieGalleryDetails(watchdog, key, gallerys, type);
-				  
+
 			}
 			responseVo.setResponse(true);
 
@@ -175,6 +107,7 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 		return responseVo;
 
 	}
+
 	@Override
 	public ResponseVo getdata(WatchDogVo watchdog, SettingsVo vo) throws BussinessException {
 
@@ -193,7 +126,7 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 			DataVo dataVo = null;
 
 			if (object.size() > 0) {
-				DataVo.populateDataVo(object, vos); 
+				DataVo.populateDataVo(object, vos);
 				responseVo.setObjectList(vos);
 
 			}
@@ -202,12 +135,18 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append("select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' "
-					+ " and profile.profileName like '%:profileName%'");
+					+ " and profile.profileName like '%" + vo.getTerm() + "%'");
 			Query query = watchdog.getSessionString().createQuery(sql.toString());
-			query.setParameter("profileName", vo.getTag());
 
-			List<Profile> profiles = query.setFirstResult(0).setMaxResults(10).getResultList();
-			responseVo.setObjectList(Profile.formateProfileVos(profiles));
+			List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
+
+			List<DataVo> vos = new ArrayList<>();
+			DataVo dataVo = null;
+
+			if (object.size() > 0) {
+				DataVo.populateDataVo(object, vos);
+				responseVo.setObjectList(vos);
+			}
 
 		}
 		return responseVo;
@@ -215,8 +154,68 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 
 	private void deleteMovieGallery(WatchDogVo watchdog, String type) {
 		Query query1 = watchdog.getSessionString().createQuery("delete MovieGallery where type=:type");
-		  query1.setParameter("type", type);
-		  int result = query1.executeUpdate();
+		query1.setParameter("type", type);
+		int result = query1.executeUpdate();
 	}
+
+	 
+	
+	@Override
+	public List<DataVo> getCastAutoComplete(WatchDogVo watchdog, String cast) throws BussinessException {
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' "
+				+ " and profile.profileId in ("+getIds(cast)+")");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+
+		List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
+
+		List<DataVo> vos = new ArrayList<>();
+		DataVo dataVo = null;
+
+		if (object.size() > 0) {
+			DataVo.populateDataVo(object, vos);
+			 
+		}
+		return vos;
+	}
+
+	private String getIds(String casts) {
+	
+		String[] cast=casts.split(",");
+		StringBuilder keydata=new StringBuilder();
+		for(String profile:cast)
+		{
+			try
+			{
+				keydata.append(Integer.parseInt(profile)+",");
+			}
+			catch(Exception e) {}
+		}
+	
+		return keydata.toString().replaceAll(",$", "");
+	}
+
+	@Override
+	public List<DataVo> getFilmAutoComplete(WatchDogVo watchdog, String films) throws BussinessException {
+	 
+		StringBuilder sql = new StringBuilder();
+		sql.append("select movie.movieId ,movie.movieName from Movie movie where movie.status='Y' "
+				+ " and movie.movieId in ("+getIds(films)+")");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+
+		List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
+
+		List<DataVo> vos = new ArrayList<>();
+		DataVo dataVo = null;
+
+		if (object.size() > 0) {
+			DataVo.populateDataVo(object, vos);
+			 
+		}
+		return vos;
+	}
+
+	 
 
 }

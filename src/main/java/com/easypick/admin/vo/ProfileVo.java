@@ -19,10 +19,17 @@ public class ProfileVo implements AbstractVo {
 	private String profileCode;
 	private String gender;
 	private String language;
-	
+	private String movie;
 	private String catName;
 	
 
+	
+	public String getMovie() {
+		return movie;
+	}
+	public void setMovie(String movie) {
+		this.movie = movie;
+	}
 	public String getLanguage() {
 		return language;
 	}

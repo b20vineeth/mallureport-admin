@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="zxx" class="no-js">
 <jsp:include page="../../template/WebHeader.jsp" />
 <body>
@@ -17,7 +18,12 @@
 					<div class="col-lg-8 post-list">
 						<!-- Start latest-post Area -->
 						<div class="latest-post-wrap">
-							<h4 class="cat-title">Latest News</h4>
+							<h4 class="cat-title">${response.object.title}</h4>
+							 
+							<c:forEach items="${response.objectMapList['data']}"
+							var="object">
+							  
+							 
 							<div class="single-latest-post row align-items-center">
 								<div class="col-lg-5 post-left">
 									<div class="feature-img relative">
@@ -25,185 +31,33 @@
 										<img class="img-fluid" src="${url}img/l1.jpg" alt="">
 									</div>
 									<ul class="tags">
-										<li><a href="#">Lifestyle</a></li>
+										<li><a href="${domain}${response.object.url}/${object.languageName}">${response.object.title}</a></li>
 									</ul>
 								</div>
 								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
+									<a href="${domain}cinema/${object.movieCode}">
+										<h4>${object.movieName}</h4>
 									</a>
 									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
+										<li><a href="#">${object.movieType}
+																			(${object.certificate})</li>
+										<li><a href="#">Rating
+																			<div class="ratings">
+																				<div class="empty-stars"></div>
+																				<div class="full-stars"
+																					style="width: ${object.movieRate}%"></div>
+																			</div></a></li>
+										<li><a href="#"><span
+																			class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
 									</ul>
-									<p class="excert">Lorem ipsum dolor sit amet, consectetur
-										adipisicing elit, sed do eiusmod tempor incididunt.</p>
+									<p class="excert">${object.shortDesc}</p>
 								</div>
 							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/l2.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Science</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/l3.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Travel</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/l4.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Fashion</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/r1.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Science</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/r2.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Travel</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="single-latest-post row align-items-center">
-								<div class="col-lg-5 post-left">
-									<div class="feature-img relative">
-										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="${url}img/r3.jpg" alt="">
-									</div>
-									<ul class="tags">
-										<li><a href="#">Fashion</a></li>
-									</ul>
-								</div>
-								<div class="col-lg-7 post-right">
-									<a href="image-post.html">
-										<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-									</a>
-									<ul class="meta">
-										<li><a href="#"><span class="lnr lnr-user"></span>Mark
-												wiens</a></li>
-										<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-												April, 2018</a></li>
-										<li><a href="#"><span class="lnr lnr-bubble"></span>06
-												Comments</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt.</p>
-								</div>
-							</div>
-							<div class="load-more">
-								<a href="#" class="primary-btn">Load More Posts</a>
-							</div>
-
+						
+						  
+						   </c:forEach>
+						   
+						   
 						</div>
 						<!-- End latest-post Area -->
 					</div>

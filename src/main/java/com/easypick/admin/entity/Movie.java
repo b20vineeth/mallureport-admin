@@ -19,7 +19,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.easypick.admin.vo.MovieVo;
+import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.vo.AbstractVo;
+import com.easypick.web.events.vo.MovieDataVo;
 
 @Entity
 @Table(name = "movie", uniqueConstraints = { @UniqueConstraint(columnNames = { "movie_code" }) })
@@ -191,6 +193,25 @@ public class Movie {
 	public static Object formateMovieVo(Movie movie) {
 		MovieVo vo = new MovieVo();
 		vo.setMovieId(movie.getMovieId());
+		vo.setCast(movie.getCast().replace("#", ""));
+		vo.setDescription(movie.getDescription()); 
+		vo.setShortDesc(movie.getShortDesc());
+		vo.setMovieType(movie.getMovieType());
+		vo.setCertificate(movie.getCertificate());
+		vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0"); 
+		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
+		vo.setTag(movie.getTag().replace("#", ""));
+		vo.setMovieCode(movie.getMovieCode());
+		vo.setMovieName(movie.getMovieName());
+		vo.setLang(movie.getLang().getId());
+		vo.setLanguageName(movie.getLang().getLangName());
+		return vo;
+	}
+	
+	
+	public static Object formateMovieDataVo(Movie movie) {
+		MovieDataVo vo = new MovieDataVo();
+		vo.setMovieId(movie.getMovieId());
 		vo.setCast(movie.getCast());
 		vo.setDescription(movie.getDescription()); 
 		vo.setShortDesc(movie.getShortDesc());
@@ -205,7 +226,6 @@ public class Movie {
 		vo.setLanguageName(movie.getLang().getLangName());
 		return vo;
 	}
-	
 	
 
 	public static List<? extends AbstractVo> formateMovieVos(List<Movie> movies) {
@@ -234,7 +254,7 @@ public class Movie {
 
 	public static Movie populateMovieVo(MovieVo vo) {
 		Movie movie = new Movie();
-		movie.setCast(vo.getCast());
+		movie.setCast(StringUitity.getTag(vo.getCast()));
 		movie.setDescription(vo.getDescription());
 		Date date1;
 		try {
@@ -247,7 +267,7 @@ public class Movie {
 		movie.setStatus(vo.getStatus()); 
 		movie.setMovieCode(vo.getMovieCode());
 		movie.setMovieName(vo.getMovieName());
-		movie.setTag(vo.getTag()); 
+		movie.setTag(StringUitity.getTag(vo.getTag())); 
 		if(Objects.nonNull(vo.getCertificate()))
 			movie.setCertificate(vo.getCertificate());
 		
@@ -264,6 +284,8 @@ public class Movie {
 		movie.setLang(lang);
 		return movie;
 	}
+
+
 
 	public String getMovieName() {
 		return movieName;

@@ -1,12 +1,5 @@
 package com.easypick.web.admin.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,27 +7,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.easypick.admin.vo.GallerySetupVo;
+import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.controller.ActionControllerInterface;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.google.gson.Gson;
-import com.easypick.admin.vo.GallerySetupVo;
-import com.easypick.admin.vo.UserSetupVo; 
+import com.google.gson.Gson; 
 
 @Controller
 public class GallerySetupController {
@@ -44,8 +32,7 @@ public class GallerySetupController {
 	protected HttpServletResponse response;
 	@Autowired
 	protected HttpServletRequest request;
-	@Autowired
-	protected ApplicationEventPublisher publisher;
+	
 	@Autowired
 	protected HttpSession session;
 	@Autowired

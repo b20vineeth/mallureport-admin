@@ -1,8 +1,5 @@
-package com.easypick.admin.vo;
- 
-
-import com.easypick.framework.utility.vo.AbstractVo;
-
+package com.easypick.admin.vo; 
+import com.easypick.framework.utility.vo.AbstractVo; 
 public class CinemaVo implements AbstractVo {
  
 	

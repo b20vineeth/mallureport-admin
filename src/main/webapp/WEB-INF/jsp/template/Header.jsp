@@ -16,7 +16,6 @@
 <script src="resources/js/jquery.amsify.suggestags.js" type="text/javascript"></script>
 <link href="resources/css/amsify.suggestags.css" rel="stylesheet">
 
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css'>
 <link href="resources/css/style.css" rel="stylesheet">
  <script type="text/javascript">
 

@@ -1,7 +1,6 @@
 package com.easypick.admin.admin.persistence;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +9,9 @@ import java.util.Objects;
 import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-  
-import com.easypick.admin.vo.MovieVo; 
-import com.easypick.framework.utility.exception.BussinessException; 
+
+import com.easypick.admin.vo.MovieVo;
+import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
 import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.framework.utility.vo.ResponseVo;

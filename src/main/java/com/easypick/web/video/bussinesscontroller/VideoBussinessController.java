@@ -1,7 +1,5 @@
 package com.easypick.web.video.bussinesscontroller;
 
-import java.util.Map;
-
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
@@ -9,14 +7,10 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.vo.LanguageVo;
-import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo;
 import com.easypick.admin.vo.VideoVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.easypick.framework.utility.vo.WatchDogVo;  
-import com.easypick.web.movie.persistence.MovieDao;
+import com.easypick.framework.utility.vo.WatchDogVo;
 import com.easypick.web.video.persistence.VideoDao;  
 @Repository
 public class VideoBussinessController implements VideoBussinessInterface {

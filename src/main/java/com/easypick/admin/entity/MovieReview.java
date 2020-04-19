@@ -13,11 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.vo.AbstractVo;
+import com.easypick.web.events.vo.ReviewDataVo;
 
 @Entity
 @Table(name = "movrev")
@@ -45,12 +44,41 @@ public class MovieReview {
 
 	@Column(name = "short_desc")
 	private String shortDesc;
-
+	
+	@Column(name = "thumbnail")
+	private String thumbnail;
+	
 	@Column(name = "tag")
 	private String tag;
 
+	@Column(name = "url", length = 150)
+	private String url;
+	
+	
 	@Column(name = "status", length = 1)
 	private String status = "Y";
+	
+	
+	
+	
+	
+	
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 
 	public Integer getMovieReviewId() {
 		return movieReviewId;
@@ -157,6 +185,21 @@ public class MovieReview {
 			movieReviewVo.add(vo);
 		}
 		return movieReviewVo;
+	}
+
+	public static List<ReviewDataVo> formateReviewDataVo(List<MovieReview> movieReviews) {
+		
+		List<ReviewDataVo> movieReviewVos = new ArrayList<>();
+		ReviewDataVo vo = null;
+		for (MovieReview movie : movieReviews) {
+			vo = new ReviewDataVo();
+			vo.setShortDesc(movie.getShortDesc()); 
+			vo.setTitle(movie.getTitle()); 
+			vo.setThumbnail(movie.getThumbnail());
+			vo.setUrl(movie.getUrl());
+			movieReviewVos.add(vo);
+		}
+		return movieReviewVos;
 	}
 
 }

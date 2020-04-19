@@ -1,24 +1,22 @@
 package com.easypick.web.gallery.bussinesscontroller;
 
-import java.util.Map;
+import java.util.Objects;
 
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.vo.CategoryTypeVo;
+import com.easypick.admin.user.persistence.CommonAttributeDao;
 import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.GalleryVo;
-import com.easypick.admin.vo.LanguageVo; 
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.easypick.web.categorytype.persistence.CategoryTypeDao;
-import com.easypick.web.gallery.persistence.GalleryDao;
-import com.easypick.web.language.persistence.LanguageDao;  
+import com.easypick.web.gallery.persistence.GalleryDao;  
 @Repository
 public class GalleryCommonBussinessController implements GalleryCommonBussinessInterface {
 	
@@ -26,7 +24,12 @@ public class GalleryCommonBussinessController implements GalleryCommonBussinessI
 	@Autowired
 	private GalleryDao dao;
 	
+	@Autowired
+	protected ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private CommonAttributeDao commondao;
+
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
@@ -85,6 +88,11 @@ public class GalleryCommonBussinessController implements GalleryCommonBussinessI
 			watchdog.setCmpcode("CM");
 			responseVo = dao.saveGalleryVo(watchdog, vo);
 			this.tx.commit();
+			if(Objects.nonNull(responseVo))
+			{	
+				responseVo.setEvent("com.admin.saveGallery");
+				publisher.publishEvent(responseVo);
+			}
 			return responseVo;
 		} catch (Exception e) {
 			throw new BussinessException("404");

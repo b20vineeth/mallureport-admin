@@ -171,7 +171,7 @@
 
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Film </label> <input
-							type="Text" class="form-control" id="films"
+							type="Text" class="form-control"  id="movie" name="movie"
 							value="${response.object.films}" placeholder="Films">
 					</div>
 
@@ -179,7 +179,7 @@
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Tag</label> <input type="Text"
-							class="form-control" id="tag" value="${response.object.tag}"
+							class="form-control" id="tag" name="tag" value="${response.object.tag}"
 							placeholder="tag">
 					</div>
 
@@ -198,7 +198,19 @@
 	</div>
 </div>
 <script>
-
+$('input[name="tag"]').amsifySuggestags({
+	tagLimit: 10
+});
+$('input[name="movie"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=cinema'
+	},
+	<c:if test="${not empty response.stringMap['movie']}">
+	suggestions:  
+		${response.stringMap['movie']}
+	 </c:if>
+		 
+});
 
 
 
@@ -231,7 +243,7 @@ if (profileId.trim().length!=0)
 			+ $('#language').val() + '","shortDesc": "'
 					+ $('#shortDesc').val() + '","thumbnail": "'
 					+ $('#thumbnail').val() + '","gender": "'
-					+ genderData + '","films": "' + $('#films').val()
+					+ genderData + '","films": "' + $('#movie').val()
 					+ '","tag": "' + $('#tag').val() + '","dateofBirth": "'
 					+ $('#dateofBirth').val() + '","description": "'
 					+ $('#description').val() + '"} ',

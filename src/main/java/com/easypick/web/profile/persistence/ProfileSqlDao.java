@@ -1,15 +1,14 @@
 package com.easypick.web.profile.persistence;
  
-import java.util.List; 
+import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
- 
-import com.easypick.admin.entity.Profile; 
-import com.easypick.admin.vo.ProfileVo; 
-import com.easypick.framework.utility.exception.BussinessException; 
+
+import com.easypick.admin.entity.Profile;
+import com.easypick.admin.vo.ProfileVo;
+import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo; 

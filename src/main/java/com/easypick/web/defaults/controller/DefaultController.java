@@ -100,9 +100,14 @@ public class DefaultController {
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
-			 modelMap.addAttribute("response", gson.toJson(vo));
+			
 			 modelMap.addAttribute("url","/resources/");
+			 modelMap.addAttribute("domain", Initializer.DOMAIN);
+			 modelMap.addAttribute("picPath", "pic/");
+			 modelMap.addAttribute("response", vo);
+			 modelMap.addAttribute("data", vo.getObjectList());
 			 return new ModelAndView("Screen/"+vo.getScreenMode()); 
+			 
 
 		} catch (BussinessException e) {
 
@@ -129,7 +134,11 @@ public class DefaultController {
 					|| Objects.nonNull(vo.getObject())) {
 				modelMap.addAttribute("response", vo);
 				modelMap.addAttribute("url","/resources/");
-				return new ModelAndView("Screen/" + vo.getScreenMode());
+				 modelMap.addAttribute("domain", Initializer.DOMAIN);
+				 return new ModelAndView("Screen/" + vo.getScreenMode());
+
+
+				  
 			} else {
 				return new ModelAndView("Screen/redirect");
 			}
@@ -149,15 +158,19 @@ public class DefaultController {
 			@PathVariable("param4") String param4) {
 
 		Map<String, String> input = new HashMap<>();
-		input.put("param1", param1);
-		input.put("param2", param2);
-		input.put("param3", param3);
-		input.put("param4", param4);
+		input.put("param1", "default");
+		input.put("key1", param1);
+		input.put("key2", param2);
+		input.put("key3", param3);
+		input.put("key4", param4);
 		ResponseVo vo;
 		try {
 			vo = action.performAction(input);
 			modelMap.addAttribute("response", vo.getObject());
-			return new ModelAndView("Screen/" + vo.getScreenMode());
+			modelMap.addAttribute("response", vo);
+			modelMap.addAttribute("url","/resources/");
+			 modelMap.addAttribute("domain", Initializer.DOMAIN);
+			 return new ModelAndView("Screen/" + vo.getScreenMode());
 
 		} catch (BussinessException e) {
 

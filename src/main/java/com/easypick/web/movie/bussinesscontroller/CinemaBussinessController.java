@@ -25,6 +25,7 @@ public class CinemaBussinessController implements ControllerBI {
 	private Integer pageNumber = null;
 	private WatchDogVo watchdog;
 	List<String> list = Arrays.asList("about", "cast", "gallery", "video");
+	List<String> parameter2 = Arrays.asList("running-movies", "upcomming-movies", "popular-film", "movie-review");
 
 	@Override
 	public ResponseVo execute(WatchDogVo watchdog) throws BussinessException {
@@ -42,6 +43,10 @@ public class CinemaBussinessController implements ControllerBI {
 				return parameter(watchdog.getInput().get("key1"), watchdog.getInput().get("key2"),
 
 						watchdog.getInput().get("key3"));
+			case 5:
+				return parameter(watchdog.getInput().get("key1"), watchdog.getInput().get("key2"),
+
+						watchdog.getInput().get("key3"),watchdog.getInput().get("key4"));
 
 			default:
 				throw new BussinessException("404");
@@ -54,59 +59,92 @@ public class CinemaBussinessController implements ControllerBI {
 
 	}
 
-	private ResponseVo parameter(String string, String string2, String string3) throws BussinessException {
-		ResponseVo vo = new ResponseVo();
-		Map<String, String> input = new HashMap<>();
+	private ResponseVo parameter(String string, String string2, String string3, String string4) throws BussinessException {
+		
+		Map<String, String> input = new HashMap<>(); 
+		if (string4.contains("page-")) {
+			 String pageNumber=string4.replace("page-", "").trim();
+			 input.put("submenu", string2);
+			 input.put("language", string3);
+			 input.put("page", pageNumber);
+			 return getDetailsBySubMenuPagination(input);
+		}
+		else 
+		 { 
+			 throw new BussinessException("404");
+			 
+		 }
+		
+		 
+	}
+
+	private ResponseVo parameter(String string, String string2, String string3) throws BussinessException { 
+		Map<String, String> input = new HashMap<>(); 
 		if (string3.contains("page-")) {
-			try {
-				String[] page = string3.split("-");
-				pageNumber = Integer.parseInt(page[1]);
-				input.put("page", pageNumber.toString());
-			} catch (Exception e) {
-				throw new BussinessException("404");
-			}
-		} else {
-			if (list.contains(string3)) {
-				input.put("subtag", string3);
-			} else {
-				throw new BussinessException("404");
-			}
+			 String pageNumber=string3.replace("page-", "").trim();
+			 input.put("submenu", string2);
+			 input.put("page", pageNumber);
+			 return getDetailsBySubMenuPagination(input);
 		}
-
-		if (string2.contains("tag_")) {
-			string2 = string2.replace("tag_", "");
-			input.put("tag", string2);
-			if (Objects.isNull(input.get("page")))
-				input.put("page", "1");
-			this.watchdog.setInput(input);
-			vo = dao.get("cinemaByTagDao").execute(this.watchdog, vo);
-			vo.setScreenMode("movie/ViewMovieList");
-			return vo;
-		} else {
-			if (Objects.isNull(input.get("page"))) {
-				input.put("cinemaName", string2);
-
-				input.put("page", "1");
-				this.watchdog.setInput(input);
-				vo = dao.get("cinemaByNameDao").execute(this.watchdog, vo);
-				vo.setScreenMode("movie/ViewMovie");
-				return vo;
-			} else
-				throw new BussinessException("404");
+		 else if (parameter2.contains(string2)) {
+			 input.put("submenu", string2);
+			 input.put("language", string3);
+			 input.put("page", "1");
+			return getDetailsBySubMenuPagination(input);
 		}
+		 else 
+		 { 
+			 throw new BussinessException("404");
+			 
+		 }
+		
+		 
+	}
 
+	 
+
+	private ResponseVo getDetailsBySubMenuPagination(Map<String, String> input) throws BussinessException {
+		ResponseVo vo = null;
+		this.watchdog.setInput(input);
+		vo = dao.get("cinemaBySubMenuDao").execute(this.watchdog, vo);
+		vo.setScreenMode("movie/ViewMovieList");
+		return vo;
 	}
 
 	private ResponseVo parameter(String string, String string2) throws BussinessException {
 		if (string2.contains("page-")) {
 			throw new BussinessException("404");
-		} else if (string2.contains("tag_")) {
-			string2 = string2.replace("tag_", "");
-			return getDetailsByTag(string2);
-		} else {
-			return getDetailsByName(string2);
+		}  
+		else if (parameter2.contains(string2)) {
+			return getDetailsBySubMenu(string2);
 		}
+		else
+		{
+			return getMovieDetails(string2);
+		} 
 
+
+	}
+
+	private ResponseVo getMovieDetails(String string2) throws BussinessException {
+		ResponseVo vo = null;
+		Map<String, String> input = new HashMap<>();
+		input.put("movie", string2); 
+		this.watchdog.setInput(input);
+		vo = dao.get("cinemaDetailsDao").execute(this.watchdog, vo);
+		vo.setScreenMode("movie/ViewCinema");
+		return vo;
+	}
+
+	private ResponseVo getDetailsBySubMenu(String string2) throws BussinessException {
+		ResponseVo vo = null;
+		Map<String, String> input = new HashMap<>();
+		input.put("submenu", string2);
+		input.put("page", "1");
+		this.watchdog.setInput(input);
+		vo = dao.get("cinemaBySubMenuDao").execute(this.watchdog, vo);
+		vo.setScreenMode("movie/ViewMovieList");
+		return vo;
 	}
 
 	private ResponseVo getDetailsByName(String cinemaName) throws BussinessException {

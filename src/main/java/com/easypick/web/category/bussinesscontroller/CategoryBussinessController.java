@@ -1,7 +1,5 @@
 package com.easypick.web.category.bussinesscontroller;
 
-import java.util.Map;
-
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
@@ -9,15 +7,11 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.vo.CategoryTypeVo;
 import com.easypick.admin.vo.CategoryVo;
-import com.easypick.admin.vo.LanguageVo; 
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.easypick.web.category.persistence.CategoryDao;
-import com.easypick.web.categorytype.persistence.CategoryTypeDao;
-import com.easypick.web.language.persistence.LanguageDao;  
+import com.easypick.web.category.persistence.CategoryDao;  
 @Repository
 public class CategoryBussinessController implements CategoryBussinessInterface {
 	

@@ -1,50 +1,17 @@
 package com.easypick.web.category.persistence;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+ 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.easypick.admin.entity.Category;
-import com.easypick.admin.entity.CategoryType;
-import com.easypick.admin.entity.CineGallery;
-import com.easypick.admin.entity.Gallery;
-import com.easypick.admin.entity.Language;
-import com.easypick.admin.entity.Movie;
-import com.easypick.admin.entity.MovieGallery;
-import com.easypick.admin.entity.MovieReview;
-import com.easypick.admin.entity.Profile;
-import com.easypick.admin.entity.Settings;
-import com.easypick.admin.entity.SlideShow;
-import com.easypick.admin.entity.Video;
-import com.easypick.admin.vo.CategoryTypeVo;
 import com.easypick.admin.vo.CategoryVo;
-import com.easypick.admin.vo.CinemaGalleryVo;
-import com.easypick.admin.vo.DataVo;
-import com.easypick.admin.vo.GalleryVo;
-import com.easypick.admin.vo.LanguageVo;
-import com.easypick.admin.vo.MovieReviewVo;
-import com.easypick.admin.vo.MovieVo;
-import com.easypick.admin.vo.ProfileVo;
-import com.easypick.admin.vo.SettingsVo;
-import com.easypick.admin.vo.SlideShowVo;
-import com.easypick.admin.vo.VideoVo;
-import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.persistence.mapper.MovieItemMapper;
-import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.easypick.framework.utility.vo.WatchDogVo;
-import com.google.gson.Gson;
+import com.easypick.framework.utility.vo.WatchDogVo; 
 
 @Repository
 public class CategorySqlDao implements CategoryDao {

@@ -1,22 +1,29 @@
 package com.easypick.web.movie.bussinesscontroller;
+ 
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
+import com.easypick.admin.user.persistence.CommonAttributeDao;
 import com.easypick.admin.vo.CinemaGalleryVo;
-import com.easypick.admin.vo.LanguageVo;
+import com.easypick.admin.vo.DataVo;
 import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.easypick.framework.utility.vo.WatchDogVo;  
-import com.easypick.web.movie.persistence.MovieDao;  
+import com.easypick.framework.utility.vo.WatchDogVo;
+import com.easypick.web.movie.persistence.MovieDao;
+import com.google.gson.Gson;  
 @Repository
 public class MovieBussinessController implements MovieBussinessInterface {
 	
@@ -24,6 +31,11 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	@Autowired
 	private MovieDao dao;
 	
+	@Autowired
+	private CommonAttributeDao commondao;
+	
+	@Autowired
+	protected ApplicationEventPublisher publisher;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -62,6 +74,12 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			watchdog.setCmpcode("CM");
 			responseVo = dao.saveMovie(watchdog, vo);
 			this.tx.commit();
+			if(Objects.nonNull(responseVo))
+			{	
+				responseVo.setEvent("com.admin.saveMovie");
+				publisher.publishEvent(responseVo);
+			}
+			
 			return responseVo;
 		} catch (Exception e) {
 			throw new BussinessException("404");
@@ -101,6 +119,15 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			watchdog.setSessionString(this.session);
 			watchdog.setCmpcode("CM");
 			responseVo = dao.getMovie(watchdog, vo);
+			if(Objects.nonNull(responseVo.getObject()))
+			{
+				MovieVo movie=(MovieVo) responseVo.getObject();
+				List<DataVo> castVo = commondao.getCastAutoComplete(watchdog, movie.getCast());
+				Gson gson=new Gson();
+				Map<String, String> stringMap=new HashMap<>();
+				stringMap.put("Cast", gson.toJson(castVo).toString());
+				responseVo.setStringMap(stringMap);
+			}
 			this.tx.commit();
 			return responseVo;
 		} catch (Exception e) {
@@ -230,6 +257,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 		}
 	}
 
+	
+	 
 	
 
 }

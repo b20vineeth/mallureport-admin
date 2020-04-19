@@ -17,7 +17,7 @@ public class ResponseVo {
 	Page page;
 	Boolean response = false;
 	List<ErrorVo> errors;
-
+	public Map<String,String> stringMap;
 	String resposeObjectList;
 	List<GallerySetupVo> galleryList;
 	String resposeObject;
@@ -28,7 +28,34 @@ public class ResponseVo {
 	String subModule;
 	String domain = "http://localhost:8081";
 	
+	String event;
 	
+	Integer id;
+	
+
+	public Map<String, String> getStringMap() {
+		return stringMap;
+	}
+
+	public void setStringMap(Map<String, String> stringMap) {
+		this.stringMap = stringMap;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getEvent() {
+		return event;
+	}
+
+	public void setEvent(String event) {
+		this.event = event;
+	}
 
 	public String getDomain() {
 		return domain;

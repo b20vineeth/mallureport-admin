@@ -1,6 +1,7 @@
 package com.easypick.web.gallery.persistence;
  
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -167,6 +168,8 @@ public class GallerySqlDao implements GalleryDao {
 		}
 		gallery.setMovieTag(movietags);
 		gallery.setProfileTag(profileTags);
+		gallery.setUpdateon(new Date());
+		gallery.setTagidx(0);
 		return gallery;
 	}
 	

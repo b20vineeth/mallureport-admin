@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.easypick.admin.vo.SettingsVo;
-import com.easypick.admin.vo.SlideShowVo;
 import com.easypick.framework.utility.vo.AbstractVo;
 
 @Entity

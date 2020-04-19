@@ -120,28 +120,7 @@
 			</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 			<div class="row">
 
 				<div class="col-sm-6 clearfix">
@@ -167,35 +146,38 @@
 
 
 
-
-
-
-
-
-
-
-
-
 			<div class="row">
 
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1">Tag</label> <input type="Text"
-							class="form-control" id="tag" value="${response.object.tag}"
-							placeholder="#tag">
+						<label for="exampleInputPassword1">Tag</label> <input
+							type="Text" class="form-control" id="tag" name="tag"
+							value="${response.object.tag}" />
+
 					</div>
 				</div>
-
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1">Cast</label> <input type="Text"
-							class="form-control" id="cast" value="${response.object.cast}"
-							placeholder="Movie Cast">
+						<label for="exampleInputPassword1"> Profile </label> <input
+							type="text" class="form-control" id="profile" name="profile" value="${response.object.cast}" />
+
+
+
+
 					</div>
 				</div>
-
-
 			</div>
+
+
+
+
+
+
+
+
+
+
+			 
 
 
 
@@ -209,6 +191,21 @@
 	<div class="col-sm-1 clearfix"></div>
 </div>
 <script>
+$('input[name="tag"]').amsifySuggestags({
+	tagLimit: 10
+});
+$('input[name="profile"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=profile'
+	},
+	<c:if test="${not empty response.stringMap['Cast']}">
+	suggestions:  
+		${response.stringMap['Cast']}
+	 </c:if>
+		 
+});
+
+ 
 	var movieId = $('#movieId').val();
 
 	if (movieId.trim().length != 0) {
@@ -239,7 +236,7 @@
 					+ $('#description').val() + '","thumbnail": "'
 					+ $('#thumbnail').val() + '","releaseDate": "'
 					+ $('#releaseDate').val() + '","tag": "' + $('#tag').val()
-					+ '","cast": "' + $('#cast').val() + '"} ',
+					+ '","cast": "' + $('#profile').val() + '"} ',
 			processData : false,
 			success : function(data) {
 				if (data == "T") {

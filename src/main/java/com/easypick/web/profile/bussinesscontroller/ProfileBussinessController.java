@@ -1,5 +1,7 @@
 package com.easypick.web.profile.bussinesscontroller;
+ 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -8,18 +10,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.admin.entity.Profile; 
+import com.easypick.admin.user.persistence.CommonAttributeDao;
+import com.easypick.admin.vo.DataVo;
 import com.easypick.admin.vo.ProfileVo;
 import com.easypick.framework.utility.exception.BussinessException;
-import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.easypick.web.category.persistence.CategoryDao;
-import com.easypick.web.profile.persistence.ProfileDao; 
+import com.easypick.web.profile.persistence.ProfileDao;
+import com.google.gson.Gson; 
 @Repository
 public class ProfileBussinessController implements ProfileBussinessInterface {
 	
@@ -27,7 +29,11 @@ public class ProfileBussinessController implements ProfileBussinessInterface {
 	@Autowired
 	private ProfileDao dao;
 	
+	@Autowired
+	protected ApplicationEventPublisher publisher;
 	
+	@Autowired
+	private CommonAttributeDao commondao;
 	@Autowired
 	private SessionFactory sessionFactory;
 	private Session session;
@@ -66,6 +72,11 @@ public class ProfileBussinessController implements ProfileBussinessInterface {
 			watchdog.setCmpcode("CM");
 			responseVo = dao.profileSave(watchdog, vo);
 			this.tx.commit();
+			if(Objects.nonNull(responseVo))
+			{	
+				responseVo.setEvent("com.admin.saveProfile");
+				publisher.publishEvent(responseVo);
+			}
 			return responseVo;
 		} catch (Exception e) {
 			throw new BussinessException("404");
@@ -105,6 +116,15 @@ public class ProfileBussinessController implements ProfileBussinessInterface {
 			watchdog.setSessionString(this.session);
 			watchdog.setCmpcode("CM");
 			responseVo = dao.getProfile(watchdog, vo);
+			if(Objects.nonNull(responseVo.getObject()))
+			{
+				ProfileVo profile=(ProfileVo) responseVo.getObject();
+				List<DataVo> filmVo = commondao.getFilmAutoComplete(watchdog, profile.getFilms());
+				Gson gson=new Gson();
+				Map<String, String> stringMap=new HashMap<>();
+				stringMap.put("movie", gson.toJson(filmVo).toString());
+				responseVo.setStringMap(stringMap);
+			}
 			this.tx.commit();
 			return responseVo;
 		} catch (Exception e) {

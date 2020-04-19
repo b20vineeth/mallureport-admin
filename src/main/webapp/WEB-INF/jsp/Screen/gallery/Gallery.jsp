@@ -82,271 +82,53 @@
 				<div class="row">
 					<div class="col-lg-8 post-list">
 						<!-- Start popular-post Area -->
+						
+						
+						
+						
 						<div class="popular-post-wrap">
 							<h4 class="title">Running Movies</h4>
 
+							<c:set var="category">Movie-R</c:set>
 
-
-							<c:set var="category">Movie-R-mal,Movie-R-hl,Movie-R-bl,Movie-R-tn</c:set>
-
-
-
-
-							<section id="tabs" class="project-tab">
-								<nav>
-									<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-
-
-										<a class="nav-item nav-link active" id="nav-Movie-R-mal-tab"
-											data-toggle="tab" href="#nav-Movie-R-mal" role="tab"
-											aria-controls="nav-Movie-R-mal" aria-selected="true">Malayalam
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-tn-tab"
-											data-toggle="tab" href="#nav-Movie-R-tn" role="tab"
-											aria-controls="nav-Movie-R-tn" aria-selected="false">Tamil
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-bl-tab"
-											data-toggle="tab" href="#nav-Movie-R-bl" role="tab"
-											aria-controls="nav-Movie-R-bl" aria-selected="false">Bollywood
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-hl-tab"
-											data-toggle="tab" href="#nav-Movie-R-hl" role="tab"
-											aria-controls="nav-Movie-R-hl" aria-selected="false">Hollywood
-										</a>
-									</div>
-								</nav>
-
-
-
-								<div class="tab-content" id="nav-tabContent">
-
-									<%
-										i = 0;
-									%>
-									<c:forEach var="objectMapList"
+							<% int j=0; %>
+							<c:forEach var="objectMapList"
 										items="${response.objectMapList}">
-
-										<c:if
-											test="${fn:containsIgnoreCase(category, objectMapList.key)}">
-
-
-
-
-											<div class="tab-pane fade show active"
-												id="nav-${objectMapList.key}" role="tabpanel"
-												aria-labelledby="nav-${objectMapList.key}-tab">
-												<%
-													i++;
-												%>
-
-												<%
-													if (i % 2 == 1) {
-												%>
-												<div class="row mt-20 medium-gutters">
-
-													<%
-														}
-													%>
-
-													<c:forEach items="${objectMapList.value}" var="object">
-
-
-
-														<div class="col-lg-6 single-popular-post">
-
-															<div class="feature-img-wrap relative">
-																<div class="feature-img relative">
-																	<div class="overlay overlay-bg"></div>
-																	<img class="img-fluid"
-																		src="${domain}${picPath}${object.thumbnail}" alt="">
-																</div>
-																<ul class="tags">
-																	<li><a href="${domain}cinema/Running-Movies">Running
-																			Movies</a></li>
-																</ul>
-															</div>
-															<div class="details">
-																<a href="image-post.html">
-																	<h4>${object.movieName}</h4>
-																</a>
-																<ul class="meta">
-																	<li><a href="#"> ${object.movieType}
-																			(${object.certificate}) </a></li>
-																	<li><a href="#">Rating
-																			<div class="ratings">
-																				<div class="empty-stars"></div>
-																				<div class="full-stars"
-																					style="width: ${object.movieRate}%"></div>
-																			</div></li>
-																	<li><a href="#"><span
-																			class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
-
-																</ul>
-
-															</div>
-
-
-														</div>
-
-
-
-
-
-													</c:forEach>
-
-
-													<%
-														if (i % 2 == 1) {
-													%>
-
-												</div>
-
-												<%
-													}
-												%>
-
-
-											</div>
-										</c:if>
-
-
-									</c:forEach>
-
-
-								</div>
-
-							</section>
-							<script>
-								function activateBody() {
-
-									runningMovie('Movie-R-mal');
-								}
-								function runningMovie(lang) {
-									$('.targetDiv').hide();
-									$('#div' + lang).show();
-								}
-							</script>
-
-
-						</div>
-						<!-- End popular-post Area -->
-						<!-- Start popular-post Area -->
-						<div class="popular-post-wrap">
-							<h4 class="title">Popular Posts</h4>
-
-
-							<c:set var="category">Movie-Recommended</c:set>
-							<%
-								i = 0;
-							%>
-
-							<c:forEach var="objectMapList" items="${response.objectMapList}">
-
-								<c:if
-									test="${fn:containsIgnoreCase(category, objectMapList.key)}">
-
-									<c:forEach items="${objectMapList.value}" var="object">
-
-										<%
-											i++;
-										%>
-										<%
-											if (i == 1) {
-										%>
-
-										<div class="feature-post relative">
-											<div class="feature-img relative">
-												<div class="overlay overlay-bg"></div>
-												<img class="img-fluid"
-													src="${domain}${picPath}${object.thumbnail2}" alt="">
-											</div>
-											<div class="details">
-												<ul class="tags">
-													<li><a href="${domain}cinema/Popular-Posts">Popular
-															Posts</a></li>
-												</ul>
-												<a href="image-post.html">
-													<h3>${object.movieName}</h3>
-												</a>
-												<ul class="meta">
-													<li><a href="#"> ${object.movieType}
-															(${object.certificate}) </a></li>
-													<li><a href="#">Rating
-															<div class="ratings">
-																<div class="empty-stars"></div>
-																<div class="full-stars"
-																	style="width: ${object.movieRate}%"></div>
-															</div></li>
-													<li><a href="#"><span
-															class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
-
-												</ul>
-											</div>
-										</div>
-
-										<%
-											} else if (i > 1) {
-										%>
-
-										<%
-											if (i == 2) {
-										%>
-										<div class="row mt-20 medium-gutters">
-											<%
-												}
-											%>
-
-											<div class="col-lg-6 single-popular-post">
-												<div class="feature-img-wrap relative">
+									
+ 								<c:if test="${fn:containsIgnoreCase(category, objectMapList.key)}">
+							       
+							       	<c:forEach items="${objectMapList.value}" var="object">
+									<%j++; if(j%4==1){ %>
+									
+									<div class="row mt-20 medium-gutters">
+									<%} %>
+							 			 <div class="col-lg-3 single-popular-post">
+ 											<div class="feature-img-wrap relative">
 													<div class="feature-img relative">
 														<div class="overlay overlay-bg"></div>
-														<img class="img-fluid"
-															src="${domain}${picPath}${object.thumbnail}" alt="">
+															<img class="img-fluid" src="${object.thumb1}" alt="">
 													</div>
-													<ul class="tags">
-														<li><a href="${domain}cinema/Popular-Posts">Popular
-																Posts</a></li>
-													</ul>
-												</div>
-												<div class="details">
-													<a href="image-post.html">
-														<h4>${object.movieName}</h4>
-													</a>
-													<ul class="meta">
-														<li><a href="#"> ${object.movieType}
-																(${object.certificate}) </a></li>
-														<li><a href="#">Rating
-																<div class="ratings">
-																	<div class="empty-stars"></div>
-																	<div class="full-stars"
-																		style="width: ${object.movieRate}%"></div>
-																</div></li>
-														<li><a href="#"><span
-																class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
-
-													</ul>
-												</div>
-											</div>
-
-											<%
-												if (i == 3) {
-											%>
-										</div>
-										<%
-											}
-										%>
-
-										<%
-											}
-										%>
-
-
-
-
+ 											</div>
+											<div class="details">
+												<a href="${object.url}">
+													<h4>${object.title}</h4>
+												</a>
+ 								    		</div>
+ 						       			 </div>
+ 						       			 <%if(j%4==0){ %>
+									</div>
+									<%} %>
 									</c:forEach>
-
-
-								</c:if>
-							</c:forEach>
-						</div>
+									
+							</c:if>
+						</c:forEach>
+							
+							
+							
+ 						</div>
 						<!-- End popular-post Area -->
+						<!-- Start popular-post Area -->
+
 
 
 
@@ -355,137 +137,42 @@
 
 						<div class="popular-post-wrap">
 							<h4 class="title">Upcomming Movies</h4>
+ 							<c:set var="category">Movie-U</c:set>
+ 						     
+							 
 
-
-
-							<c:set var="category">Movie-U-mal,Movie-U-hl,Movie-U-bl,Movie-U-tn</c:set>
-
-
-
-
-							<section id="tabs" class="project-tab">
-								<nav>
-									<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-
-
-										<a class="nav-item nav-link active" id="nav-Movie-R-mal-tab"
-											data-toggle="tab" href="#nav-Movie-R-mal" role="tab"
-											aria-controls="nav-Movie-R-mal" aria-selected="true">Malayalam
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-tn-tab"
-											data-toggle="tab" href="#nav-Movie-R-tn" role="tab"
-											aria-controls="nav-Movie-R-tn" aria-selected="false">Tamil
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-bl-tab"
-											data-toggle="tab" href="#nav-Movie-R-bl" role="tab"
-											aria-controls="nav-Movie-R-bl" aria-selected="false">Bollywood
-										</a> <a class="nav-item nav-link" id="nav-Movie-R-hl-tab"
-											data-toggle="tab" href="#nav-Movie-R-hl" role="tab"
-											aria-controls="nav-Movie-R-hl" aria-selected="false">Hollywood
-										</a>
-									</div>
-								</nav>
-
-
-
-								<div class="tab-content" id="nav-tabContent">
-
-									<%
-										i = 0;
-									%>
-									<c:forEach var="objectMapList"
+							<%  j=0; %>
+							<c:forEach var="objectMapList"
 										items="${response.objectMapList}">
-
-										<c:if
-											test="${fn:containsIgnoreCase(category, objectMapList.key)}">
-
-
-
-
-											<div class="tab-pane fade show active"
-												id="nav-${objectMapList.key}" role="tabpanel"
-												aria-labelledby="nav-${objectMapList.key}-tab">
-												<%
-													i++;
-												%>
-
-												<%
-													if (i % 2 == 1) {
-												%>
-												<div class="row mt-20 medium-gutters">
-
-													<%
-														}
-													%>
-
-													<c:forEach items="${objectMapList.value}" var="object">
-
-
-
-														<div class="col-lg-6 single-popular-post">
-
-															<div class="feature-img-wrap relative">
-																<div class="feature-img relative">
-																	<div class="overlay overlay-bg"></div>
-																	<img class="img-fluid"
-																		src="${domain}${picPath}${object.thumbnail}" alt="">
-																</div>
-																<ul class="tags">
-																	<li><a href="${domain}cinema/Running-Movies">Running
-																			Movies</a></li>
-																</ul>
-															</div>
-															<div class="details">
-																<a href="image-post.html">
-																	<h4>${object.movieName}</h4>
-																</a>
-																<ul class="meta">
-																	<li><a href="#"> ${object.movieType}
-																			(${object.certificate}) </a></li>
-																	<li><a href="#">Rating
-																			<div class="ratings">
-																				<div class="empty-stars"></div>
-																				<div class="full-stars"
-																					style="width: ${object.movieRate}%"></div>
-																			</div></li>
-																	<li><a href="#"><span
-																			class="lnr lnr-calendar-full"></span>${object.releaseDate}</a></li>
-
-																</ul>
-
-															</div>
-
-
-														</div>
-
-
-
-
-
-													</c:forEach>
-
-
-													<%
-														if (i % 2 == 1) {
-													%>
-
-												</div>
-
-												<%
-													}
-												%>
-
-
-											</div>
-										</c:if>
-
-
+									
+ 								<c:if test="${fn:containsIgnoreCase(category, objectMapList.key)}">
+							       
+							       	<c:forEach items="${objectMapList.value}" var="object">
+									<%j++; if(j%4==1){ %>
+									
+									<div class="row mt-20 medium-gutters">
+									<%} %>
+							 			 <div class="col-lg-3 single-popular-post">
+ 											<div class="feature-img-wrap relative">
+													<div class="feature-img relative">
+														<div class="overlay overlay-bg"></div>
+															<img class="img-fluid" src="${object.thumb1}" alt="">
+													</div>
+ 											</div>
+											<div class="details">
+												<a href="${object.url}">
+													<h4>${object.title}</h4>
+												</a>
+ 								    		</div>
+ 						       			 </div>
+ 						       			 <%if(j%4==0){ %>
+									</div>
+									<%} %>
 									</c:forEach>
-
-
-								</div>
-
-							</section>
-
-
+									
+							</c:if>
+						</c:forEach>
+						 
 
 						</div>
 
@@ -496,65 +183,7 @@
 
 						<!-- End popular-post Area -->
 						<!-- Start relavent-story-post Area -->
-						<div class="relavent-story-post-wrap mt-30">
-							<h4 class="title">Movie Review</h4>
 
-
-							<div class="relavent-story-list-wrap">
-
-
-								<c:set var="category">Movie-Review</c:set>
-
-								<c:forEach var="objectMapList" items="${response.objectMapList}">
-
-									<c:if
-										test="${fn:containsIgnoreCase(category, objectMapList.key)}">
-
-										<c:forEach items="${objectMapList.value}" var="object">
-
-											<div class="single-relavent-post row align-items-center">
-												<div class="col-lg-5 post-left">
-													<div class="feature-img relative">
-														<div class="overlay overlay-bg"></div>
-														<img class="img-fluid"
-															src="${domain}${picPath}${object.thumbnail}" alt="">
-													</div>
-													<ul class="tags">
-														<li><a href="${domain}cinema/Movie-Review">Movie
-																Review</a></li>
-													</ul>
-												</div>
-												<div class="col-lg-7 post-right">
-													<a href="image-post.html">
-														<h4>${object.title}</h4>
-													</a>
-													<ul class="meta">
-														
-														<li><a href="#">Rating
-																<div class="ratings">
-																	<div class="empty-stars"></div>
-																	<div class="full-stars"
-																		style="width: ${object.movieRate}%"></div>
-																</div>
-														</a></li>
-														<li><a href="#"> ${object.movieCode}</a></li>
-														<li><a href="#"><span
-																class="lnr lnr-calendar-full"></span>${object.createdDate}</a></li>
-													</ul>
-
-
-
-
-													<p class="excert">${object.shortDesc} </p>
-												</div>
-											</div>
-										</c:forEach>
-									</c:if>
-								</c:forEach>
-
-							</div>
-						</div>
-						<!-- End relavent-story-post Area -->
 
 
 

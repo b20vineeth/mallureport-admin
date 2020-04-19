@@ -1,7 +1,6 @@
 package com.easypick.admin.vo;
-
-import com.easypick.framework.utility.vo.AbstractVo;
-
+ 
+import com.easypick.framework.utility.vo.AbstractVo; 
 public class CategoryVo implements AbstractVo {
 
 	private Integer catId;
