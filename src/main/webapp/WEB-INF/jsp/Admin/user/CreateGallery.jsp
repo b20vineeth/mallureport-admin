@@ -78,7 +78,8 @@
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Profile </label> <input
-							type="text" class="form-control" id="profile" name="profile" value="${response.object.profileTag}" />
+							type="text" class="form-control" id="profile" name="profile"
+							value="${response.object.profileTag}" />
 
 
 

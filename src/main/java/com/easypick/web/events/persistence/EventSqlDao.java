@@ -176,4 +176,56 @@ public class EventSqlDao implements EventDao {
 		
 	}
 
+	@Override
+	public void updateGalleryProfile(Integer id, WatchDogVo watchdog, Profile profile) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from Gallery gallery where gallery.status='Y' ");
+		sql.append(" and gallery.galleryId=:galleryId ");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+		query.setParameter("galleryId", id);
+		Gallery gallery = (Gallery) query.getSingleResult();
+		String filmsData=gallery.getProfileTag();
+		filmsData=filmsData.replace(profile.getProfileName(), profile.getProfileId().toString());
+		gallery.setProfileTag(filmsData);
+		gallery.setUpdateon(new Date());
+		gallery.setTagidx(0);
+		watchdog.getSessionString().saveOrUpdate(gallery);
+		
+	}
+
+	@Override
+	public void updateMovieToVideo(Integer id, WatchDogVo watchdog, Movie movie) {
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from Video video where video.status='Y' ");
+		sql.append(" and video.videoId=:videoId ");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+		query.setParameter("videoId", id);
+		Video video = (Video) query.getSingleResult();
+		String filmsData=video.getMovieTag();
+		filmsData=filmsData.replace(movie.getMovieName(), movie.getMovieId().toString());
+		video.setMovieTag(filmsData);
+		video.setUpdateon(new Date());
+		video.setTagidx(0);
+		watchdog.getSessionString().saveOrUpdate(video);
+		
+	}
+
+	@Override
+	public void updateProfileIdtoVideo(Integer id, WatchDogVo watchdog, Profile profile) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from Video video where video.status='Y' ");
+		sql.append(" and video.videoId=:video ");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+		query.setParameter("video", id);
+		Video video = (Video) query.getSingleResult();
+		String filmsData=video.getProfileTag();
+		filmsData=filmsData.replace(profile.getProfileName(), profile.getProfileId().toString());
+		video.setProfileTag(filmsData);
+		video.setUpdateon(new Date());
+		video.setTagidx(0);
+		watchdog.getSessionString().saveOrUpdate(video);
+		
+	}
+
 }

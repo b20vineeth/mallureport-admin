@@ -55,7 +55,7 @@ public class Movie {
 	@Column(name = "short_desc")
 	private String shortDesc;
 
-	@Column(name = "mov_type",length=9)
+	@Column(name = "mov_type",length=25)
 	private String movieType;
 	
 	@Column(name = "certificate",length=2)
@@ -78,8 +78,7 @@ public class Movie {
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cin_lang", nullable = true)
-	private Language lang;
-
+	private Language lang; 
 	 
 
 	public String getMovieType() {
@@ -219,7 +218,7 @@ public class Movie {
 		vo.setCertificate(movie.getCertificate());
 		vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0"); 
 		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
-		vo.setTag(movie.getTag());
+		vo.setTag(movie.getTag().replace("#",""));
 		vo.setMovieCode(movie.getMovieCode());
 		vo.setMovieName(movie.getMovieName());
 		vo.setLang(movie.getLang().getId());
@@ -235,7 +234,7 @@ public class Movie {
 			vo = new MovieVo();
 			vo.setMovieId(movie.getMovieId());
 			vo.setShortDesc(movie.getShortDesc());
-			vo.setTag(movie.getTag());
+			vo.setTag(movie.getTag().replace("#", ""));
 			vo.setCast(movie.getCast());
 			vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0");
 			vo.setMovieCode(movie.getMovieCode());

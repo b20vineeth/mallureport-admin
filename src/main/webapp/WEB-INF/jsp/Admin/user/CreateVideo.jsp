@@ -14,12 +14,10 @@
 			<div class="row">
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1"> Title </label> 
- 
-						 <input
+						<label for="exampleInputPassword1"> Title </label> <input
 							type="Text" class="form-control" id="title"
 							value="${response.object.title}" placeholder="Title">
-					 
+
 
 
 					</div>
@@ -31,10 +29,7 @@
 
 
 					<div class="form-group">
-						<label for="exampleInputPassword1"> Thumbnail </label> 
-						
-					 	 
-						 <input
+						<label for="exampleInputPassword1"> Thumbnail </label> <input
 							type="Text" class="form-control" id="thumbnail"
 							value="${response.object.thumbnail}" placeholder="thumbnail">
 
@@ -67,7 +62,6 @@
 						<label for="exampleInputPassword1">Short Description</label>
 
 						<textarea class="form-control" id="shortDesc"
-							 
 							placeholder="Short Description">${response.object.shortDesc}</textarea>
 
 					</div>
@@ -78,22 +72,43 @@
 
 
 						<textarea class="form-control" id="description"
-							  placeholder="Description">${response.object.description}</textarea>
+							placeholder="Description">${response.object.description}</textarea>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-6 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1">Movie</label> <input
+							type="Text" class="form-control" id="movie" name="movie"
+							value="${response.object.movieTag}" />
+
+					</div>
+				</div>
+				<div class="col-sm-6 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1"> Profile </label> <input
+							type="text" class="form-control" id="profile" name="profile"
+							value="${response.object.profileTag}" />
+
+
+
 
 					</div>
 				</div>
 			</div>
 
 
-
-
 			<div class="row">
 
 				<div class="col-sm-6 clearfix">
 					<div class="form-group">
-						<label for="exampleInputPassword1">Tag</label> <input
-							type="Text" class="form-control" id="tag"
-							value="${response.object.tag}" placeholder="#tag">
+						<label for="exampleInputPassword1">Tag</label> <input type="Text" name="tag"
+							class="form-control" id="tag" value="${response.object.tag}"
+							placeholder="#tag">
 					</div>
 				</div>
 				<div class="col-sm-6 clearfix">
@@ -108,47 +123,64 @@
 				</div>
 			</div>
 
-
-
-
-
-
-
-
+ 
 			<div class="row">
 
 				<div class="col-sm-12 clearfix">
 					<div class="form-group">
 						<label for="exampleInputPassword1">Video Url</label>
-						
-						
-							<textarea class="form-control" id="videoUrl"
-							 
+
+
+						<textarea class="form-control" id="videoUrl"
 							placeholder="Video Url">${response.object.videoUrl}</textarea>
-						
-						
-						  
+
+
+
 					</div>
 				</div>
 
-				 
+
 
 
 			</div>
 
 
 
-		<input type="hidden" id="videoId" value="${response.object.videoId}"/>
+			<input type="hidden" id="videoId" value="${response.object.videoId}" />
 
 
-			 
+
 			<button type="button" onclick="saveVideo()" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
 	<div class="col-sm-1 clearfix"></div>
 </div>
 <script>
- 
+
+
+$('input[name="tag"]').amsifySuggestags({
+	tagLimit: 10
+});
+$('input[name="profile"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=profile'
+	},
+	<c:if test="${not empty response.object.profile}">
+	suggestions: 
+		${response.object.profile}
+	 </c:if>
+		 
+});
+$('input[name="movie"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=cinema'
+	},
+	<c:if test="${not empty response.object.movie}">
+	suggestions: 
+		${response.object.movie}
+	 </c:if>
+		 
+});
  
 	function saveVideo() {
 		var videoId = $('#videoId').val();
@@ -162,11 +194,12 @@
 			data : "data=" + '{ "videoId": "' + videoId + '","videoUrl": "'
 					+ $('#videoUrl').val() + '","shortDesc": "'
 					+ $('#shortDesc').val() + '","title": "'
-					+ $('#title').val() + '","description": "'
+					+ $('#title').val() + '","movie": "'
+					+ $('#movie').val() + '","profile": "'
+					+ $('#profile').val() + '","description": "'
 					+ $('#description').val() + '","thumbnail": "'
-					+ $('#thumbnail').val() + '","url": "'
-					+ $('#url').val() + '","tag": "' + $('#tag').val()
-					+ '"} ',
+					+ $('#thumbnail').val() + '","url": "' + $('#url').val()
+					+ '","tag": "' + $('#tag').val() + '"} ',
 			processData : false,
 			success : function(data) {
 				if (data == "T") {

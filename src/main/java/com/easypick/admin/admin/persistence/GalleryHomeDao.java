@@ -48,7 +48,7 @@ public class GalleryHomeDao implements Dao {
 			if(Objects.isNull(gallery.get(movieGallery.getType())))
 			{
 				 galleryVo=new  MovieGalleryVo();
-				 galleryVo.setTag(movieGallery.getTag());
+				 galleryVo.setTag(movieGallery.getTag().replace("#", ""));
 				 galleryVo.setThumb1(movieGallery.getThumb1());
 				 galleryVo.setTitle(movieGallery.getTitle());
 				 galleryVo.setUrl(movieGallery.getUrl());
@@ -58,7 +58,7 @@ public class GalleryHomeDao implements Dao {
 			{
 				 List galleryList = gallery.get(movieGallery.getType());
 				 galleryVo=new  MovieGalleryVo();
-				 galleryVo.setTag(movieGallery.getTag());
+				 galleryVo.setTag(movieGallery.getTag().replace("#", ""));
 				 galleryVo.setThumb1(movieGallery.getThumb1());
 				 galleryVo.setTitle(movieGallery.getTitle());
 				 galleryVo.setUrl(movieGallery.getUrl());

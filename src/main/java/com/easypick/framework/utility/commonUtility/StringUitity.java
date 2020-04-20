@@ -138,4 +138,14 @@ public class StringUitity {
 		 }
 		 return data.toString().replaceAll(",$", "");
 	}
+
+	public static String convertToTags(String string) {
+		String[] stringTag=string.split(",");
+		String tags="";
+		for(String tag:stringTag)
+		{
+			tags="#"+tag+"#,"+tags;
+		}
+		return tags;
+	}
 }

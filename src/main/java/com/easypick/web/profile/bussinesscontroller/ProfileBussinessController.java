@@ -62,8 +62,7 @@ public class ProfileBussinessController implements ProfileBussinessInterface {
 
 	@Override
 	public ResponseVo profileSave(ProfileVo vo) throws BussinessException {
-		WatchDogVo dog = new WatchDogVo();
-		ResponseVo responseVo = new ResponseVo();
+	 	ResponseVo responseVo = new ResponseVo();
 		try {
 			this.session = this.getSession();
 			this.tx = this.session.beginTransaction();

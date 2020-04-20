@@ -203,7 +203,7 @@ public class Profile {
 			}
 
 			vo.setFilms(profile.getFilms());
-			vo.setTag(profile.getTag());
+			vo.setTag(StringUitity.convertToTags(profile.getTag()));
 			vo.setGender(profile.getGender());
 			vo.setProfileId(profile.getProfileId());
 			vo.setLanguage(profile.getLanguage());
@@ -220,7 +220,7 @@ public class Profile {
 		profile.setFilms(StringUitity.getTag(vo.getFilms()));
 		profile.setShortDesc(vo.getShortDesc());
 		profile.setStatus("Y");
-		profile.setTag(vo.getTag());
+		profile.setTag(StringUitity.convertToTags(vo.getTag()));
 		profile.setThumbnail(vo.getThumbnail());
 		profile.setGender(vo.getGender());
 		profile.setProfileCode(vo.getProfileCode());
@@ -243,7 +243,7 @@ public class Profile {
 		ProfileVo vo = new ProfileVo();
 		if(Objects.nonNull(profile.getDateofBirth()))
 			vo.setDateofBirth(new SimpleDateFormat("dd/MM/yyyy").format(profile.getDateofBirth()).toString());
-		vo.setTag(profile.getTag());
+		vo.setTag(profile.getTag().replace("#", ""));
 		vo.setGender(profile.getGender());
 		vo.setThumbnail(profile.getThumbnail());
 		vo.setDescription(profile.getDecription());

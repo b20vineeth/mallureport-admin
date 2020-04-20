@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import com.easypick.admin.vo.VideoVo;
+import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.web.events.vo.VideoDataVo; 
 
@@ -52,13 +53,13 @@ public class Video  {
 	@Column(name = "description", columnDefinition="TEXT")
 	private String description;
 
-	
+	 
 	@Column(name = "status", length=1)
 	private String status="Y";
 	
 	@Column(name = "upddat", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date updatedDate;
+	private Date updateon;
 	
 	@Column(name = "movie_tag", length=200)
 	private String movieTag;
@@ -66,7 +67,28 @@ public class Video  {
 	@Column(name = "profile_tag", length=200)
 	private String profileTag;
 	
-	 
+	@Column(name = "tagidx", length=1)
+	private Integer tagidx;
+
+	
+	
+	
+	
+	public Date getUpdateon() {
+		return updateon;
+	}
+
+	public void setUpdateon(Date updateon) {
+		this.updateon = updateon;
+	}
+
+	public Integer getTagidx() {
+		return tagidx;
+	}
+
+	public void setTagidx(Integer tagidx) {
+		this.tagidx = tagidx;
+	}
 
 	public String getMovieTag() {
 		return movieTag;
@@ -134,13 +156,7 @@ public class Video  {
 		this.status = status;
 	}
 
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	 
 
 	public Integer getVideoId() {
 		return videoId;
@@ -174,12 +190,15 @@ public class Video  {
 		video.setDescription(vo.getDescription());
 		video.setShortDesc(vo.getShortDesc());
 		video.setStatus("Y");
-		video.setTag(vo.getTag());
+		video.setTag(StringUitity.convertToTags(vo.getTag()));
 		video.setThumbnail(vo.getThumbnail());
 		video.setTitle(vo.getTitle());
-		video.setUpdatedDate(new Date());
+		video.setUpdateon(new Date());
 		video.setUrl(vo.getUrl());
 		video.setVideoUrl(vo.getVideoUrl());
+		video.setProfileTag(StringUitity.convertToTags(vo.getProfile()));
+		video.setMovieTag(StringUitity.convertToTags(vo.getMovie()));
+		video.setTagidx(0);
 		return video;
 	}
 

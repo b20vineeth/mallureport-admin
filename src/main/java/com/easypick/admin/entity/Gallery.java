@@ -205,18 +205,8 @@ public class Gallery  {
 		List<Gallery> vos=new ArrayList<Gallery>();
 		Gallery gallery=null;
 		Gson gson = new Gson();
-		String[] movieTag=vo.getMovie().split(",");
-		String movietags="";
-		for(String tag:movieTag)
-		{
-			movietags="#"+tag+"#,"+movietags;
-		}
-		String[] profileTag=vo.getProfile().split(",");
-		String profileTags="";
-		for(String tag:profileTag)
-		{
-			profileTags="#"+tag+"#,"+profileTags;
-		}
+		
+		 
 		
 		for(GalleryContentVo url:vo.getContent())
 		{
@@ -224,14 +214,14 @@ public class Gallery  {
 			gallery.setDescription(vo.getDescription());
 			gallery.setGalleryUrl(vo.getGalleryUrl());
 			gallery.setShortDesc(vo.getShortDesc());
-			gallery.setMovieTag(movietags); 
+			gallery.setMovieTag(StringUitity.convertToTags(vo.getMovie())); 
 			gallery.setStatus("Y");
 			gallery.setGalleryUrl(vo.getGalleryUrl());
 			gallery.setThumbnail1(url.getThumb1());
 			gallery.setThumbnail2(url.getThumb2());
 			gallery.setThumbnail3(url.getThumb3()); 
-			gallery.setProfileTag(profileTags);
-			gallery.setTag(vo.getTag());
+			gallery.setProfileTag(StringUitity.convertToTags(vo.getProfile()));
+			gallery.setTag(StringUitity.convertToTags(vo.getTag()));
 			gallery.setTitle(vo.getTitle());
 			gallery.setUpdateon(new Date());
 			gallery.setTagidx(0);
@@ -253,7 +243,7 @@ public class Gallery  {
 			 vo.setDescription(galleryVo.getDescription());
 			 vo.setGalleryId(galleryVo.getGalleryId()); 
 			 vo.setShortDesc(galleryVo.getShortDesc());
-			 vo.setTag(galleryVo.getTag());
+			 vo.setTag(galleryVo.getTag().replace("#", ""));
 			 vo.setThumbnail(galleryVo.getThumbnail2());
 			 vo.setTitle(galleryVo.getTitle());
 			 
@@ -268,7 +258,7 @@ public class Gallery  {
 		 vo.setDescription(gallery.getDescription());
 		 vo.setGalleryId(gallery.getGalleryId()); 
 		 vo.setShortDesc(gallery.getShortDesc());
-		 vo.setTag(gallery.getTag());
+		 vo.setTag(gallery.getTag().replace("#", ""));
 		 vo.setTitle(gallery.getTitle());
 		 vo.setThumbnail(gallery.getThumbnail2());
 		 vo.setUrl(gallery.getUrl());

@@ -33,6 +33,12 @@ public interface EventDao {
 	void updateProfileMovie(Integer profileId, WatchDogVo watchdog, Movie movie);
 
 	void updateProfileGallery(Integer galleryId, WatchDogVo watchdog, Movie movie);
+
+	void updateGalleryProfile(Integer galleryId, WatchDogVo watchdog, Profile profile);
+
+	void updateMovieToVideo(Integer videoId, WatchDogVo watchdog, Movie movie);
+
+	void updateProfileIdtoVideo(Integer videoId, WatchDogVo watchdog, Profile profile);
 	 
 
 }

@@ -1,10 +1,13 @@
 package com.easypick.web.video.bussinesscontroller;
 
+import java.util.Objects;
+
 import org.hibernate.Session;
 import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Repository;
 
 import com.easypick.admin.vo.VideoVo;
@@ -18,7 +21,8 @@ public class VideoBussinessController implements VideoBussinessInterface {
 	
 	@Autowired
 	private VideoDao dao;
-	
+	@Autowired
+	protected ApplicationEventPublisher publisher;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -58,6 +62,12 @@ public class VideoBussinessController implements VideoBussinessInterface {
 			watchdog.setCmpcode("CM");
 			responseVo = dao.saveVideo(watchdog, vo);
 			this.tx.commit();
+			if(Objects.nonNull(responseVo))
+			{	
+				responseVo.setEvent("com.admin.saveVideo");
+				publisher.publishEvent(responseVo);
+			}
+			
 			return responseVo;
 		} catch (Exception e) {
 			throw new BussinessException("404");

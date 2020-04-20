@@ -24,8 +24,40 @@ public class VideoVo implements AbstractVo {
 	private String page;
 	private Integer perPage = 0;
 	
+	private String movie;
+	private String profile;
+	
+	private String movieTag;
+	private String profileTag;
 	
 	
+	
+	
+	
+	public String getMovie() {
+		return movie;
+	}
+	public void setMovie(String movie) {
+		this.movie = movie;
+	}
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	public String getMovieTag() {
+		return movieTag;
+	}
+	public void setMovieTag(String movieTag) {
+		this.movieTag = movieTag;
+	}
+	public String getProfileTag() {
+		return profileTag;
+	}
+	public void setProfileTag(String profileTag) {
+		this.profileTag = profileTag;
+	}
 	public String getPage() {
 		return page;
 	}
