@@ -96,7 +96,7 @@ function uploadFile() {
 
 	
    $.ajax({
-    url: 'admin.gallery.uploadThumbnail?id=2',
+    url: 'admin.gallery.uploadThumbnail?id='+galleryId,
     type: "POST",
     data:datas,
     enctype: 'multipart/form-data',

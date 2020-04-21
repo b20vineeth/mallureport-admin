@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-
+ 
 import com.easypick.admin.entity.Video;
 import com.easypick.admin.vo.VideoVo;
 import com.easypick.framework.utility.exception.BussinessException;
@@ -45,15 +45,21 @@ public class VideoSqlDao implements VideoDao {
 			query.setParameter("videoId", vo.getVideoId());
 
 		Integer page = Integer.parseInt(Objects.isNull(vo.getPage()) ? "0" : vo.getPage());
+		Page page1 = new Page();
+		page1.setCurrentPage(page);
 		if (page > 0)
 			page = page - 1;
-		page = page * 25;
+		page = page * page1.getPerPage();
 		sql.append(" order by video.videoId desc ");
-
-		Page page1 = new Page();
+ 
 		List<Video> videos = query.setFirstResult(page).setMaxResults(page1.getPerPage()).getResultList();
 		responseVo.setObjectList(Video.formateVideoVos(videos));
-
+		
+		query = watchdog.getSessionString().createQuery("Select 1 " + sql.toString());
+		List<Video> count = query.getResultList();
+		page1.setTotalResult(count.size());
+		page1.updateTotalPage();
+		responseVo.setPage(page1);
 		responseVo.setResponse(true);
 		return responseVo;
 	}

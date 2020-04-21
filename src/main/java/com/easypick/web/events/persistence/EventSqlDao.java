@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.easypick.admin.entity.DataSetup;
 import com.easypick.admin.entity.Gallery;
 import com.easypick.admin.entity.Movie;
 import com.easypick.admin.entity.MovieData;
@@ -225,6 +226,22 @@ public class EventSqlDao implements EventDao {
 		video.setUpdateon(new Date());
 		video.setTagidx(0);
 		watchdog.getSessionString().saveOrUpdate(video);
+		
+	}
+
+	@Override
+	public void updateMovieTypetoMovie(Integer id, WatchDogVo watchdog, DataSetup dataSetup) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" from Movie movie where movie.status='Y' ");
+		sql.append(" and movie.movieId=:movie ");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+		query.setParameter("movie", id);
+		Movie movie = (Movie) query.getSingleResult();
+		String movieType=movie.getMovieType();
+		movieType=movieType.replace(dataSetup.getDateName(), dataSetup.getId().toString());
+		movie.setMovieType(movieType);
+		movie.setTagidx(0);
+		watchdog.getSessionString().saveOrUpdate(movie);
 		
 	}
 

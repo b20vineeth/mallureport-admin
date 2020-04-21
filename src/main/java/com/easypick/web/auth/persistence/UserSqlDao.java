@@ -44,8 +44,9 @@ public class UserSqlDao  implements UserDao {
 	}
 
 	@Override
-	public String validateUser(UserSetupVo vo) throws BussinessException {
+	public UserSetupVo validateUser(UserSetupVo vo) throws BussinessException {
 		String output="F";
+		UserSetupVo setupVo=null;;
 		try {
 			
 			this.session = this.getSession();
@@ -54,7 +55,16 @@ public class UserSqlDao  implements UserDao {
 			q.setParameter("usercode", vo.getUsername()).setParameter("password", vo.getPassword());
 			UserSetup setup=(UserSetup) q.getSingleResult(); 
 			if(Objects.nonNull(setup))
-				output="T";
+			{
+				setupVo=new UserSetupVo();
+				setupVo.setCompanyCode("CIN");
+				setupVo.setUsername(vo.getUsername()); 
+				setupVo.setUserId(setup.getUserId());
+				setupVo.setFirstName(setup.getFirstName());
+				setupVo.setLastName(setup.getLastName());
+				setupVo.setEmail(setup.getEmail());
+			}
+			 
 			this.tx.commit(); 
 		} catch (Exception e) {
 			 
@@ -62,7 +72,7 @@ public class UserSqlDao  implements UserDao {
 		} finally {
 			this.session.close();
 		}
-		return output;
+		return setupVo;
 	}
 
 }

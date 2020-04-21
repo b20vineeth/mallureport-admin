@@ -1,24 +1,27 @@
 package com.easypick.web.gallery.persistence;
- 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
- 
+
 import com.easypick.admin.entity.CineGallery;
 import com.easypick.admin.entity.Gallery;
-import com.easypick.admin.entity.Movie; 
+import com.easypick.admin.entity.Movie;
 import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.DataVo;
 import com.easypick.admin.vo.GalleryVo;
+import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
 
 @Repository
 public class GallerySqlDao implements GalleryDao {
@@ -37,8 +40,10 @@ public class GallerySqlDao implements GalleryDao {
 		watchdog.getSessionString().saveOrUpdate(gallery);
 		return null;
 	}
+
 	@Override
 	public ResponseVo saveGalleryVo(WatchDogVo watchdog, GalleryVo vo) throws BussinessException {
+		ResponseVo responseVo = new ResponseVo();
 		if (Objects.nonNull(vo.getGalleryId()) && vo.getGalleryId() > 0) {
 
 			StringBuilder sql = new StringBuilder();
@@ -47,27 +52,31 @@ public class GallerySqlDao implements GalleryDao {
 			if (Objects.nonNull(vo.getGalleryId()))
 				sql.append("and gallery.galleryId=:galleryId");
 
-			ResponseVo responseVo = new ResponseVo();
 			Query query = watchdog.getSessionString().createQuery(sql.toString());
 			if (Objects.nonNull(vo.getGalleryId()))
 				query.setParameter("galleryId", vo.getGalleryId());
 
 			Gallery gallery = (Gallery) query.getSingleResult();
 			watchdog.getSessionString().saveOrUpdate(updateGallery(gallery, vo));
+			responseVo.setObjectList(Stream.of(vo).collect(Collectors.toList()));
 
 		} else {
 			List<Gallery> gallerys = Gallery.populateAttribute(vo);
+			List<GalleryVo> vos = new ArrayList<>();
+			GalleryVo galleryvo;
 			for (Gallery gallery : gallerys) {
 				watchdog.getSessionString().saveOrUpdate(gallery);
-				watchdog.getSessionString().flush();
-				watchdog.getSessionString().clear();
+				galleryvo = new GalleryVo();
+				galleryvo.setGalleryId(gallery.getGalleryId());
+				vos.add(galleryvo);
+
 			}
+			responseVo.setObjectList(vos);
 		}
-		ResponseVo responseVo = new ResponseVo();
+
 		responseVo.setObject(vo);
 		return responseVo;
 	}
-
 
 	@Override
 	public ResponseVo getGalleryList(WatchDogVo watchdog, GalleryVo vo) throws BussinessException {
@@ -93,7 +102,7 @@ public class GallerySqlDao implements GalleryDao {
 		page1.setCurrentPage(page);
 		if (page > 0)
 			page = page - 1;
-		page = page * 25;
+		page = page * page1.getPerPage();
 		sql.append(" order by gallery.galleryId desc ");
 
 		List<Gallery> galleryVos = query.setFirstResult(page).setMaxResults(page1.getPerPage()).getResultList();
@@ -128,6 +137,7 @@ public class GallerySqlDao implements GalleryDao {
 		responseVo.setResponse(true);
 		return responseVo;
 	}
+
 	@Override
 	public ResponseVo saveCineGallery(CinemaGalleryVo vo, WatchDogVo watchdog) throws BussinessException {
 
@@ -150,7 +160,6 @@ public class GallerySqlDao implements GalleryDao {
 		return responseVo;
 	}
 
-
 	private Object updateGallery(Gallery gallery, GalleryVo vo) {
 		gallery.setDescription(vo.getDescription());
 		gallery.setShortDesc(vo.getShortDesc());
@@ -172,15 +181,18 @@ public class GallerySqlDao implements GalleryDao {
 		gallery.setTagidx(0);
 		return gallery;
 	}
-	
+
 	private void populateMovieTag(WatchDogVo watchdog, Gallery gallery, GalleryVo galleryVo) {
 		StringBuilder sql;
 		Query query;
 		if (Objects.nonNull(gallery)) {
 			String tag = getmovieTag(gallery);
+			 tag=StringUitity.filterNumber(tag);
 			if (tag.trim().length() > 0) {
 				galleryVo.setMovieTag(tag);
 				sql = new StringBuilder();
+				
+				 
 				sql.append("select movie.movieId ,movie.movieName from Movie movie where movie.status='Y' ");
 
 				sql.append(" and movie.movieId in(" + tag + ")");
@@ -208,11 +220,11 @@ public class GallerySqlDao implements GalleryDao {
 		Query query;
 		if (Objects.nonNull(gallery)) {
 			String tag = getprofileTag(gallery);
+			tag=StringUitity.filterNumber(tag);
 			if (tag.trim().length() > 0) {
 				galleryVo.setProfileTag(tag);
 				sql = new StringBuilder();
-				sql.append(
-						"select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' ");
+				sql.append("select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' ");
 
 				sql.append(" and profile.profileId in(" + tag + ")");
 
@@ -234,6 +246,7 @@ public class GallerySqlDao implements GalleryDao {
 		}
 
 	}
+
 	private String getprofileTag(Gallery gallery) {
 		String tag = "";
 		if (Objects.nonNull(gallery.getProfileTag())) {
@@ -243,8 +256,6 @@ public class GallerySqlDao implements GalleryDao {
 		return tag;
 	}
 
-
-	
 	private String getmovieTag(Gallery gallery) {
 		String tag = "";
 		if (Objects.nonNull(gallery.getMovieTag())) {

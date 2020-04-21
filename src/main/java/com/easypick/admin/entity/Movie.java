@@ -7,16 +7,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
@@ -25,7 +28,7 @@ import com.easypick.web.events.vo.MovieDataVo;
 
 @Entity
 @Table(name = "movie", uniqueConstraints = { @UniqueConstraint(columnNames = { "movie_code" }) })
-public class Movie {
+public class Movie extends BaseTable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,37 +52,39 @@ public class Movie {
 	@Column(name = "rate")
 	private Integer movieRate;
 
-	@Column(name = "description",columnDefinition="TEXT")
+	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
 	@Column(name = "short_desc")
 	private String shortDesc;
 
-	@Column(name = "mov_type",length=25)
+	@Column(name = "mov_type", length = 25)
 	private String movieType;
-	
-	@Column(name = "certificate",length=2)
+
+	@Column(name = "certificate", length = 2)
 	private String certificate;
 
 	@Column(name = "tag")
 	private String tag;
 
-	@Column(name = "priority_flag", length=1)
-	private String priorityFlag ="N";
-	
-	
-	@Column(name = "recommended_flag", length=1)
-	private String recommendedFlag ="N";
-	
-	@Column(name = "status", length=1)
-	private String status = "Y";
+	@Column(name = "priority_flag", length = 1)
+	private String priorityFlag = "N";
 
-	
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cin_lang", nullable = true)
-	private Language lang; 
-	 
+	@Column(name = "recommended_flag", length = 1)
+	private String recommendedFlag = "N";
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "movid", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<LanguageMap> langMap;
+
+	public List<LanguageMap> getLangMap() {
+		return langMap;
+	}
+
+	public void setLangMap(List<LanguageMap> langMap) {
+		this.langMap = langMap;
+	}
 
 	public String getMovieType() {
 		return movieType;
@@ -121,8 +126,6 @@ public class Movie {
 		this.movieId = movieId;
 	}
 
-	 
-
 	public Integer getMovieRate() {
 		return movieRate;
 	}
@@ -146,8 +149,6 @@ public class Movie {
 	public void setRelaseDate(Date relaseDate) {
 		this.relaseDate = relaseDate;
 	}
-
-	 
 
 	public String getDescription() {
 		return description;
@@ -173,59 +174,45 @@ public class Movie {
 		this.tag = tag;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Language getLang() {
-		return lang;
-	}
-
-	public void setLang(Language lang) {
-		this.lang = lang;
-	}
-
 	public static Object formateMovieVo(Movie movie) {
 		MovieVo vo = new MovieVo();
 		vo.setMovieId(movie.getMovieId());
 		vo.setCast(movie.getCast().replace("#", ""));
-		vo.setDescription(movie.getDescription()); 
+		vo.setDescription(movie.getDescription());
 		vo.setShortDesc(movie.getShortDesc());
 		vo.setMovieType(movie.getMovieType());
 		vo.setCertificate(movie.getCertificate());
-		vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0"); 
+		vo.setMovieRate(Objects.nonNull(movie.getMovieRate()) ? movie.getMovieRate().toString() : "0");
 		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
 		vo.setTag(movie.getTag().replace("#", ""));
 		vo.setMovieCode(movie.getMovieCode());
 		vo.setMovieName(movie.getMovieName());
-		vo.setLang(movie.getLang().getId());
-		vo.setLanguageName(movie.getLang().getLangName());
+		StringBuilder lan=new StringBuilder();
+		for(LanguageMap languageMap:movie.getLangMap())
+		{
+			lan.append(languageMap.getLanguage().getId()+",");
+		}
+		vo.setLang(lan.toString().replaceAll(",$", ""));
 		return vo;
 	}
-	
-	
+
 	public static Object formateMovieDataVo(Movie movie) {
 		MovieDataVo vo = new MovieDataVo();
 		vo.setMovieId(movie.getMovieId());
 		vo.setCast(movie.getCast());
-		vo.setDescription(movie.getDescription()); 
+		vo.setDescription(movie.getDescription());
 		vo.setShortDesc(movie.getShortDesc());
 		vo.setMovieType(movie.getMovieType());
 		vo.setCertificate(movie.getCertificate());
-		vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0"); 
+		vo.setMovieRate(Objects.nonNull(movie.getMovieRate()) ? movie.getMovieRate().toString() : "0");
 		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
-		vo.setTag(movie.getTag().replace("#",""));
+		vo.setTag(movie.getTag().replace("#", ""));
 		vo.setMovieCode(movie.getMovieCode());
 		vo.setMovieName(movie.getMovieName());
-		vo.setLang(movie.getLang().getId());
-		vo.setLanguageName(movie.getLang().getLangName());
+		// vo.setLang(movie.getLang().getId());
+		// vo.setLanguageName(movie.getLang().getLangName());
 		return vo;
 	}
-	
 
 	public static List<? extends AbstractVo> formateMovieVos(List<Movie> movies) {
 		List<MovieVo> movieVos = new ArrayList<>();
@@ -236,23 +223,28 @@ public class Movie {
 			vo.setShortDesc(movie.getShortDesc());
 			vo.setTag(movie.getTag().replace("#", ""));
 			vo.setCast(movie.getCast());
-			vo.setMovieRate(Objects.nonNull(movie.getMovieRate())?movie.getMovieRate().toString():"0");
+			vo.setMovieRate(Objects.nonNull(movie.getMovieRate()) ? movie.getMovieRate().toString() : "0");
 			vo.setMovieCode(movie.getMovieCode());
 			vo.setMovieType(movie.getMovieType());
-			vo.setMovieName(movie.getMovieName());
-			vo.setLang(movie.getLang().getId());
-			vo.setLanguageName(movie.getLang().getLangName());
+			vo.setMovieName(movie.getMovieName()); 
 			vo.setPriorityFlag(movie.getPriorityFlag());
 			vo.setReleaseDate(movie.getRelaseDate().toString().replace("00:00:00.0", ""));
 			vo.setRecommenedFlag(movie.getRecommendedFlag());
+			StringBuilder lan=new StringBuilder();
+			for(LanguageMap languageMap:movie.getLangMap())
+			{
+				lan.append(languageMap.getLanguage().getLangName()+",");
+			}
+			vo.setLang(lan.toString());
 			movieVos.add(vo);
 		}
 
 		return movieVos;
 	}
 
-	public static Movie populateMovieVo(MovieVo vo) {
-		Movie movie = new Movie();
+	public static Movie populateMovieVo(MovieVo vo, Movie movie) {
+		if(Objects.isNull(movie))
+			movie = new Movie();
 		movie.setCast(StringUitity.getTag(vo.getCast()));
 		movie.setDescription(vo.getDescription());
 		Date date1;
@@ -263,28 +255,29 @@ public class Movie {
 			movie.setRelaseDate(new Date());
 		}
 		movie.setShortDesc(vo.getShortDesc());
-		movie.setStatus(vo.getStatus()); 
+		movie.setStatus(vo.getStatus());
 		movie.setMovieCode(vo.getMovieCode());
 		movie.setMovieName(vo.getMovieName());
-		movie.setTag(StringUitity.getTag(vo.getTag())); 
-		if(Objects.nonNull(vo.getCertificate()))
+		movie.setTag(StringUitity.getTag(vo.getTag()));
+		if (Objects.nonNull(vo.getCertificate()))
 			movie.setCertificate(vo.getCertificate());
-		
-		if(Objects.nonNull(vo.getMovieType()))
-			movie.setMovieType(vo.getMovieType());
-		
-		Language lang = new Language();
-		if (Objects.nonNull(vo.getLang())) {
-			lang.setId(vo.getLang());
-		}
 
-		if (vo.getMovieId() != 0)
+		if (Objects.nonNull(vo.getMovieType()))
+			movie.setMovieType(vo.getMovieType());
+
+		if (vo.getMovieId() != 0) {
 			movie.setMovieId(vo.getMovieId());
-		movie.setLang(lang);
+		} else {
+			movie.setCreatedDate(new Date());
+			movie.setUpdatedDate(new Date());
+		}
+		movie.setTagidx(0);
+		if (Objects.nonNull(vo.getLang())) {
+			List<LanguageMap> lang = LanguageMap.populate(vo.getLang());
+			movie.setLangMap(lang);
+		}
 		return movie;
 	}
-
-
 
 	public String getMovieName() {
 		return movieName;
@@ -300,6 +293,19 @@ public class Movie {
 
 	public void setMovieCode(String movieCode) {
 		this.movieCode = movieCode;
+	}
+
+	public static Movie defaultVo(String names) {
+		Movie movie=new Movie();
+		movie.setMovieName(names);
+		movie.setMovieCode("t-" + names.replace(" ", "-"));
+		movie.setCreatedDate(new Date());
+		movie.setUpdatedDate(new Date());
+		UserSetup setup=new UserSetup();
+		setup.setUserId(1);
+		movie.setCreatedBy(setup);
+		movie.setUpdatedBy(setup);
+		return movie;
 	}
 
 }

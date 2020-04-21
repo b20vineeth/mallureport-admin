@@ -73,7 +73,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/easypick?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/easypick01?autoReconnect=true&amp;useUnicode=true&amp;createDatabaseIfNotExist=true&amp;characterEncoding=utf-8");
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
 

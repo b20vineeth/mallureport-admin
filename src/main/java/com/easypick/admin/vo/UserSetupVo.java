@@ -21,7 +21,7 @@ public class UserSetupVo  implements AbstractVo{
 	private String mob;
 	private String password;
 	private String lastName;
-	private String userId;
+	private Integer userId;
 	private String validityto;
 	private String status;
 	private String validityFrom;
@@ -97,10 +97,11 @@ public class UserSetupVo  implements AbstractVo{
 	public void setValidityFrom(String validityFrom) {
 		this.validityFrom = validityFrom;
 	}
-	public String getUserId() {
+	 
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getPassword() {

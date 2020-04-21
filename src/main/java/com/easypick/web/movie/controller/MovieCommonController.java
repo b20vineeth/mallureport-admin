@@ -18,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.easypick.admin.vo.CategoryVo;
+ 
 import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.LanguageVo;
 import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.MovieVo;
+import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.web.category.bussinesscontroller.CategoryBussinessInterface;
+import com.easypick.web.common.bussinesscontroller.ControllerInterface;
 import com.easypick.web.language.bussinesscontroller.LanguageBussinessInterface;
 import com.easypick.web.movie.bussinesscontroller.MovieBussinessInterface;
 import com.google.gson.Gson; 
@@ -54,7 +55,8 @@ public class MovieCommonController {
 
 	@Autowired
 	protected CategoryBussinessInterface categoryController;
-	
+	@Autowired
+	protected ControllerInterface commonController;
 
 	@RequestMapping(value = "/admin.movie.create")
 	@ResponseBody
@@ -65,15 +67,7 @@ public class MovieCommonController {
 			modelMap.put("redirectUrl", "login");
 			return new ModelAndView("Admin/Redirect");
 		} else {
-			ResponseVo response = new ResponseVo();
-			LanguageVo vo = new LanguageVo();
-			response = languageController.getLanguageList(vo);
-
-			if (Objects.nonNull(response.getObjectList())) {
-				modelMap.put("responseLang", response);
-
-			}
-
+			 
 			return new ModelAndView("Admin/user/CreateMovie");
 		}
 	}
@@ -88,10 +82,11 @@ public class MovieCommonController {
 			modelMap.put("redirectUrl", "login");
 
 		} else {
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
 			gson = new Gson();
 			MovieVo vo = gson.fromJson(data, MovieVo.class);
 			try {
-				ResponseVo response = movieController.saveMovie(vo);
+				ResponseVo response = movieController.saveMovie(vo,userSetupVo);
 				return "T";
 			} catch (Exception e) {
 				return "F";
@@ -112,9 +107,10 @@ public class MovieCommonController {
 
 		} else {
 			gson = new Gson();
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
 			MovieVo vo = gson.fromJson(data, MovieVo.class);
 			try {
-				ResponseVo response = movieController.enablePriority(vo);
+				ResponseVo response = movieController.enablePriority(vo,userSetupVo);
 				return "T";
 			} catch (Exception e) {
 				return "F";
@@ -133,10 +129,11 @@ public class MovieCommonController {
 			modelMap.put("redirectUrl", "login");
 
 		} else {
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
 			gson = new Gson();
 			MovieVo vo = gson.fromJson(data, MovieVo.class);
 			try {
-				ResponseVo response = movieController.updateMovieStatus(vo);
+				ResponseVo response = movieController.updateMovieStatus(vo,userSetupVo);
 				return "T";
 			} catch (Exception e) {
 				return "F";
@@ -160,13 +157,13 @@ public class MovieCommonController {
 			modelMap.put("redirectUrl", "login");
 			return new ModelAndView("Admin/Redirect");
 		} else {
-
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
 			MovieReviewVo vo = new MovieReviewVo();
 			vo.setMovieId(movieId);
 			vo.setMovieName(movieName);
 			ResponseVo response = new ResponseVo();
 			try {
-				response = movieController.getMovieReview(vo);
+				response = movieController.getMovieReview(vo,userSetupVo);
 			} catch (BussinessException e) {
 				response.setObject(vo);
 			}
@@ -181,7 +178,7 @@ public class MovieCommonController {
 			@RequestBody @RequestParam(value = "movieName", required = false) String movieName,
 			@RequestBody @RequestParam(value = "tag", required = false) String tag,
 			@RequestBody @RequestParam(value = "cast", required = false) String cast,
-			@RequestBody @RequestParam(value = "language", required = false) Integer language,
+			@RequestBody @RequestParam(value = "language", required = false) String language,
 			@RequestBody @RequestParam(value = "releasefrom", required = false) String releasefrom,
 			@RequestBody @RequestParam(value = "releaseTo", required = false) String releaseTo,
 			@RequestBody @RequestParam(value = "catId", required = false) String catId,
@@ -209,10 +206,11 @@ public class MovieCommonController {
 			} catch (Exception e) {
 
 			}
-
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
+			
 			ResponseVo response = new ResponseVo();
 			try {
-				response = movieController.getMovieList(vo);
+				response = movieController.getMovieList(vo,userSetupVo);
 				LanguageVo languageVo = new LanguageVo();
 
 				ResponseVo responseVo = languageController.getLanguageList(languageVo);
@@ -250,11 +248,13 @@ public class MovieCommonController {
 			@RequestBody @RequestParam(value = "movieId", required = false) String movieId) throws BussinessException {
 
 		String username = (String) httpSession.getAttribute("authKey");
+		
 		if (Objects.isNull(username)) {
 			modelMap.put("redirectUrl", "login");
 			return new ModelAndView("Admin/Redirect");
 		} else {
 
+			UserSetupVo userSetupVo = (UserSetupVo) httpSession.getAttribute("authdata");
 			MovieVo vo = new MovieVo();
 			if (Objects.nonNull(catId) && catId.trim().length() > 0)
 				vo.setCatId(Integer.parseInt(catId));
@@ -263,7 +263,7 @@ public class MovieCommonController {
 
 			ResponseVo response = new ResponseVo();
 			try {
-				response = movieController.getMovie(vo);
+				response = movieController.getMovie(vo,userSetupVo);
 
 			} catch (BussinessException e) {
 				MovieVo movie = new MovieVo();
@@ -273,24 +273,6 @@ public class MovieCommonController {
 			}
 			if (Objects.nonNull(response.getObject())) {
 				modelMap.put("response", response);
-
-			}
-
-			LanguageVo languageVo = new LanguageVo();
-			response = languageController.getLanguageList(languageVo);
-
-			if (Objects.nonNull(response.getObjectList())) {
-				modelMap.put("responseLang", response);
-
-			}
-			CategoryVo catVo = new CategoryVo();
-			catVo.setCatType("1");
-			catVo.setPerPage(200);
-			response = new ResponseVo();
-			response = categoryController.getCategoryList(catVo);
-
-			if (Objects.nonNull(response.getObjectList())) {
-				modelMap.put("responseMovie", response);
 
 			}
 			return new ModelAndView("Admin/user/CreateMovie");

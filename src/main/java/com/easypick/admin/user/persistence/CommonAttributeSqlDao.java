@@ -112,6 +112,7 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 	public ResponseVo getdata(WatchDogVo watchdog, SettingsVo vo) throws BussinessException {
 
 		ResponseVo responseVo = new ResponseVo();
+		List<DataVo> vos =null;
 		if ("cinema".equals(vo.getType())) {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select movie.movieId ,movie.movieName from Movie movie where movie.status='Y' ");
@@ -119,36 +120,36 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 			if (Objects.nonNull(vo.getTag())) {
 				sql.append(" and movie.movieName like '%" + vo.getTag() + "%'");
 			}
-			Query query = watchdog.getSessionString().createQuery(sql.toString());
-
-			List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
-			List<DataVo> vos = new ArrayList<>();
-			DataVo dataVo = null;
-
-			if (object.size() > 0) {
-				DataVo.populateDataVo(object, vos);
-				responseVo.setObjectList(vos);
-
-			}
+			vos = findDataVos(watchdog, sql);
 
 		} else if ("profile".equals(vo.getType())) {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append("select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' "
 					+ " and profile.profileName like '%" + vo.getTerm() + "%'");
-			Query query = watchdog.getSessionString().createQuery(sql.toString());
+			 vos = findDataVos(watchdog, sql);
 
-			List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
+		} else if ("language".equals(vo.getType())) {
 
-			List<DataVo> vos = new ArrayList<>();
-			DataVo dataVo = null;
+			StringBuilder sql = new StringBuilder();
+			sql.append("select lang.id ,lang.langName from Language lang where lang.status='Y'"
+					+ " and  lang.langName like '%" + vo.getTerm() + "%'");
+			 vos = findDataVos(watchdog, sql);
+		}else if ("language".equals(vo.getType())) {
 
-			if (object.size() > 0) {
-				DataVo.populateDataVo(object, vos);
-				responseVo.setObjectList(vos);
-			}
+			StringBuilder sql = new StringBuilder();
+			sql.append("select lang.id ,lang.langName from Language lang where lang.status='Y'"
+					+ " and  lang.langName like '%" + vo.getTerm() + "%'");
+			 vos = findDataVos(watchdog, sql);
+	 
+	}else if ("movieType".equals(vo.getType())) {
 
-		}
+		StringBuilder sql = new StringBuilder();
+		sql.append("select data.id ,data.dateName from DataSetup data where data.status='Y' and data.type='MovieType' "
+				+ " and  data.dateName like '%" + vo.getTerm() + "%'");
+		 vos = findDataVos(watchdog, sql);
+	}
+		responseVo.setObjectList(vos);
 		return responseVo;
 	}
 
@@ -165,7 +166,11 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("select profile.profileId ,profile.profileName from Profile profile where profile.status='Y' "
-				+ " and profile.profileId in ("+getIds(cast)+")");
+				+ " and profile.profileId in ("+StringUitity.filterNumber(cast)+")");
+		return findDataVos(watchdog, sql);
+	}
+
+	private List<DataVo> findDataVos(WatchDogVo watchdog, StringBuilder sql) {
 		Query query = watchdog.getSessionString().createQuery(sql.toString());
 
 		List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
@@ -180,40 +185,32 @@ public class CommonAttributeSqlDao implements CommonAttributeDao {
 		return vos;
 	}
 
-	private String getIds(String casts) {
-	
-		String[] cast=casts.split(",");
-		StringBuilder keydata=new StringBuilder();
-		for(String profile:cast)
-		{
-			try
-			{
-				keydata.append(Integer.parseInt(profile)+",");
-			}
-			catch(Exception e) {}
-		}
-	
-		return keydata.toString().replaceAll(",$", "");
-	}
+	 
 
 	@Override
 	public List<DataVo> getFilmAutoComplete(WatchDogVo watchdog, String films) throws BussinessException {
 	 
 		StringBuilder sql = new StringBuilder();
 		sql.append("select movie.movieId ,movie.movieName from Movie movie where movie.status='Y' "
-				+ " and movie.movieId in ("+getIds(films)+")");
-		Query query = watchdog.getSessionString().createQuery(sql.toString());
+				+ " and movie.movieId in ("+StringUitity.filterNumber(films)+")");
+		return findDataVos(watchdog, sql);
+	}
 
-		List<Object[]> object = query.setFirstResult(0).setMaxResults(10).getResultList();
+	@Override
+	public List<DataVo> getLanguageAutoComplete(WatchDogVo watchdog, String lang) throws BussinessException {
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("select lang.id ,lang.langName from Language lang where lang.status='Y' "
+				+ " and lang.id in ("+StringUitity.filterNumber(lang)+")");
+		return findDataVos(watchdog, sql);
+	}
 
-		List<DataVo> vos = new ArrayList<>();
-		DataVo dataVo = null;
-
-		if (object.size() > 0) {
-			DataVo.populateDataVo(object, vos);
-			 
-		}
-		return vos;
+	@Override
+	public List<DataVo> getMovieTypeAutoComplete(WatchDogVo watchdog, String movieType) throws BussinessException {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select data.id ,data.dateName from DataSetup data where data.status='Y' and data.type='MovieType' "
+				+ " and data.id in ("+StringUitity.filterNumber(movieType)+")");
+		return findDataVos(watchdog, sql);
 	}
 
 	 

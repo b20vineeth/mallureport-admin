@@ -98,7 +98,7 @@
 
 		<div class="clearfix"></div>
 
-
+<c:if test="${response.page.totalPage>1}">
 
 		<ul class="pagination pagination-sm">
 
@@ -147,7 +147,7 @@
 		</ul>
 
 
-
+	</c:if>
 
 
 

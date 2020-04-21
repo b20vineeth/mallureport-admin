@@ -16,30 +16,38 @@ public class BaseTable implements Serializable {
 
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "upduserid", nullable = false)
-	private UserSetup  upUser;
+	@JoinColumn(name = "createdby", nullable = false)
+	private UserSetup  createdBy;
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "updby", nullable = false)
 	private UserSetup  updatedBy; 
-	@Column(name = "status", length=1)
-	private String status="Y";
+	
+	
 	@Column(name = "upddat", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
-	@Column(name = "validto", columnDefinition="DATETIME")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date validityTo;
-	@Column(name = "validfrm", columnDefinition="DATETIME")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date validityFrom;
+ 
 	@Column(name = "createddate", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 
-	@Column(name = "cmpcod",length=10)
+	@Column(name = "cmpcod",length=5)
 	private String companyCode;
 	
+	@Column(name = "tagidx",length=1)
+	private Integer tagidx=0;
+	
+	@Column(name = "status", length=1)
+	private String status="Y";
+	
 	 
+	public Integer getTagidx() {
+		return tagidx;
+	}
+	public void setTagidx(Integer tagidx) {
+		this.tagidx = tagidx;
+	}
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -58,29 +66,19 @@ public class BaseTable implements Serializable {
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-	public Date getValidityTo() {
-		return validityTo;
-	}
-	public void setValidityTo(Date validityTo) {
-		this.validityTo = validityTo;
-	}
-	public Date getValidityFrom() {
-		return validityFrom;
-	}
-	public void setValidityFrom(Date validityFrom) {
-		this.validityFrom = validityFrom;
-	}
+	 
 	public Date getCreatedDate() {
 		return createdDate;
 	}
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	public UserSetup getUpUser() {
-		return upUser;
+	 
+	public UserSetup getCreatedBy() {
+		return createdBy;
 	}
-	public void setUpUser(UserSetup upUser) {
-		this.upUser = upUser;
+	public void setCreatedBy(UserSetup createdBy) {
+		this.createdBy = createdBy;
 	}
 	public UserSetup getUpdatedBy() {
 		return updatedBy;
@@ -88,6 +86,6 @@ public class BaseTable implements Serializable {
 	public void setUpdatedBy(UserSetup updatedBy) {
 		this.updatedBy = updatedBy;
 	}
- 
+	 
 	
 }

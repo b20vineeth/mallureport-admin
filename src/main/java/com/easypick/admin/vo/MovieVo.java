@@ -5,7 +5,7 @@ import com.easypick.framework.utility.vo.AbstractVo;
 public class MovieVo implements AbstractVo {
 
 	private Integer movieId;
-	private Integer lang;
+	private String lang;
 	private String shortDesc;
 	private String description;
 	private String thumbnail;
@@ -175,11 +175,12 @@ public class MovieVo implements AbstractVo {
 		this.movieId = movieId;
 	}
 
-	public Integer getLang() {
+ 
+	public String getLang() {
 		return lang;
 	}
 
-	public void setLang(Integer lang) {
+	public void setLang(String lang) {
 		this.lang = lang;
 	}
 

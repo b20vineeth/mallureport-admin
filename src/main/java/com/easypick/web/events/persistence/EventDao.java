@@ -2,6 +2,7 @@ package com.easypick.web.events.persistence;
 
 import java.util.List;
 
+import com.easypick.admin.entity.DataSetup;
 import com.easypick.admin.entity.Movie;
 import com.easypick.admin.entity.Profile;
 import com.easypick.framework.utility.vo.WatchDogVo;
@@ -39,6 +40,8 @@ public interface EventDao {
 	void updateMovieToVideo(Integer videoId, WatchDogVo watchdog, Movie movie);
 
 	void updateProfileIdtoVideo(Integer videoId, WatchDogVo watchdog, Profile profile);
+
+	void updateMovieTypetoMovie(Integer movieId, WatchDogVo watchdog, DataSetup dataSetup);
 	 
 
 }

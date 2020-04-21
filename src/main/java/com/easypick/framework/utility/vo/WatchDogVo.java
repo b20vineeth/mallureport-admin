@@ -3,6 +3,8 @@ package com.easypick.framework.utility.vo;
 import java.util.Map;
 
 import org.hibernate.Session;
+
+import com.easypick.admin.vo.UserSetupVo;
  
 
 public class WatchDogVo {
@@ -16,12 +18,18 @@ public class WatchDogVo {
 	String cmpcode;
 	String type;
 	Page page;
-	
-	
-	
+	UserSetupVo userSetupVo;
 	
 	
 	 
+
+	public UserSetupVo getUserSetupVo() {
+		return userSetupVo;
+	}
+
+	public void setUserSetupVo(UserSetupVo userSetupVo) {
+		this.userSetupVo = userSetupVo;
+	}
 
 	public Map<String, String> getCategory() {
 		return category;

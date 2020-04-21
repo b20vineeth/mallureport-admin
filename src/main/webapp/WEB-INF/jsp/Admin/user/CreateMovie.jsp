@@ -42,16 +42,12 @@
 
 
 					<div class="form-group">
-						<label for="exampleInputPassword1"> Language </label> <select
-							class="form-control " name="language" id="language">
-							<c:forEach items="${responseLang.objectList}" var="objectList">
-								<c:if test="${objectList.langId eq response.object.lang}">
-									<option selected="selected" value="${objectList.langId}">${objectList.langName}</option>
-								</c:if>
-								<option value="${objectList.langId}">${objectList.langName}</option>
-
-							</c:forEach>
-						</select>
+						<label for="exampleInputPassword1"> Language </label>  
+							
+							 <input
+							type="Text" class="form-control" id="language" name="language"
+							value="${response.object.lang}" placeholder="language">
+							 
 
 
 
@@ -94,7 +90,7 @@
 
 					<div class="form-group">
 						<label for="exampleInputPassword1"> Movie Type </label> <input
-							type="Text" class="form-control" id="movieType"
+							type="Text" class="form-control" id="movieType" name="movieType"
 							value="${response.object.movieType}" placeholder="Drama">
 
 
@@ -194,6 +190,27 @@
 $('input[name="tag"]').amsifySuggestags({
 	tagLimit: 10
 });
+
+$('input[name="movieType"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=movieType'
+	},
+	<c:if test="${not empty response.stringMap['MovieType']}"> 
+	suggestions:  
+		${response.stringMap['MovieType']}
+	</c:if>
+});
+$('input[name="language"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=language'
+	},
+	<c:if test="${not empty response.stringMap['language']}">
+	suggestions:  
+		${response.stringMap['language']}
+	 </c:if>
+});
+
+
 $('input[name="profile"]').amsifySuggestags({
 	suggestionsAction : {
 		url : 'admin.common.getdata?type=profile'

@@ -1,5 +1,6 @@
 package com.easypick.web.events;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,10 @@ public class CreateProfileDetailsGallerySaveEvent implements EventImpl {
 	@Override
 	public void execute(WatchDogVo watchdog, ResponseVo vo) {
 
-		GalleryVo galleryVo = (GalleryVo) vo.getObject();
-		if (Objects.nonNull(galleryVo.getProfile())) {
+		List<GalleryVo> galleryVos = (List<GalleryVo>) vo.getObjectList();
+		for (GalleryVo galleryVo : galleryVos) {
+			if (Objects.nonNull(galleryVo.getProfile())) {
+		}
 			String[] profiles = galleryVo.getProfile().split(",");
 
 			Profile profile = null;
@@ -48,5 +51,6 @@ public class CreateProfileDetailsGallerySaveEvent implements EventImpl {
 
 		}
 	}
-
 }
+
+ 

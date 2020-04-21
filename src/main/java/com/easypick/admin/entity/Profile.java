@@ -201,9 +201,8 @@ public class Profile {
 				String datevalue = new SimpleDateFormat("dd/MM/yyyy").format(profile.getDateofBirth()).toString();
 				vo.setDateofBirth(datevalue);
 			}
-
 			vo.setFilms(profile.getFilms());
-			vo.setTag(StringUitity.convertToTags(profile.getTag()));
+			vo.setTag(StringUitity.removeHashTags(profile.getTag())); 
 			vo.setGender(profile.getGender());
 			vo.setProfileId(profile.getProfileId());
 			vo.setLanguage(profile.getLanguage());

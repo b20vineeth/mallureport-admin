@@ -36,9 +36,7 @@ public class CreateMovieDetailsVideoSaveEvent implements EventImpl {
 					values = Integer.parseInt(names);
 				} catch (Exception e) {
 
-					movie = new Movie();
-					movie.setMovieName(names);
-					movie.setMovieCode("t-" + names.replace(" ", "-")); 
+					movie = Movie.defaultVo(names);
 					watchdog.getSessionString().saveOrUpdate(movie);
 					dao.updateMovieToVideo(vidoeVo.getVideoId(), watchdog, movie);
 

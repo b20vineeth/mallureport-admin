@@ -5,6 +5,6 @@ import com.easypick.framework.utility.exception.BussinessException;
 
 public interface UserDao {
 
-	String validateUser(UserSetupVo vo) throws BussinessException;
+	UserSetupVo validateUser(UserSetupVo vo) throws BussinessException;
 
 }

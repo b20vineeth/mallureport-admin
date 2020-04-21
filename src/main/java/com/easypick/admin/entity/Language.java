@@ -1,38 +1,38 @@
 package com.easypick.admin.entity;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column; 
+import java.util.List; 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Id; 
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import com.easypick.admin.vo.LanguageVo;
-import com.easypick.framework.utility.vo.AbstractVo;  
+import javax.persistence.UniqueConstraint;  
+import com.easypick.admin.vo.LanguageVo; 
+import com.easypick.framework.utility.vo.AbstractVo;
 
 @Entity
-@Table(name = "langsetup", uniqueConstraints = { @UniqueConstraint(columnNames = { "langcod"}) } )
-public class Language   {
+@Table(name = "langsetup", uniqueConstraints = { @UniqueConstraint(columnNames = { "langcod" }) })
+public class Language implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	 
+
 	@Column(name = "langnam")
 	private String langName;
-	
+
 	@Column(name = "langcod")
 	private String langCode;
-	
+
 	@Column(name = "status")
-	private String status="Y";
+	private String status = "Y";
+
+	
 
 	public Integer getId() {
 		return id;
@@ -92,14 +92,11 @@ public class Language   {
 		Language language = new Language();
 		language.setLangCode(vo.getLangCode());
 		language.setLangName(vo.getLangName());
-		if (vo.getLangId() != 0)
+		if (vo.getLangId() != 0) {
 			language.setId(vo.getLangId());
-
+		}
 		language.setStatus("Y");
 		return language;
 	}
 
-	 
-	 
-  
 }

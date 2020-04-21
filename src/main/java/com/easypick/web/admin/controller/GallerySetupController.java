@@ -187,7 +187,7 @@ public class GallerySetupController {
 		input.put("param1", "gallerysetup");
 		input.put("param2", "deactivate");
 		UserSetupVo userSetupVo = new UserSetupVo();
-		userSetupVo.setUserId(id);
+		//userSetupVo.setUserId(id);
 
 		input.put("data", new Gson().toJson(userSetupVo).toString());
 		ResponseVo vo;

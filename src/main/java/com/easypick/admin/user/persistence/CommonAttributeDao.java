@@ -20,6 +20,10 @@ public interface CommonAttributeDao {
 
 	List<DataVo> getFilmAutoComplete(WatchDogVo watchdog, String films)  throws BussinessException;
 
+	List<DataVo> getLanguageAutoComplete(WatchDogVo watchdog, String langId) throws BussinessException;
+
+	List<DataVo> getMovieTypeAutoComplete(WatchDogVo watchdog, String movieType) throws BussinessException;
+
 	 
  
 

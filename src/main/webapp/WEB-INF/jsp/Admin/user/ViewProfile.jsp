@@ -117,7 +117,7 @@
 						<td>${objectList.gender}</td>
 						<td>${objectList.dateofBirth}</td>
 						<td>${objectList.tag}</td>
-						<td>${objectList.films}</td>
+						 
 						<td><i class="fa fa-edit"
 							onClick="editProfile(${objectList.profileId})"
 							style="font-size: 20px; color: Green"></i></td>
@@ -203,7 +203,7 @@ function goPage(id)
 }
 function searchCategory()
 {
-	window.location.href="admin.movie.view?profileName="+$('#profileName').val()+"&releaseTo="+$('#releaseTo').val()+"&releasefrom="+$('#releasefrom').val()+"&language="+$('#language').val()+"&tag="+$('#tag').val()+"&cast="+$('#cast').val()+"&page="+$('#page').val();
+	window.location.href="admin.profile.view?profileName="+$('#profileName').val()+"&gender="+$('#gender').val()+"&tag="+$('#tag').val()+"&page="+$('#page').val();
 }
  function editProfile(profileId)
  {

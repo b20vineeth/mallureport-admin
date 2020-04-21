@@ -1,5 +1,5 @@
 package com.easypick.web.movie.persistence;
- 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,30 +9,61 @@ import java.util.Objects;
 import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
- 
+
 import com.easypick.admin.entity.Movie;
 import com.easypick.admin.entity.MovieReview;
-import com.easypick.admin.vo.CinemaGalleryVo; 
+import com.easypick.admin.entity.UserSetup;
+import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.MovieVo;
+import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.Page;
 import com.easypick.framework.utility.vo.ResponseVo;
-import com.easypick.framework.utility.vo.WatchDogVo; 
+import com.easypick.framework.utility.vo.WatchDogVo;
 
 @Repository
 public class MovieSqlDao implements MovieDao {
 
+	private WatchDogVo watchdog;
+
 	@Override
 	public ResponseVo saveMovie(WatchDogVo watchdog, MovieVo vo) throws BussinessException {
 
-		Movie movie = Movie.populateMovieVo(vo);
+		this.watchdog = watchdog;
+		removechildData(vo); 
+		Movie movie = findMovieDetails(watchdog, vo.getMovieId());
+		movie = Movie.populateMovieVo(vo,movie);
+		updateUserDetails(movie, vo);
+		movie.setCompanyCode(watchdog.getCmpcode());
 		watchdog.getSessionString().saveOrUpdate(movie);
 		vo.setMovieId(movie.getMovieId());
 		ResponseVo responseVo = new ResponseVo();
 		responseVo.setId(movie.getMovieId());
 		responseVo.setObject(vo);
 		return responseVo;
+	}
+
+	private void updateUserDetails(Movie movie, MovieVo vo) {
+		UserSetupVo user = this.watchdog.getUserSetupVo();
+		UserSetup setup = new UserSetup();
+		setup.setUserId(user.getUserId());
+		if (vo.getMovieId() != 0) {
+			movie.setUpdatedBy(setup);
+
+		} else {
+			movie.setUpdatedBy(setup);
+			movie.setCreatedBy(setup);
+		}
+	}
+
+	private void removechildData(MovieVo vo) {
+		if (vo.getMovieId() != 0 && Objects.nonNull(vo.getLang()) && vo.getLang().trim().length() != 0) {
+			SQLQuery q = this.watchdog.getSessionString()
+					.createSQLQuery("delete from language_map where  movid = " + vo.getMovieId());
+			q.executeUpdate();
+		}
+
 	}
 
 	@Override
@@ -59,8 +90,10 @@ public class MovieSqlDao implements MovieDao {
 		}
 		Page page1 = new Page();
 		Integer page = Integer.parseInt(Objects.isNull(vo.getPage()) ? "0" : vo.getPage());
+		page1.setCurrentPage(page);
 		if (page > 0)
 			page = page - 1;
+		
 		page = page * page1.getPerPage();
 		sql.append(" order by movie.movieName ");
 
@@ -76,7 +109,7 @@ public class MovieSqlDao implements MovieDao {
 
 		}
 
-		page1.setCurrentPage(page);
+		
 		List<Movie> movie = query.setFirstResult(page).setMaxResults(page1.getPerPage()).getResultList();
 		query = watchdog.getSessionString().createQuery("Select 1 " + sql.toString());
 		List<Movie> movieCount = query.getResultList();
@@ -90,21 +123,29 @@ public class MovieSqlDao implements MovieDao {
 
 	@Override
 	public ResponseVo getMovie(WatchDogVo watchdog, MovieVo vo) throws BussinessException {
-		StringBuilder sql = new StringBuilder();
-
-		sql.append("from Movie movie where movie.status='Y'");
-		if (Objects.nonNull(vo.getMovieId()))
-			sql.append("and movie.movieId=:movieId");
-
 		ResponseVo responseVo = new ResponseVo();
-		Query query = watchdog.getSessionString().createQuery(sql.toString());
-		if (Objects.nonNull(vo.getMovieId()))
-			query.setParameter("movieId", vo.getMovieId());
-
-		Movie movie = (Movie) query.getSingleResult();
+		Movie movie = findMovieDetails(watchdog, vo.getMovieId());
 		responseVo.setObject(Movie.formateMovieVo(movie));
 		responseVo.setResponse(true);
 		return responseVo;
+	}
+
+	private Movie findMovieDetails(WatchDogVo watchdog, Integer id) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("from Movie movie where movie.status='Y'");
+		if (Objects.nonNull(id))
+			sql.append("and movie.movieId=:movieId");
+		Query query = watchdog.getSessionString().createQuery(sql.toString());
+		if (Objects.nonNull(id))
+			query.setParameter("movieId", id);
+
+		Movie movie =null;
+		try{
+			movie	= (Movie) query.getSingleResult();
+		}catch(Exception e){
+			
+		}
+		return movie;
 	}
 
 	@Override
@@ -135,6 +176,7 @@ public class MovieSqlDao implements MovieDao {
 		}
 		return responseVo;
 	}
+
 	@Override
 	public ResponseVo enablePriority(MovieVo vo, WatchDogVo watchdog) throws BussinessException {
 		StringBuilder sql = new StringBuilder();
@@ -226,7 +268,6 @@ public class MovieSqlDao implements MovieDao {
 		return responseVo;
 	}
 
-
 	@Override
 	public ResponseVo saveMovieReview(MovieReviewVo vo, WatchDogVo watchdog) throws BussinessException {
 
@@ -236,7 +277,5 @@ public class MovieSqlDao implements MovieDao {
 		responseVo.setObject(vo);
 		return responseVo;
 	}
-
-	  
 
 }

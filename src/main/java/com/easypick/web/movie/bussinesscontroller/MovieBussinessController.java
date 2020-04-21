@@ -19,6 +19,7 @@ import com.easypick.admin.vo.CinemaGalleryVo;
 import com.easypick.admin.vo.DataVo;
 import com.easypick.admin.vo.MovieReviewVo;
 import com.easypick.admin.vo.MovieVo;
+import com.easypick.admin.vo.UserSetupVo;
 import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
@@ -63,7 +64,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 		return session;
 	}
 	@Override
-	public ResponseVo saveMovie(MovieVo vo) throws BussinessException {
+	public ResponseVo saveMovie(MovieVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -71,7 +72,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.saveMovie(watchdog, vo);
 			this.tx.commit();
 			if(Objects.nonNull(responseVo))
@@ -89,7 +91,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	}
 
 	@Override
-	public ResponseVo getMovieList(MovieVo vo) throws BussinessException {
+	public ResponseVo getMovieList(MovieVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -97,7 +99,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.getMovieList(watchdog, vo);
 			this.tx.commit();
 			return responseVo;
@@ -109,7 +112,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	}
 
 	@Override
-	public ResponseVo getMovie(MovieVo vo) throws BussinessException {
+	public ResponseVo getMovie(MovieVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -117,7 +120,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.getMovie(watchdog, vo);
 			if(Objects.nonNull(responseVo.getObject()))
 			{
@@ -126,6 +130,10 @@ public class MovieBussinessController implements MovieBussinessInterface {
 				Gson gson=new Gson();
 				Map<String, String> stringMap=new HashMap<>();
 				stringMap.put("Cast", gson.toJson(castVo).toString());
+				List<DataVo> language = commondao.getLanguageAutoComplete(watchdog, movie.getLang());
+				stringMap.put("language", gson.toJson(language).toString());
+				List<DataVo> movieType = commondao.getMovieTypeAutoComplete(watchdog, movie.getMovieType());
+				stringMap.put("MovieType", gson.toJson(movieType).toString());
 				responseVo.setStringMap(stringMap);
 			}
 			this.tx.commit();
@@ -138,7 +146,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	}
 
 	@Override
-	public ResponseVo getMovieReview(MovieReviewVo vo) throws BussinessException {
+	public ResponseVo getMovieReview(MovieReviewVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -146,7 +154,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.getMovieReview(vo,watchdog);
 			this.tx.commit();
 			return responseVo;
@@ -158,7 +167,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	}
 
 	@Override
-	public ResponseVo updateMovieStatus(MovieVo vo) throws BussinessException {
+	public ResponseVo updateMovieStatus(MovieVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -166,7 +175,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.updateMovieStatus(watchdog, vo);
 			this.tx.commit();
 			return responseVo;
@@ -178,7 +188,7 @@ public class MovieBussinessController implements MovieBussinessInterface {
 	}
 
 	@Override
-	public ResponseVo enablePriority(MovieVo vo) throws BussinessException {
+	public ResponseVo enablePriority(MovieVo vo,UserSetupVo user) throws BussinessException {
 		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
@@ -186,7 +196,8 @@ public class MovieBussinessController implements MovieBussinessInterface {
 			this.tx = this.session.beginTransaction();
 			WatchDogVo watchdog = new WatchDogVo();
 			watchdog.setSessionString(this.session);
-			watchdog.setCmpcode("CM");
+			watchdog.setCmpcode("CIN");
+			watchdog.setUserSetupVo(user);
 			responseVo = dao.enablePriority(vo,watchdog);
 			this.tx.commit();
 			return responseVo;

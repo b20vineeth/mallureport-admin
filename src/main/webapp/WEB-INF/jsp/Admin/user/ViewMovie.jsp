@@ -92,7 +92,7 @@
 					<tr>
 						<td><%=i++%></td>
 						<td>${objectList.movieName}</td>
-						<td>${objectList.languageName}</td>
+						<td>${objectList.lang}</td>
 						<td>${objectList.releaseDate}</td>
 					 
 					 

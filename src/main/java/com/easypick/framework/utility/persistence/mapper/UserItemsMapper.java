@@ -10,7 +10,7 @@ public class UserItemsMapper {
 
 	public   UserSetupVo Mapper(Object[] items) throws ParseException {
 		UserSetupVo vo=new UserSetupVo();
-		vo.setUserId(Objects.nonNull(items[0])?items[0].toString():"");
+		//vo.setUserId(Objects.nonNull(items[0])?items[0].toString():"");
 		vo.setEmail(Objects.nonNull(items[1])?items[1].toString():"");
 		vo.setUsername(Objects.nonNull(items[2])?items[2].toString():"");
 		vo.setCompanyCode(Objects.nonNull(items[3])?items[3].toString():"");

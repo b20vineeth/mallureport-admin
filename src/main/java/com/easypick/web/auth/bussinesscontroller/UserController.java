@@ -13,7 +13,7 @@ public class UserController implements UserControllerInterface {
 	@Autowired
 	private Map<String, UserDao> dao;
 	@Override
-	public String validateUser(UserSetupVo vo) throws BussinessException {
+	public UserSetupVo validateUser(UserSetupVo vo) throws BussinessException {
 		 
 		return dao.get("userSqlDao").validateUser(vo);
 	}

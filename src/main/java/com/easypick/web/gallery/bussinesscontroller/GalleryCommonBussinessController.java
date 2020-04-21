@@ -88,7 +88,7 @@ public class GalleryCommonBussinessController implements GalleryCommonBussinessI
 			watchdog.setCmpcode("CM");
 			responseVo = dao.saveGalleryVo(watchdog, vo);
 			this.tx.commit();
-			if(Objects.nonNull(responseVo))
+			if(Objects.nonNull(responseVo.getObjectList()))
 			{	
 				responseVo.setEvent("com.admin.saveGallery");
 				publisher.publishEvent(responseVo);

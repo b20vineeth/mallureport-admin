@@ -98,7 +98,7 @@ public class UserSetupController {
 		input.put("param1", "userSetup");
 		input.put("param2", "deactivate");
 		UserSetupVo userSetupVo = new UserSetupVo();
-		userSetupVo.setUserId(id);
+		//userSetupVo.setUserId(id);
 		
 		input.put("data", new Gson().toJson(userSetupVo).toString());
 		ResponseVo vo;

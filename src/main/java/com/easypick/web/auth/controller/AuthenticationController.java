@@ -66,9 +66,12 @@ public class AuthenticationController {
 			try {
 				gson = new Gson();
 				vo = gson.fromJson(data, UserSetupVo.class);
-				output = action.validateUser(vo);
-				if ("T".equals(output)) {
+				vo = action.validateUser(vo);
+				if(Objects.nonNull(vo))
+				 {
 					httpSession.setAttribute("authKey", vo.getUsername());
+					httpSession.setAttribute("authdata", vo);
+					output = "T";
 				}
 			} catch (BussinessException e) {
 

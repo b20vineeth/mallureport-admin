@@ -57,7 +57,7 @@
 					 
 						<label for="exampleInputPassword1"> Language </label>  
 						<input
-							type="Text" class="form-control" id="language"
+							type="Text" class="form-control" id="language" name="language"
 							value="${response.object.language}" >
 						
 					</div>
@@ -211,7 +211,27 @@ $('input[name="movie"]').amsifySuggestags({
 	 </c:if>
 		 
 });
+$('input[name="language"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=language'
+	},
+	<c:if test="${not empty response.stringMap['language']}">
+	suggestions:  
+		${response.stringMap['language']}
+	 </c:if>
+});
 
+
+$('input[name="profile"]').amsifySuggestags({
+	suggestionsAction : {
+		url : 'admin.common.getdata?type=profile'
+	},
+	<c:if test="${not empty response.stringMap['Cast']}">
+	suggestions:  
+		${response.stringMap['Cast']}
+	 </c:if>
+		 
+});
 
 
 var profileId = $('#profileId').val();

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-
+ 
 import com.easypick.admin.entity.Profile;
 import com.easypick.admin.vo.ProfileVo;
 import com.easypick.framework.utility.exception.BussinessException;
@@ -29,9 +29,9 @@ public class ProfileSqlDao implements ProfileDao {
 	@Override
 	public ResponseVo getProfileList(WatchDogVo watchdog, ProfileVo vo) throws BussinessException {
 
-		StringBuilder sql = new StringBuilder();
+ 		StringBuilder sql = new StringBuilder();
 		sql.append(" from Profile profile where profile.status='Y' ");
-		if (Objects.nonNull(vo.getCatName())) {
+		if (Objects.nonNull(vo.getProfileName()) && vo.getProfileName().trim().length()>0) {
 			sql.append(" and profile.profileName like '%" + vo.getProfileName() + "%'");
 		}
 		if (Objects.nonNull(vo.getTag()) && vo.getTag().trim().length() > 0) {
@@ -46,19 +46,26 @@ public class ProfileSqlDao implements ProfileDao {
 		if (Objects.nonNull(vo.getGender()) && vo.getGender().trim().length() > 0) {
 			sql.append(" and profile.gender = '" + vo.getGender() + "'");
 		}
-
+		Page page1 = new Page();
 		Integer page = Integer.parseInt(Objects.isNull(vo.getPage()) ? "0" : vo.getPage());
+		page1.setCurrentPage(page);
 		if (page > 0)
 			page = page - 1;
-		page = page * 25;
+		page = page * page1.getPerPage();;
 		sql.append(" order by profile.profileName");
 
 		Query query = watchdog.getSessionString().createQuery(sql.toString());
 
-		Page page1 = new Page();
+		
 		List<Profile> profileVos = query.setFirstResult(page).setMaxResults(page1.getPerPage()).getResultList();
 		ResponseVo responseVo = new ResponseVo();
 		responseVo.setObjectList(Profile.formateProfileVos(profileVos));
+		 
+		query = watchdog.getSessionString().createQuery("Select 1 " + sql.toString());
+		List<Profile> count = query.getResultList();
+		page1.setTotalResult(count.size());
+		page1.updateTotalPage();
+		responseVo.setPage(page1);
 		return responseVo;
 	}
 
