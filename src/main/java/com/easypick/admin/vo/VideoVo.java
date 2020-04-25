@@ -1,6 +1,9 @@
 package com.easypick.admin.vo;
 
-import java.util.Date; 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 import com.easypick.framework.utility.vo.AbstractVo;
 
@@ -131,6 +134,28 @@ public class VideoVo implements AbstractVo {
 	}
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	public static void populateVideoVo(List<Object[]> items, List<VideoVo> vos) {
+
+		 
+		if (Objects.isNull(vos))
+			vos = new ArrayList<>();
+
+		VideoVo videoVo;
+		if (items.size() > 0) {
+			for (Object[] item : items) {
+				try {
+					videoVo = new VideoVo();
+					videoVo.setTag(Objects.nonNull(item[0])?item[0].toString().replace("#", ""):"");
+					videoVo.setThumbnail(Objects.nonNull(item[1])?item[1].toString():"");
+					videoVo.setTitle(Objects.nonNull(item[2])?item[2].toString():"");
+					videoVo.setUrl(Objects.nonNull(item[3])?item[3].toString():"");
+					vos.add(videoVo);
+				}
+				catch(Exception e){}
+			}
+		}
+			
 	}
 	
 	

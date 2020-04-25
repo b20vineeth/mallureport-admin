@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.easypick.admin.admin.job.controller.JobControllerInterface;
 import com.easypick.admin.vo.SettingsVo;
 import com.easypick.framework.utility.controller.EventProcess;
 import com.easypick.framework.utility.exception.BussinessException;
@@ -46,6 +47,8 @@ public class CommonController {
 	@Autowired
 	protected ControllerInterface commonController;
 
+	@Autowired
+	protected JobControllerInterface jobcommonController;
 	
 	@RequestMapping(value = "/admin.common.getdata", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
@@ -88,9 +91,13 @@ public class CommonController {
 				return "F"; 
 			}*/ 
 		//event.trigger("com.admin.saveMovie", response);
-		ResponseVo vo=new ResponseVo();
+		/*ResponseVo vo=new ResponseVo();
 		vo.setEvent("com.admin.saveMovie");
-		publisher.publishEvent(vo);
+		publisher.publishEvent(vo);*/
+		
+		jobcommonController.execute("movieHomePageBussinessController");
+		
+		
 		return "F";
 			
 		}

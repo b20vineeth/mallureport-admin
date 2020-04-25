@@ -2,8 +2,10 @@ package com.easypick.framework.utility.commonUtility;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,7 +17,9 @@ public class StringUitity {
 
 	public static final String METHOD_TYPE_FIRST = "FIRST";
 	public static final String METHOD_TYPE_END = "END";
-
+	public static final String  languageArray[] = { "mal","eng","hi","tn" };
+	
+	
 	public static Date removeTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -123,7 +127,7 @@ public class StringUitity {
 		String[] d1 = tag2.split(",");
 		StringBuilder data = new StringBuilder();
 		for (String d : d1) {
-			data.append("#" + d + "#,");
+			data.append(  d + "#,");
 		}
 		return data.toString().replaceAll(",$", "");
 	}
@@ -143,4 +147,11 @@ public class StringUitity {
 	public static String removeHashTags(String tag) {
 		 return tag.replace("#", "").replaceAll(",$", "");
 	}
+	public static List<String> getLanguage() {
+		 return Arrays.asList(languageArray);
+	}
+	 
+ 
+	
+	 
 }

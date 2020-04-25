@@ -16,19 +16,19 @@
 				<input type="hidden" name="page" id="page" value="${page}" />
 				<div class="col-sm-4 clearfix">
 					<div class="form-group">
-						<input type="Text" class="form-control" id="tag"
-							value="${tag}" placeholder="tag">
+						<input type="Text" class="form-control" id="tag" value="${tag}"
+							placeholder="tag">
 					</div>
 				</div>
 				<div class="col-sm-4 clearfix">
 					<div class="form-group">
-						<input type="Text" class="form-control" id="title" value="${title}"
-							placeholder="Tag">
+						<input type="Text" class="form-control" id="title"
+							value="${title}" placeholder="Tag">
 					</div>
 				</div>
-				
-				
-				 
+
+
+
 				<div class="col-sm-4 clearfix">
 					<div class="form-group">
 
@@ -65,7 +65,7 @@
 					<th>title</th>
 					<th>tag</th>
 
-					<th>Description</th> 
+					<th>Description</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -78,7 +78,7 @@
 						<td><%=i++%></td>
 						<td>${objectList.title}</td>
 						<td>${objectList.tag}</td>
- 
+
 						<td>${objectList.shortDesc}</td>
 						<td><i class="fa fa-edit"
 							onClick="editVideo(${objectList.videoId})"
@@ -98,56 +98,56 @@
 
 		<div class="clearfix"></div>
 
-<c:if test="${response.page.totalPage>1}">
+		<c:if test="${response.page.totalPage>1}">
 
-		<ul class="pagination pagination-sm">
+			<ul class="pagination pagination-sm">
 
 
 
-			<c:choose>
-				<c:when test="${response.page.currentPage  == 1}">
-					<li class="page-item disabled"><a href="#" class="page-link">
-							Previous </a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${response.page.currentPage - 1})"><i
-							class="material-icons">Previous</i></a></li>
-				</c:otherwise>
-			</c:choose>
-			<c:forEach begin="1" end="${response.page.totalPage}"
-				varStatus="loop">
 				<c:choose>
-					<c:when test="${response.page.currentPage == loop.index}">
-						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+					<c:when test="${response.page.currentPage  == 1}">
+						<li class="page-item disabled"><a href="#" class="page-link">
+								Previous </a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item"><a class="page-link"
-							href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+							href="javascript:goPage(${response.page.currentPage - 1})"><i
+								class="material-icons">Previous</i></a></li>
 					</c:otherwise>
 				</c:choose>
-			</c:forEach>
-			<c:choose>
-				<c:when
-					test="${response.page.currentPage == response.page.totalPage}">
-					<li class="page-item  disabled"><a
-						href="javascript:goPage(${loop.index})" class="page-link"><i
-							class="material-icons">Next</i></a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${response.page.currentPage + 1})">
-							Next</a></li>
-				</c:otherwise>
-			</c:choose>
+				<c:forEach begin="1" end="${response.page.totalPage}"
+					varStatus="loop">
+					<c:choose>
+						<c:when test="${response.page.currentPage == loop.index}">
+							<li class="page-item"><a class="page-link"
+								href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link"
+								href="javascript:goPage(${loop.index})">${loop.index}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:choose>
+					<c:when
+						test="${response.page.currentPage == response.page.totalPage}">
+						<li class="page-item  disabled"><a
+							href="javascript:goPage(${loop.index})" class="page-link"><i
+								class="material-icons">Next</i></a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link"
+							href="javascript:goPage(${response.page.currentPage + 1})">
+								Next</a></li>
+					</c:otherwise>
+				</c:choose>
 
 
 
-		</ul>
+			</ul>
 
 
-	</c:if>
+		</c:if>
 
 
 

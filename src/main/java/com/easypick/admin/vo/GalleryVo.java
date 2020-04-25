@@ -1,7 +1,9 @@
 package com.easypick.admin.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.easypick.framework.utility.vo.AbstractVo;
 
@@ -143,6 +145,27 @@ public class GalleryVo implements AbstractVo {
 	}
 	public void setPerPage(Integer perPage) {
 		this.perPage = perPage;
+	}
+	public static void populateGalleryVo(List<Object[]> items, List<GalleryVo> vos) {
+		 
+		if (Objects.isNull(vos))
+			vos = new ArrayList<>();
+
+		GalleryVo galleryVo;
+		if (items.size() > 0) {
+			for (Object[] item : items) {
+				try {
+					galleryVo = new GalleryVo();
+					galleryVo.setTag(Objects.nonNull(item[0])?item[0].toString().replace("#", ""):"");
+					galleryVo.setThumbnail(Objects.nonNull(item[1])?item[1].toString():"");
+					galleryVo.setTitle(Objects.nonNull(item[2])?item[2].toString():"");
+					galleryVo.setUrl(Objects.nonNull(item[3])?item[3].toString():"");
+					vos.add(galleryVo);
+				}
+				catch(Exception e){}
+			}
+		}
+				
 	}
 	
 	 

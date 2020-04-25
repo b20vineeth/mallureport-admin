@@ -177,14 +177,20 @@ public class Movie extends BaseTable {
 	public static Object formateMovieVo(Movie movie) {
 		MovieVo vo = new MovieVo();
 		vo.setMovieId(movie.getMovieId());
-		vo.setCast(movie.getCast().replace("#", ""));
+		
+		if(Objects.nonNull(movie.getCast()))
+			vo.setCast(movie.getCast());
+		
 		vo.setDescription(movie.getDescription());
 		vo.setShortDesc(movie.getShortDesc());
 		vo.setMovieType(movie.getMovieType());
 		vo.setCertificate(movie.getCertificate());
 		vo.setMovieRate(Objects.nonNull(movie.getMovieRate()) ? movie.getMovieRate().toString() : "0");
-		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
-		vo.setTag(movie.getTag().replace("#", ""));
+		if(Objects.nonNull(movie.getRelaseDate()))
+			vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
+		if(Objects.nonNull(movie.getTag()))
+			vo.setTag(movie.getTag().replace("#", ""));
+		
 		vo.setMovieCode(movie.getMovieCode());
 		vo.setMovieName(movie.getMovieName());
 		StringBuilder lan=new StringBuilder();
@@ -192,7 +198,7 @@ public class Movie extends BaseTable {
 		{
 			lan.append(languageMap.getLanguage().getId()+",");
 		}
-		vo.setLang(lan.toString().replaceAll(",$", ""));
+		vo.setLang(lan.toString().replaceAll(",$", "")); //replace Last comma
 		return vo;
 	}
 
@@ -208,9 +214,7 @@ public class Movie extends BaseTable {
 		vo.setReleaseDate(new SimpleDateFormat("dd/MM/yyyy").format(movie.getRelaseDate()).toString());
 		vo.setTag(movie.getTag().replace("#", ""));
 		vo.setMovieCode(movie.getMovieCode());
-		vo.setMovieName(movie.getMovieName());
-		// vo.setLang(movie.getLang().getId());
-		// vo.setLanguageName(movie.getLang().getLangName());
+		vo.setMovieName(movie.getMovieName()); 
 		return vo;
 	}
 
@@ -221,14 +225,20 @@ public class Movie extends BaseTable {
 			vo = new MovieVo();
 			vo.setMovieId(movie.getMovieId());
 			vo.setShortDesc(movie.getShortDesc());
-			vo.setTag(movie.getTag().replace("#", ""));
+			
+			if(Objects.nonNull(movie.getTag()))
+				vo.setTag(movie.getTag().replace("#", ""));
+			
 			vo.setCast(movie.getCast());
 			vo.setMovieRate(Objects.nonNull(movie.getMovieRate()) ? movie.getMovieRate().toString() : "0");
 			vo.setMovieCode(movie.getMovieCode());
 			vo.setMovieType(movie.getMovieType());
 			vo.setMovieName(movie.getMovieName()); 
 			vo.setPriorityFlag(movie.getPriorityFlag());
-			vo.setReleaseDate(movie.getRelaseDate().toString().replace("00:00:00.0", ""));
+			
+			if(Objects.nonNull(movie.getRelaseDate()))
+				vo.setReleaseDate(movie.getRelaseDate().toString().replace("00:00:00.0", ""));
+			
 			vo.setRecommenedFlag(movie.getRecommendedFlag());
 			StringBuilder lan=new StringBuilder();
 			for(LanguageMap languageMap:movie.getLangMap())
@@ -245,7 +255,7 @@ public class Movie extends BaseTable {
 	public static Movie populateMovieVo(MovieVo vo, Movie movie) {
 		if(Objects.isNull(movie))
 			movie = new Movie();
-		movie.setCast(StringUitity.getTag(vo.getCast()));
+		movie.setCast(vo.getCast());
 		movie.setDescription(vo.getDescription());
 		Date date1;
 		try {

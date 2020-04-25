@@ -36,7 +36,7 @@ public class JobController {
 		if(!jobService.isJobWithNamePresent(jobName)){
 		Date jobScheduleTime=new Date();
 		String cronExpression="*/5 * * * * ?";
-		status = jobService.scheduleCronJob(jobName, com.easypick.admin.admin.job.CronJob.class, jobScheduleTime, cronExpression);
+		status = jobService.scheduleCronJob(jobName, com.easypick.admin.admin.job.MovieJob.class, jobScheduleTime, cronExpression);
 		}
 		return status+"";
    }

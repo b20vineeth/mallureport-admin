@@ -3,9 +3,10 @@ package com.easypick.framework.utility.vo;
 import java.util.List;
 import java.util.Map;
 
-import com.easypick.admin.vo.GallerySetupVo;
+import com.easypick.admin.vo.GallerySetupVo; 
 import com.easypick.framework.utility.exception.ErrorVo;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseVo {
 
 	Object object; 
@@ -27,11 +28,19 @@ public class ResponseVo {
 	String module;
 	String subModule;
 	String domain = "http://localhost:8081";
-	
+	Map<String,Map<String, List<? extends AbstractVo>>> jsonobj;
 	String event;
 	
 	Integer id;
 	
+
+	public Map<String, Map<String, List<? extends AbstractVo>>> getJsonobj() {
+		return jsonobj;
+	}
+
+	public void setJsonobj(Map<String, Map<String, List<? extends AbstractVo>>> jsonobj) {
+		this.jsonobj = jsonobj;
+	}
 
 	public Map<String, String> getStringMap() {
 		return stringMap;
