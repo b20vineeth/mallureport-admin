@@ -39,9 +39,16 @@
 								href="javascript:editSlideShow(${objectList.slideShowid})">
 									<i class="fa fa-edit pointer"
 									style="font-size: 20px; color: Green"> </i>
-							</a><a href="javascript:deleteSlideShow(${objectList.slideShowid})">
+							</a> 
+							<a href="javascript:deleteSlideShow(${objectList.slideShowid})">
 									<i class="fa fa-trash-o" style="font-size: 20px; color: red"></i>
-							</a></td>
+							</a>
+							<a href="javascript:cropImage(${objectList.slideShowid})">
+									<i class="fa fa-crop" style="font-size: 20px; color: Green"></i>
+							</a>
+							 
+							
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>

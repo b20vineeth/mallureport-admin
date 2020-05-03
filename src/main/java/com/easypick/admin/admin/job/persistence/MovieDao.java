@@ -14,6 +14,8 @@ public interface MovieDao {
 
 	Map<String, List<? extends AbstractVo>> getRecommendMovieVos(WatchDogVo watchdog);
 
+	Map<String, List<? extends AbstractVo>> getMovieReviewVos(WatchDogVo watchdog);
+
 	 
 
 	 

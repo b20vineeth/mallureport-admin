@@ -48,7 +48,6 @@ public class CommonJobController implements JobControllerInterface {
 	@Override
 	public void execute(String component) throws BussinessException {
 		 
-		WatchDogVo dog = new WatchDogVo();
 		ResponseVo responseVo = new ResponseVo();
 		try {
 			this.session = this.getSession();

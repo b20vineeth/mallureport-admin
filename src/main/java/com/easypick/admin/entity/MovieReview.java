@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.easypick.admin.vo.MovieReviewVo;
+import com.easypick.framework.utility.commonUtility.StringUitity;
 import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.web.events.vo.ReviewDataVo;
 
@@ -39,10 +40,10 @@ public class MovieReview {
 	@JoinColumn(name = "movid", nullable = false)
 	private Movie movie;
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	private String description;
 
-	@Column(name = "short_desc")
+	@Column(name = "short_desc" , length = 600)
 	private String shortDesc;
 	
 	@Column(name = "thumbnail")
@@ -166,6 +167,8 @@ public class MovieReview {
 		review.setDescription(vo.getDescription());
 		review.setStatus("Y");
 		review.setTag(vo.getTag());
+		review.setThumbnail(vo.getThumbnail());
+		review.setUrl(StringUitity.convertUrl(vo.getTitle()));
 		review.setTitle(vo.getTitle());
 		Movie movie = new Movie();
 		movie.setMovieId(vo.getMovieId());

@@ -73,7 +73,7 @@ public class DefaultController {
 		input.put("key1", param1);
 		ResponseVo vo;
 		try {
-			vo = action.performAction(input);
+			vo = action.performAction(input); 
 			modelMap.addAttribute("response", vo);
 			modelMap.addAttribute("url","/resources/");
 			modelMap.addAttribute("domain", Initializer.DOMAIN);

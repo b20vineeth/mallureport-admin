@@ -14,14 +14,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.controller.ActionControllerInterface;
-import com.easypick.framework.utility.vo.ResponseVo;
 import com.google.gson.Gson;
 
 @Controller
 public class TestController {
-
+	
 	Gson gson;
 	@Autowired
 	protected HttpServletResponse response;
@@ -49,19 +47,9 @@ public class TestController {
 		 
 
 	}
-	@RequestMapping(value = "/test")
-	@ResponseBody
-	public String test(ModelMap modelMap) {
-		gson=new Gson();
-		ResponseVo vo=new ResponseVo();
-		MovieVo movieVo=new MovieVo();
-		movieVo.setMovieCode("ANU");
-		vo.setObject(movieVo);
-		return gson.toJson(vo).toString();
-
-		 
-
-	}
+	
+	 
+	
 	
 	
 	 

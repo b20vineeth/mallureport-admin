@@ -42,9 +42,10 @@
 								<li><a href="admin.video.view">View</a></li>
 							</ul></li>
 							
-						<li><a href="">Tools</a>
+						<li><a href="">Job</a>
 							<ul class="submenu">
-								<li><a href="admin.job.create">Job</a></li> 
+								<li><a href="admin.job.view">View</a></li> 
+									<li><a href="admin.job.create">Create</a></li> 
 							
 							</ul>
 						</li>

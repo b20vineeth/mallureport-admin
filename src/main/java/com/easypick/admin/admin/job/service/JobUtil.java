@@ -61,7 +61,8 @@ class JobUtil {
 	    factoryBean.setName(triggerName);
 	    factoryBean.setStartTime(startTime);
 	    factoryBean.setCronExpression(cronExpression);
-	    factoryBean.setMisfireInstruction(misFireInstruction);
+	    factoryBean.setMisfireInstruction(misFireInstruction); 
+	    //factoryBean.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
 	    try {
 	        factoryBean.afterPropertiesSet();
 	    } catch (ParseException e) {

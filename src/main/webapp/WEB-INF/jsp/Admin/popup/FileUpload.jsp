@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Basic Handler | Jcrop Demo</title>
+<title> Jcrop  </title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
 <script src="resources/js/jquery.min.js"></script>

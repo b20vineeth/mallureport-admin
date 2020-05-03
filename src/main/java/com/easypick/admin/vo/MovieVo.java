@@ -315,12 +315,12 @@ public class MovieVo implements AbstractVo {
 					movieVo.setShortDesc(Objects.nonNull(items[6])?items[6].toString():"");
 					try{
 						Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(items[7].toString());
-						movieVo.setReleaseDate( new SimpleDateFormat("dd MMMM, yyyy").format(date1));
+						movieVo.setReleaseDate( new SimpleDateFormat("dd MMM, yyyy").format(date1));
 					}
 					catch(Exception e) {
 						
 					}
-					movieVo.setMovieRate(Objects.nonNull(items[8])?items[8].toString():"");
+					movieVo.setMovieRate(Objects.nonNull(items[8])?items[8].toString():"0");
 					movieVo.setCertificate(Objects.nonNull(items[9])?items[9].toString():"");
 					movieVo.setMovieType(Objects.nonNull(items[10])?items[10].toString():"");
 					movieVo.setCastVos(DataVo.populatetag(movieVo.getTag()));
@@ -333,6 +333,36 @@ public class MovieVo implements AbstractVo {
 				}
 			}
 
+		}
+	}
+
+	public static void populateMovieVoforReview(List<Object[]> obj, List<MovieVo> vos) {
+
+		if (Objects.isNull(vos))
+			vos = new ArrayList<>();
+		MovieVo movieVo;
+		if (obj.size() > 0) {
+			for (Object[] items : obj) {
+				try {
+					movieVo = new MovieVo();
+					movieVo.setTitle(Objects.nonNull(items[0])?items[0].toString():"");
+					movieVo.setThumbnail(Objects.nonNull(items[1])?items[1].toString():"");
+					movieVo.setUrl(Objects.nonNull(items[2])?items[2].toString():"");
+					movieVo.setShortDesc(Objects.nonNull(items[3])?items[3].toString():"");
+					movieVo.setMovieRate(Objects.nonNull(items[4])?items[4].toString():"0");
+					try{
+						Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(items[5].toString());
+						movieVo.setReleaseDate(new SimpleDateFormat("dd MMM, yyyy").format(date1));
+					}
+					catch(Exception e) {
+						
+					}
+					 
+					vos.add(movieVo);
+				} catch (Exception e) {
+
+				}
+			}
 		}
 	}
 

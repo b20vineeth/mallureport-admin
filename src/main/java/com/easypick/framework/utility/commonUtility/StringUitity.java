@@ -1,5 +1,11 @@
 package com.easypick.framework.utility.commonUtility;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -17,7 +23,7 @@ public class StringUitity {
 
 	public static final String METHOD_TYPE_FIRST = "FIRST";
 	public static final String METHOD_TYPE_END = "END";
-	public static final String  languageArray[] = { "mal","eng","hi","tn" };
+	public static final String  languageArray[] = { "mal","bl","hl","tn" };
 	
 	
 	public static Date removeTime(Date date) {
@@ -150,8 +156,69 @@ public class StringUitity {
 	public static List<String> getLanguage() {
 		 return Arrays.asList(languageArray);
 	}
+
+	public static String generateRandomString(int targetStringLength) {
+		
+		int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    Random random = new Random();
+	 
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+	 
+	    
+		return generatedString;
+	}
+
+	public static String convertNumberToDate(String value) {
+		 
+		try{
+			long fire = Long.parseLong(value);
+			Date time=new Date(fire);
+			 return new SimpleDateFormat("dd MMMM, yyyy HH:mm:ss:aa").format(time);
+		}
+		catch(Exception e) { }
+		return "--";
+	}
+	public static String firstCharToLowerCase(String str) {
+        
+        if(str == null || str.length() == 0)
+            return "";
+        
+        if(str.length() == 1)
+            return str.toLowerCase();
+        
+           return str.substring(0, 1).toLowerCase() + str.substring(1);
+    }
+	public static void checkFolderStatus(String directory, String basePath) {
+		String[] paths = directory.split("_");
+		File filedirectory = null;
+		String directory1 = basePath;
+		for (String path : paths) {
+			directory1 = directory1 + "\\" + path;
+			filedirectory = new File(String.valueOf(directory1));
+			if (!filedirectory.exists()) {
+				Path dir = Paths.get(directory1);
+				try {
+					Files.createDirectory(dir);
+				} catch (IOException e1) {
+
+				}
+			}
+		}
+
+	}
+
+	 
+
+	public static String convertUrl(String title) {
+		 
+		return title.replaceAll("[^a-zA-Z0-9]", "-");
+	}
 	 
  
-	
 	 
 }

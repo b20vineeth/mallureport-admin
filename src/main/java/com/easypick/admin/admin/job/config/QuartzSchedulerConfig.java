@@ -40,8 +40,7 @@ public class QuartzSchedulerConfig {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setOverwriteExistingJobs(true);
         factory.setDataSource(dataSource);
-        factory.setQuartzProperties(quartzProperties());
-        
+        factory.setQuartzProperties(quartzProperties()); 
         //Register listeners to get notification on Trigger misfire etc
         factory.setGlobalTriggerListeners(triggerListner);
         factory.setGlobalJobListeners(jobsListener);
@@ -60,7 +59,7 @@ public class QuartzSchedulerConfig {
     public Properties quartzProperties() throws IOException {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
      ///   propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
-        propertiesFactoryBean.afterPropertiesSet();
+        propertiesFactoryBean.afterPropertiesSet(); 
         return propertiesFactoryBean.getObject();
     }
  

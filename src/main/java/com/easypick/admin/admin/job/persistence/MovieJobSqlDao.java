@@ -1,6 +1,6 @@
 package com.easypick.admin.admin.job.persistence;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +8,10 @@ import java.util.Map;
 
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
- 
-import com.easypick.admin.vo.DataVo; 
+
 import com.easypick.admin.vo.MovieVo;
 import com.easypick.framework.utility.commonUtility.StringUitity;
-import com.easypick.framework.utility.vo.AbstractVo; 
+import com.easypick.framework.utility.vo.AbstractVo;
 import com.easypick.framework.utility.vo.WatchDogVo;
 
 @Component
@@ -20,12 +19,13 @@ public class MovieJobSqlDao implements MovieDao {
 
 	String sql = null;
 	private String filterType = null;
-	int resultSize = 6;
+	int resultSize = 4;
 
 	@Override
 	public Map<String, List<? extends AbstractVo>> getRunningMovies(WatchDogVo watchdog) {
 		Map<String, List<? extends AbstractVo>> map = new HashMap<>();
 		this.filterType = "R";
+		this.resultSize = 4;
 		for (String lang : StringUitity.getLanguage()) {
 			sql = constructQuery();
 			findMovieDetails(watchdog, map, lang, sql);
@@ -39,7 +39,7 @@ public class MovieJobSqlDao implements MovieDao {
 		Map<String, List<? extends AbstractVo>> map = new HashMap<>();
 		this.filterType = "U";
 		for (String lang : StringUitity.getLanguage()) {
-
+			this.resultSize = 4;
 			sql = constructQuery();
 			findMovieDetails(watchdog, map, lang, sql);
 		}
@@ -62,6 +62,7 @@ public class MovieJobSqlDao implements MovieDao {
 		if ("P".equals(this.filterType)) {
 			sql.append(" and movie.cin_rel_dat<=:date");
 			sql.append(" and movie.recommended_flag='Y' ");
+			sql.append(" and gallery.thumb2 is not null ");
 
 		} else {
 			if ("U".equals(this.filterType)) {
@@ -113,7 +114,6 @@ public class MovieJobSqlDao implements MovieDao {
 		List<Object[]> object = query.setFirstResult(0).setMaxResults(this.resultSize).getResultList();
 
 		List<MovieVo> vos = new ArrayList<>();
-		DataVo dataVo = null;
 
 		if (object.size() > 0) {
 			MovieVo.populateMovieVo(object, vos);
@@ -122,6 +122,23 @@ public class MovieJobSqlDao implements MovieDao {
 		return vos;
 	}
 
-	 
+	@Override
+	public Map<String, List<? extends AbstractVo>> getMovieReviewVos(WatchDogVo watchdog) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT rev.title,rev.thumbnail,rev.url,rev.short_desc,mov.rate , rev.movrevdat  "
+				+ " FROM  movrev rev inner join movie  mov on rev.movid=mov.movieId   where rev.status='Y' ");
+		sql.append(" and mov.cin_rel_dat<=:date ");
+		sql.append(" order by mov.cin_rel_dat desc ");
+		Query query = watchdog.getSessionString().createSQLQuery(sql.toString());
+		query.setDate("date", StringUitity.removeTime(new Date()));
+		List<Object[]> obj = query.setFirstResult(0).setMaxResults(4).getResultList();
+		List<MovieVo> vos = new ArrayList<>();
+		if (obj.size() > 0) {
+			MovieVo.populateMovieVoforReview(obj, vos);
+		}
+		Map<String, List<? extends AbstractVo>> map = new HashMap<>();
+		map.put("moviereview", vos);
+		return map;
+	}
 
 }

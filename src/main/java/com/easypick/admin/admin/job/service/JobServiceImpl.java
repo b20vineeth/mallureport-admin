@@ -78,8 +78,6 @@ public class JobServiceImpl implements JobService{
 		String triggerKey = jobName;		
 
 		JobDetail jobDetail = JobUtil.createJob(jobClass, false, context, jobKey, groupKey);
-
-		System.out.println("creating trigger for key :"+jobKey + " at date :"+date);
 		Trigger cronTriggerBean = JobUtil.createCronTrigger(triggerKey, date, cronExpression, SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 
 		try {
@@ -94,7 +92,7 @@ public class JobServiceImpl implements JobService{
 
 		return false;
 	}
-
+	 
 	/**
 	 * Update one time scheduled job.
 	 */

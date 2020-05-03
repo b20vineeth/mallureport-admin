@@ -339,8 +339,9 @@ public class GalleryCommonController {
 			@RequestPart(value = "files", required = false) MultipartFile file) {
 		Random rand;
 		String monthDate[] = StringUitity.generateUploadPath().split("-");
-		String directory = Initializer.UPLOAD_PATH + "\\images\\" + monthDate[0] + "\\" + monthDate[1] + "\\";
-		String filename=null;
+		StringUitity.checkFolderStatus("images"+"_"+monthDate[0] + "_" + monthDate[1] ,Initializer.UPLOAD_PATH);
+		String directory = Initializer.UPLOAD_PATH+"\\images\\" + monthDate[0] + "\\" + monthDate[1] + "\\";
+		 	String filename=null;
 			rand = new Random();
 			int random = rand.nextInt(1000); 
 			try {

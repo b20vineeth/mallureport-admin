@@ -1,7 +1,6 @@
 package com.easypick.web.movie.bussinesscontroller;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +9,12 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.easypick.framework.utility.vo.WatchDogVo;
-import com.easypick.admin.admin.persistence.Dao; 
-import com.easypick.admin.vo.MovieVo;
+import com.easypick.admin.admin.persistence.Dao;
+import com.easypick.admin.vo.DataVo;
 import com.easypick.framework.utility.bussinessInterface.ControllerBI;
-import com.easypick.framework.utility.exception.BussinessException; 
+import com.easypick.framework.utility.exception.BussinessException;
 import com.easypick.framework.utility.vo.ResponseVo;
+import com.easypick.framework.utility.vo.WatchDogVo;
 
 @Repository
 public class CinemaBussinessController implements ControllerBI {
@@ -175,16 +174,10 @@ public class CinemaBussinessController implements ControllerBI {
 
 	private ResponseVo parameter(String string) throws BussinessException {
 		ResponseVo vo = new ResponseVo();
-		MovieVo movieVo=new MovieVo();
-		movieVo.setPriorityFlag("Y"); 
-		Date date=new Date(); 
-		movieVo.setFilterType("R"); 
-		vo.setObject(movieVo);
-		vo = dao.get("cinemaByDateDao").execute(this.watchdog, vo);
-		movieVo.setFilterType("U"); 
-		vo = dao.get("cinemaByDateDao").execute(this.watchdog, vo);
-		vo = dao.get("cinemaByRecommendedDao").execute(this.watchdog, vo);
-		vo = dao.get("cinemaByLatestReviewDao").execute(this.watchdog, vo);
+		DataVo datavo=new DataVo();
+		datavo.setTag("CIN");
+		vo.setObject(datavo);
+		vo=dao.get("homePagePostSqlDao").execute(this.watchdog, vo);
 		vo = dao.get("slideShowDao").execute(this.watchdog, vo);
 		vo = dao.get("slideShowRelativePostDao").execute(this.watchdog, vo);
 		vo.setScreenMode("movie/Movie");

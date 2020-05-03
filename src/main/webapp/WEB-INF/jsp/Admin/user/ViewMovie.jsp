@@ -10,7 +10,7 @@
 		<hr />
 		
 		<div align="right">
-			<a href="javascript:enableEdit()">(+)</a>
+			<a href="javascript:enableEdit()"><i class="fa fa-expand" aria-hidden="true"></i></a> <a href="admin.movie.create">(+)</a>
 		</div>
 		<div id="search">
 			<div class="row">
@@ -223,7 +223,7 @@
       <div class="modal-body">
   <input type="radio" id="imgsize" name="imgsize" value="335X180" checked="checked"><label for="335X180">Thumb1 (335X180)</label>
   <i id="thumb1" aria-hidden="true"></i><br>
-		  <input type="radio" id="imgsize" name="imgsize" value="690X390" > <label for="690X390">Thumb2 (690X390)</label>
+		  <input type="radio" id="imgsize" name="imgsize" value="690X300" > <label for="690X300">Thumb2 (690X300)</label>
 		   <i id="thumb2" aria-hidden="true"></i>
 		<input type="hidden" id="movId" name="movId"  value="${objectList.movieId}"/>
       </div>

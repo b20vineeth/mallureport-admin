@@ -12,7 +12,6 @@ public interface JobService {
 	
 	boolean updateOneTimeJob(String jobName, Date date);
 	boolean updateCronJob(String jobName, Date date, String cronExpression);
-	
 	boolean unScheduleJob(String jobName);
 	boolean deleteJob(String jobName);
 	boolean pauseJob(String jobName);

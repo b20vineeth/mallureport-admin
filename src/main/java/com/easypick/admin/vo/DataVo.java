@@ -85,8 +85,8 @@ public class DataVo implements AbstractVo {
 			for(String key : tags)
 			{
 				item=key.split("#");
-				vo.setLink(item[0]);
-				vo.setTag(item[1]);
+				vo.setLink(item[1]);
+				vo.setTag(item[0]);
 				dataVos.add(vo);
 			}
 			return dataVos;

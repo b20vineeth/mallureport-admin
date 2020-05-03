@@ -50,6 +50,17 @@
 
 
 			<div class="row">
+				<div class="col-sm-12 clearfix">
+					<div class="form-group">
+						<label for="exampleInputPassword1"> ThumbUrl</label> <input
+							type="Text" class="form-control" id="thumbnail"
+							value="${response.object.thumbnail}" placeholder="thumbnail">
+
+					</div>
+				</div>
+
+
+
 
 				<div class="col-sm-12 clearfix">
 					<div class="form-group">
@@ -73,19 +84,22 @@
 
 
 			<script
-				src="https://cdn.tiny.cloud/1/isl39apbt7r6lzd25jgwhwkhcfdraw8gwczyrqi9d74o1h7v/tinymce/5/tinymce.min.js"
-				referrerpolicy="origin"></script>
+				src="resources/js/tinymce/tinymce.min.js"></script>
 
 			<script>
-				tinymce
-						.init({
-							selector : "#description",
-							plugins : 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-							toolbar : 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-							toolbar_mode : 'floating',
-							tinycomments_mode : 'embedded',
-							tinycomments_author : 'Author name',
-						});
+				 
+				tinymce.init({
+					  selector: "#description",
+					  height: 150,
+					  width: 670,
+					  plugins: [
+					    'advlist autolink lists link image charmap print preview anchor',
+					    'searchreplace visualblocks code fullscreen',
+					    'insertdatetime media table contextmenu paste code'
+					  ],
+					  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+					   
+					});
 			</script>
 
 
@@ -139,7 +153,8 @@
 			type : 'POST',
 
 			data : "data=" + '{ "movieId": "' + $('#movieId').val() + '","shortDesc": "'
-			+ $('#shortDesc').val() + '","movieReviewId": "'
+			+ $('#shortDesc').val() + '","thumbnail": "'
+			+ $('#thumbnail').val() + '","movieReviewId": "'
 			+ movieReviewId + '","title": "'
 					+ $('#title').val() + '" ,"movieCode": "'
 					+ $('#movieCode').val() + '","description": "'

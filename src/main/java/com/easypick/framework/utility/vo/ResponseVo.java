@@ -27,7 +27,7 @@ public class ResponseVo {
 	Object filterObj;
 	String module;
 	String subModule;
-	String domain = "http://localhost:8081";
+	String domain = "http://localhost:8080";
 	Map<String,Map<String, List<? extends AbstractVo>>> jsonobj;
 	String event;
 	
