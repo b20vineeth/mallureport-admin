@@ -13,7 +13,7 @@
 		<org.hibernate-version>5.2.17.Final</org.hibernate-version>
 		<org.hibernate-c3p0>5.2.17.Final</org.hibernate-c3p0>
 		<org.apache-poi-version>3.10-FINAL</org.apache-poi-version>
-		<mysql-connector-version>5.1.41</mysql-connector-version>
+		<mysql-connector-version>8.0.16</mysql-connector-version>
 		<apachetiles.version>3.0.5</apachetiles.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
